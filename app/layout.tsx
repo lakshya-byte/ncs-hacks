@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Cinzel } from 'next/font/google';
 import './globals.css';
 import LenisProvider from './components/LenisProvider';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 const cinzel = Cinzel({
   subsets: ['latin'],
@@ -27,7 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={cinzel.variable}>
       <body>
-        <LenisProvider>{children}</LenisProvider>
+        <LenisProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </LenisProvider>
       </body>
     </html>
   );

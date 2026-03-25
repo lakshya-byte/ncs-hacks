@@ -105,53 +105,23 @@ export default function CinematicOverlay() {
   }, []);
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        pointerEvents: 'none',
-        zIndex: 10,
-      }}
-    >
+    <div className="fixed inset-0 pointer-events-none z-10">
       {/* Dark gradient at start */}
       <div
         ref={startGradientRef}
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background:
-            'linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.35) 50%, transparent 100%)',
-          pointerEvents: 'none',
-        }}
+        className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_bottom,rgba(0,0,0,0.75)_0%,rgba(0,0,0,0.35)_50%,transparent_100%)]"
       />
 
       {/* Light golden gradient at end */}
       <div
         ref={endGradientRef}
-        style={{
-          position: 'absolute',
-          inset: 0,
-          opacity: 0,
-          background:
-            'radial-gradient(ellipse at center, rgba(255,230,120,0.18) 0%, rgba(200,160,60,0.08) 50%, transparent 80%)',
-          pointerEvents: 'none',
-        }}
+        className="absolute inset-0 opacity-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(255,230,120,0.18)_0%,rgba(200,160,60,0.08)_50%,transparent_80%)]"
       />
 
       {/* Norse rune decorative symbol */}
       <div
         ref={runeRef}
-        style={{
-          position: 'absolute',
-          top: '12%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          fontSize: '1.8rem',
-          color: 'rgba(201, 162, 39, 0.6)',
-          letterSpacing: '1.5rem',
-          textAlign: 'center',
-          fontFamily: 'Cinzel, serif',
-        }}
+        className="absolute top-[12%] left-1/2 -translate-x-1/2 text-[1.8rem] text-center tracking-[1.5rem] font-[Cinzel,serif] text-[rgba(201,162,39,0.6)]"
       >
         ᚨ ᚱ ᚷ ᚨ ᚱ
       </div>
@@ -159,109 +129,44 @@ export default function CinematicOverlay() {
       {/* "Enter the Realm" — initial text */}
       <div
         ref={enterTextRef}
-        style={{
-          position: 'absolute',
-          bottom: '18%',
-          width: '100%',
-          textAlign: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '0.75rem',
-        }}
+        className="absolute bottom-[18%] w-full text-center flex flex-col items-center gap-3"
       >
         <h1
-          style={{
-            fontFamily: 'Cinzel, serif',
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-            fontWeight: 700,
-            color: '#fff',
-            letterSpacing: '0.25em',
-            textTransform: 'uppercase',
-            textShadow:
-              '0 0 40px rgba(201,162,39,0.6), 0 2px 20px rgba(0,0,0,0.8)',
-            margin: 0,
-          }}
+          className="font-[Cinzel,serif] text-[clamp(2rem,5vw,3.5rem)] font-bold text-white tracking-[0.25em] uppercase m-0 [text-shadow:0_0_40px_rgba(201,162,39,0.6),0_2px_20px_rgba(0,0,0,0.8)]"
         >
           Enter the Realm
         </h1>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '1rem',
-            color: 'rgba(255,255,255,0.55)',
-            fontSize: '0.85rem',
-            letterSpacing: '0.3em',
-            textTransform: 'uppercase',
-            fontFamily: 'Cinzel, serif',
-          }}
-        >
-          <span style={{ width: 40, height: 1, background: 'currentColor', display: 'inline-block' }} />
+        <div className="flex items-center gap-4 text-[rgba(255,255,255,0.55)] text-[0.85rem] tracking-[0.3em] uppercase font-[Cinzel,serif]">
+          <span className="inline-block w-10 h-px bg-current" />
           Scroll to pass through
-          <span style={{ width: 40, height: 1, background: 'currentColor', display: 'inline-block' }} />
+          <span className="inline-block w-10 h-px bg-current" />
         </div>
       </div>
 
       {/* "Welcome to Asgard" — end text */}
       <div
         ref={welcomeTextRef}
-        style={{
-          position: 'absolute',
-          bottom: '18%',
-          width: '100%',
-          textAlign: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '1rem',
-          opacity: 0,
-        }}
+        className="absolute bottom-[18%] w-full text-center flex flex-col items-center gap-4 opacity-0"
       >
         <div
-          style={{
-            fontFamily: 'Cinzel, serif',
-            fontSize: 'clamp(0.7rem, 1.5vw, 1rem)',
-            letterSpacing: '0.5em',
-            textTransform: 'uppercase',
-            color: '#c9a227',
-            textShadow: '0 0 20px rgba(201,162,39,0.8)',
-          }}
+          className="font-[Cinzel,serif] text-[clamp(0.7rem,1.5vw,1rem)] tracking-[0.5em] uppercase text-[#c9a227] [text-shadow:0_0_20px_rgba(201,162,39,0.8)]"
         >
           ✦ You have arrived ✦
         </div>
         <h2
-          style={{
-            fontFamily: 'Cinzel, serif',
-            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
-            fontWeight: 700,
-            color: '#fff',
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-            margin: 0,
-            textShadow:
-              '0 0 60px rgba(255, 220, 100, 0.9), 0 0 120px rgba(201,162,39,0.5), 0 4px 30px rgba(0,0,0,0.9)',
-          }}
+          className="font-[Cinzel,serif] text-[clamp(2.5rem,6vw,4.5rem)] font-bold text-white tracking-[0.2em] uppercase m-0 [text-shadow:0_0_60px_rgba(255,220,100,0.9),0_0_120px_rgba(201,162,39,0.5),0_4px_30px_rgba(0,0,0,0.9)]"
         >
           Welcome to Asgard
         </h2>
         <div
           ref={subtitleRef}
-          style={{
-            fontFamily: 'Cinzel, serif',
-            fontSize: 'clamp(0.9rem, 2vw, 1.3rem)',
-            color: 'rgba(255, 220, 120, 0.85)',
-            letterSpacing: '0.3em',
-            textTransform: 'uppercase',
-            opacity: 0,
-            textShadow: '0 0 20px rgba(201,162,39,0.6)',
-          }}
+          className="font-[Cinzel,serif] text-[clamp(0.9rem,2vw,1.3rem)] text-[rgba(255,220,120,0.85)] tracking-[0.3em] uppercase opacity-0 [text-shadow:0_0_20px_rgba(201,162,39,0.6)]"
         >
           Where Gods Build Legends
         </div>
       </div>
 
-      {/* Scroll progress indicator at start */}
+      {/* Scroll progress indicator */}
       <ScrollIndicator />
     </div>
   );
@@ -286,29 +191,10 @@ function ScrollIndicator() {
   return (
     <div
       ref={indicatorRef}
-      style={{
-        position: 'absolute',
-        bottom: '6%',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '0.5rem',
-        color: 'rgba(255,255,255,0.45)',
-        fontSize: '0.7rem',
-        letterSpacing: '0.3em',
-        textTransform: 'uppercase',
-        fontFamily: 'Cinzel, serif',
-      }}
+      className="absolute bottom-[6%] left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[rgba(255,255,255,0.45)] text-[0.7rem] tracking-[0.3em] uppercase font-[Cinzel,serif]"
     >
       <div
-        style={{
-          width: 1,
-          height: 40,
-          background: 'linear-gradient(to bottom, rgba(201,162,39,0.8), transparent)',
-          animation: 'scrollPulse 2s ease-in-out infinite',
-        }}
+        className="w-px h-10 [animation:scrollPulse_2s_ease-in-out_infinite] bg-[linear-gradient(to_bottom,rgba(201,162,39,0.8),transparent)]"
       />
       Scroll
     </div>

@@ -67,8 +67,6 @@ export default function AsgardCanvas() {
       );
       const w = img.naturalWidth * scale;
       const h = img.naturalHeight * scale;
-      const x = (canvas.width - w) / 2;
-      const y = (canvas.height - h) / 2;
 
       // Cinematic zoom: slight scale increase as progress goes 0→1
       const zoomFactor = 1 + progress * 0.08;
@@ -77,20 +75,10 @@ export default function AsgardCanvas() {
       const zx = (canvas.width - zw) / 2;
       const zy = (canvas.height - zh) / 2;
 
-      // Blur: high at start, 0 at end
-      const blurPx = Math.max(0, (1 - progress) * 6);
-      ctx.filter = blurPx > 0.1 ? `blur(${blurPx.toFixed(1)}px)` : 'none';
-
       ctx.drawImage(img, zx, zy, zw, zh);
-      ctx.filter = 'none';
 
-      // Brightness overlay: dim at start → bright mid → golden at end
-      if (progress < 0.5) {
-        const alpha = (0.5 - progress) * 0.7;
-        ctx.fillStyle = `rgba(0,0,0,${alpha})`;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-      } else {
-        // Bloom / golden light at the end
+      // Bloom / golden light at the end
+      if (progress > 0.5) {
         const bloomAlpha = (progress - 0.5) * 0.35;
         const gradient = ctx.createRadialGradient(
           canvas.width / 2,
@@ -181,72 +169,26 @@ export default function AsgardCanvas() {
   return (
     <>
       {!loaded && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: '#000',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 100,
-          }}
-        >
-          <div
-            style={{
-              fontFamily: 'Cinzel, serif',
-              color: '#c9a227',
-              fontSize: '1.1rem',
-              letterSpacing: '0.25em',
-              marginBottom: '2rem',
-            }}
-          >
+        <div className="fixed inset-0 bg-black flex flex-col items-center justify-center z-100">
+          <div className="font-[Cinzel,serif] text-[#c9a227] text-[1.1rem] tracking-[0.25em] mb-8">
             LOADING ASGARD
           </div>
-          <div
-            style={{
-              width: 260,
-              height: 3,
-              background: 'rgba(255,255,255,0.1)',
-              borderRadius: 9999,
-              overflow: 'hidden',
-            }}
-          >
+          <div className="w-[260px] h-[3px] bg-white/10 rounded-full overflow-hidden">
             <div
-              style={{
-                height: '100%',
-                width: `${loadProgress}%`,
-                background: 'linear-gradient(90deg, #c9a227, #f5d980)',
-                borderRadius: 9999,
-                transition: 'width 0.2s ease',
-              }}
+              className="h-full bg-[linear-gradient(90deg,#c9a227,#f5d980)] rounded-full transition-[width] duration-200 ease-[ease]"
+              style={{ width: `${loadProgress}%` }}
             />
           </div>
-          <div
-            style={{
-              marginTop: '1rem',
-              color: 'rgba(255,255,255,0.4)',
-              fontSize: '0.8rem',
-              letterSpacing: '0.1em',
-            }}
-          >
+          <div className="mt-4 text-white/40 text-[0.8rem] tracking-widest">
             {loadProgress}%
           </div>
         </div>
       )}
       <canvas
         ref={canvasRef}
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          display: 'block',
-          opacity: loaded ? 1 : 0,
-          transition: 'opacity 0.8s ease',
-        }}
+        className={`fixed top-0 left-0 w-screen h-screen block -z-10 transition-opacity duration-800 ease-[ease] ${
+          loaded ? 'opacity-100' : 'opacity-0'
+        }`}
       />
     </>
   );

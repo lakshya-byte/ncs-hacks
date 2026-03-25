@@ -20,11 +20,7 @@ export default function Home() {
       {/* Scroll container — creates scroll height for GSAP ScrollTrigger */}
       <div
         id="scroll-container"
-        style={{
-          position: 'relative',
-          height: '600vh', // 6× viewport = long scrollable distance
-          width: '100%',
-        }}
+        className="relative h-[600vh] w-full z-[1]"
       />
     </>
   );

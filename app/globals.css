@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 *,
 *::before,
 *::after {
@@ -15,30 +17,31 @@
 
 html {
   scroll-behavior: smooth;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-/* Chrome, Safari, Opera */
 html::-webkit-scrollbar {
   display: none;
 }
 
-/* Hide scrollbar — Lenis handles smooth scroll UX */
 body {
-  background: #000;
-  color: #fff;
   font-family: var(--font-cinzel);
   overflow-x: hidden;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 body::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
-/* Scroll pulse animation for indicator */
+canvas {
+  display: block;
+}
+
+/* ── Keyframe animations used via Tailwind arbitrary animation classes ── */
+
 @keyframes scrollPulse {
   0%, 100% {
     opacity: 0.3;
@@ -51,7 +54,6 @@ body::-webkit-scrollbar {
   }
 }
 
-/* Cinematic text flicker for atmosphere */
 @keyframes goldFlicker {
   0%, 100% { opacity: 1; }
   92% { opacity: 1; }
@@ -61,6 +63,27 @@ body::-webkit-scrollbar {
   97% { opacity: 1; }
 }
 
-canvas {
-  display: block;
+@keyframes goldPulse {
+  0%, 100% { box-shadow: 0 0 18px rgba(201,162,39,0.35), 0 0 40px rgba(201,162,39,0.12); }
+  50%       { box-shadow: 0 0 28px rgba(201,162,39,0.55), 0 0 60px rgba(201,162,39,0.2); }
+}
+
+@keyframes lightSweep {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(300%); }
+}
+
+@keyframes ctaSweep {
+  0%   { transform: translateX(-120%) skewX(-15deg); }
+  100% { transform: translateX(300%)  skewX(-15deg); }
+}
+
+@keyframes energyPulse {
+  0%   { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+@keyframes grainScroll {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(-50%, -50%); }
 }
