@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Cinzel } from 'next/font/google';
 import './globals.css';
+import LenisProvider from './components/LenisProvider';
 
 const cinzel = Cinzel({
   subsets: ['latin'],
@@ -25,7 +26,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={cinzel.variable}>
-      <body>{children}</body>
+      <body>
+        <LenisProvider>{children}</LenisProvider>
+      </body>
     </html>
   );
 }
