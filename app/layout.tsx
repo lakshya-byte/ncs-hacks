@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { Cinzel } from 'next/font/google';
 import './globals.css';
-import LenisProvider from './components/LenisProvider';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import LenisProvider from './components/utils/LenisProvider';
+import Navbar from './components/ui/Navbar';
+import Footer from './components/ui/Footer';
 
 const cinzel = Cinzel({
   subsets: ['latin'],

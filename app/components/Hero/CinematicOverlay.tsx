@@ -21,7 +21,7 @@ export default function CinematicOverlay() {
         scrollTrigger: {
           trigger: '#scroll-container',
           start: 'top top',
-          end: '20% top',
+          end: () => "+=" + (window.innerHeight * 1.2),
           scrub: true,
         },
         opacity: 0,
@@ -34,7 +34,7 @@ export default function CinematicOverlay() {
         scrollTrigger: {
           trigger: '#scroll-container',
           start: 'top top',
-          end: '25% top',
+          end: () => "+=" + (window.innerHeight * 1.5),
           scrub: true,
         },
         opacity: 0,
@@ -45,8 +45,8 @@ export default function CinematicOverlay() {
       gsap.to(startGradientRef.current, {
         scrollTrigger: {
           trigger: '#scroll-container',
-          start: '10% top',
-          end: '45% top',
+          start: () => "top+=" + (window.innerHeight * 0.6) + " top",
+          end: () => "+=" + (window.innerHeight * 2.1),
           scrub: true,
         },
         opacity: 0,
@@ -59,8 +59,8 @@ export default function CinematicOverlay() {
         {
           scrollTrigger: {
             trigger: '#scroll-container',
-            start: '75% top',
-            end: '88% top',
+            start: () => "top+=" + (window.innerHeight * 4.5) + " top",
+            end: () => "+=" + (window.innerHeight * 0.78),
             scrub: true,
           },
           opacity: 1,
@@ -76,8 +76,8 @@ export default function CinematicOverlay() {
         {
           scrollTrigger: {
             trigger: '#scroll-container',
-            start: '80% top',
-            end: '92% top',
+            start: () => "top+=" + (window.innerHeight * 4.8) + " top",
+            end: () => "+=" + (window.innerHeight * 0.72),
             scrub: true,
           },
           opacity: 1,
@@ -92,8 +92,8 @@ export default function CinematicOverlay() {
         {
           scrollTrigger: {
             trigger: '#scroll-container',
-            start: '65% top',
-            end: '85% top',
+            start: () => "top+=" + (window.innerHeight * 3.9) + " top",
+            end: () => "+=" + (window.innerHeight * 1.2),
             scrub: true,
           },
           opacity: 1,
@@ -105,7 +105,7 @@ export default function CinematicOverlay() {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-10">
+    <div className="absolute inset-0 pointer-events-none z-10">
       {/* Dark gradient at start */}
       <div
         ref={startGradientRef}
@@ -180,7 +180,7 @@ function ScrollIndicator() {
       scrollTrigger: {
         trigger: '#scroll-container',
         start: 'top top',
-        end: '15% top',
+        end: () => "+=" + (window.innerHeight * 0.9),
         scrub: true,
       },
       opacity: 0,

@@ -150,7 +150,7 @@ export default function AsgardCanvas() {
     const trigger = ScrollTrigger.create({
       trigger: '#scroll-container',
       start: 'top top',
-      end: 'bottom bottom',
+      end: () => "+=" + (window.innerHeight * 5),
       scrub: 1.2,
       onUpdate: (self) => {
         const progress = self.progress;
@@ -169,7 +169,7 @@ export default function AsgardCanvas() {
   return (
     <>
       {!loaded && (
-        <div className="fixed inset-0 bg-black flex flex-col items-center justify-center z-100">
+        <div className="absolute inset-0 bg-black flex flex-col items-center justify-center z-100">
           <div className="font-[Cinzel,serif] text-[#c9a227] text-[1.1rem] tracking-[0.25em] mb-8">
             LOADING ASGARD
           </div>
@@ -186,7 +186,7 @@ export default function AsgardCanvas() {
       )}
       <canvas
         ref={canvasRef}
-        className={`fixed top-0 left-0 w-screen h-screen block -z-10 transition-opacity duration-800 ease-[ease] ${
+        className={`absolute top-0 left-0 w-full h-full block -z-10 transition-opacity duration-800 ease-[ease] ${
           loaded ? 'opacity-100' : 'opacity-0'
         }`}
       />
