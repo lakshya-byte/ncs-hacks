@@ -1,18 +1,25 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import AboutNibble from './components/aboutNibble/AboutNibble';
+import LoadingScreen from './components/ui/LoadingScreen';
 
 
 // Dynamic import with no SSR — canvas + GSAP are client-only
 const AsgardCanvas = dynamic(() => import('./components/Hero/AsgardCanvas'), {
   ssr: false,
+  loading: () => <LoadingScreen />,
 });
 const CinematicOverlay = dynamic(() => import('./components/Hero/CinematicOverlay'), {
   ssr: false,
+  loading: () => <LoadingScreen />,
 });
 const ParticleOverlay = dynamic(() => import('./components/Hero/ParticleOverlay'), {
   ssr: false,
+  loading: () => <LoadingScreen />,
+});
+const AboutNibble = dynamic(() => import('./components/aboutNibble/AboutNibble'), {
+  ssr: false,
+  loading: () => <LoadingScreen />,
 });
 
 export default function Home() {

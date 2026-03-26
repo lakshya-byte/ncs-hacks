@@ -3,7 +3,7 @@ import gsap from "gsap";
 
 /* ── Ornate Corner SVG ── */
 // We use this to stamp the 4 corners of the frame
-const RoyalCorner = ({ className }) => (
+const RoyalCorner = ({ className }: { className?: string }) => (
   <svg
     width="16"
     height="16"
@@ -26,41 +26,59 @@ const RoyalCorner = ({ className }) => (
   </svg>
 );
 
-export default function RoyalFeatureCard({ icon, title, subtitle, index = 0 }) {
-  const cardRef = useRef(null);
-  const glowRef = useRef(null);
+interface RoyalFeatureCardProps {
+  icon: React.ReactNode;
+  title: string;
+  subtitle: string;
+  index?: number;
+}
 
-  useEffect(() => {
-    // 1. Initial Staggered Entrance
-    gsap.fromTo(
-      cardRef.current,
-      { y: 50, opacity: 0, scale: 0.9, rotateX: 15 },
-      { 
-        y: 0, 
-        opacity: 1, 
-        scale: 1, 
-        rotateX: 0,
-        duration: 1.2, 
-        delay: index * 0.15, 
-        ease: "power4.out" 
+const RoyalFeatureCard = React.forwardRef<HTMLDivElement, RoyalFeatureCardProps>(
+  ({ icon, title, subtitle, index = 0 }, ref) => {
+    const cardRef = useRef<HTMLDivElement | null>(null);
+    const glowRef = useRef<HTMLDivElement | null>(null);
+
+    // Sync external ref if provided
+    useEffect(() => {
+      if (typeof ref === "function") {
+        ref(cardRef.current);
+      } else if (ref) {
+        ref.current = cardRef.current;
       }
-    );
+    }, [ref]);
 
-    // 2. God-Level Continuous Float
-    // We offset the time based on the index so they don't all bob up and down at the exact same time
-    gsap.to(cardRef.current, {
-      y: "-=12",
-      duration: 3 + (index * 0.2),
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-      delay: index * 0.1,
-    });
-  }, [index]);
+    useEffect(() => {
+      if (!cardRef.current) return;
 
-  return (
-    <div
-      ref={cardRef}
+      // 1. Initial Staggered Entrance
+      gsap.fromTo(
+        cardRef.current,
+        { y: 50, opacity: 0, scale: 0.9, rotateX: 15 },
+        { 
+          y: 0, 
+          opacity: 1, 
+          scale: 1, 
+          rotateX: 0,
+          duration: 1.2, 
+          delay: index * 0.15, 
+          ease: "power4.out" 
+        }
+      );
+
+      // 2. God-Level Continuous Float
+      gsap.to(cardRef.current, {
+        y: "-=12",
+        duration: 3 + (index * 0.2),
+        yoyo: true,
+        repeat: -1,
+        ease: "sine.inOut",
+        delay: index * 0.1,
+      });
+    }, [index]);
+
+    return (
+      <div
+        ref={cardRef}
       className="group relative flex flex-col items-center justify-center w-full max-w-[260px] aspect-[4/5] perspective-[1200px] cursor-pointer"
     >
       {/* ── Outer Royal Frame (The Glow & Border Layer) ── */}
@@ -117,3 +135,8 @@ export default function RoyalFeatureCard({ icon, title, subtitle, index = 0 }) {
     </div>
   );
 }
+);
+
+RoyalFeatureCard.displayName = "RoyalFeatureCard";
+
+export default RoyalFeatureCard;

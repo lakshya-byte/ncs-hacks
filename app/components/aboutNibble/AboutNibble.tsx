@@ -8,6 +8,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 // import bgImage from "figma:asset/f30b2a212197842fda59b7702800fb53d7c174eb.png"; // Keep your existing import path
 
+import Image from "next/image";
+
 /* ── SVG Icons ── */
 function IconInnovation() {
   return (
@@ -124,13 +126,15 @@ const features = [
 ];
 
 export default function AboutNibble() {
-  const containerRef = useRef(null);
-  const headerRef = useRef(null);
-  const cardsRef = useRef([]);
-  const btnRef = useRef(null);
-  const rayRef = useRef(null);
+  const containerRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const btnRef = useRef<HTMLDivElement>(null);
+  const rayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!containerRef.current || !headerRef.current || !btnRef.current || !rayRef.current) return;
+
     // Reveal Timeline
     const tl = gsap.timeline({ 
       defaults: { ease: "power3.out" },
@@ -148,7 +152,7 @@ export default function AboutNibble() {
     )
     // Spring up cards
     .fromTo(
-      cardsRef.current,
+      cardsRef.current.filter(Boolean),
       { y: 40, opacity: 0, scale: 0.95 },
       { y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.1, ease: "back.out(1.4)" },
       "-=0.5"
@@ -162,7 +166,8 @@ export default function AboutNibble() {
     );
 
     // Continuous floating animation for cards
-    cardsRef.current.forEach((card, i) => {
+    cardsRef.current.filter(Boolean).forEach((card, i) => {
+      if (!card) return;
       // Alternate rotation for organic feel
       const rot = i % 2 === 0 ? -1.5 : 1.5; 
       gsap.to(card, {
@@ -190,10 +195,12 @@ export default function AboutNibble() {
     <section ref={containerRef} className="relative w-full min-h-screen overflow-hidden bg-black selection:bg-yellow-500/30 selection:text-yellow-100">
       
       {/* ── Background Elements ── */}
-      <img
+      <Image
         src="/aboutNibbleBackground.png"
         alt="Kingdom of Nibble"
-        className="absolute inset-0 z-0 w-full h-full object-cover object-top opacity-90"
+        fill
+        className="object-cover object-top opacity-90"
+        loading="lazy"
       />
 
       {/* Top radial glow */}
@@ -244,19 +251,22 @@ export default function AboutNibble() {
         <div className="flex-1 min-h-[clamp(160px,20vh,280px)] w-full" />
 
         {/* ── Feature Cards ── */}
-        {
-          features.map((feature)=>{
-            return (
-              <RoyalFeatureCard key={feature.id} icon={feature.icon} title={feature.title} subtitle={feature.subtitle} index={feature.index} />
-            )
-          })
-        }
-       
-      
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {features.map((feature, i) => (
+            <RoyalFeatureCard 
+              key={feature.id} 
+              icon={feature.icon} 
+              title={feature.title} 
+              subtitle={feature.subtitle} 
+              index={i}
+              ref={(el) => { cardsRef.current[i] = el; }}
+            />
+          ))}
+        </div>
 
         {/* ── CTA Button ── */}
         <div ref={btnRef} className="mt-12">
-          <RoyalAscendButton  />
+          <RoyalAscendButton />
         </div>
 
       </div>

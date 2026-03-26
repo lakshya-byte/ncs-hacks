@@ -1,10 +1,16 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 
-export default function RoyalAscendButton({ onClick }) {
-  const btnContainerRef = useRef(null);
+interface RoyalAscendButtonProps {
+  onClick?: () => void;
+}
+
+export default function RoyalAscendButton({ onClick }: RoyalAscendButtonProps) {
+  const btnContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!btnContainerRef.current) return;
+    
     // Majestic entrance animation
     gsap.fromTo(
       btnContainerRef.current,
