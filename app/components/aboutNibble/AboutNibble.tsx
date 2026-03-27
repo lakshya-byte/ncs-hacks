@@ -1,19 +1,18 @@
+'use client';
+
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 import RoyalFeatureCard from "./FeatureCard";
 import RoyalAscendButton from "./Button";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// import bgImage from "figma:asset/f30b2a212197842fda59b7702800fb53d7c174eb.png"; // Keep your existing import path
-
-import Image from "next/image";
-
 /* ── SVG Icons ── */
 function IconInnovation() {
   return (
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+    <svg width="44" height="44" viewBox="0 0 52 52" fill="none">
       <circle cx="26" cy="26" r="24.5" stroke="url(#i1a)" strokeWidth="1.2"/>
       <circle cx="26" cy="26" r="8" stroke="url(#i1a)" strokeWidth="1.5" fill="none"/>
       <path d="M26 13v4M26 35v4M13 26h4M35 26h4" stroke="url(#i1a)" strokeWidth="1.4" strokeLinecap="round"/>
@@ -21,10 +20,10 @@ function IconInnovation() {
       <circle cx="26" cy="26" r="3.5" fill="url(#i1b)"/>
       <defs>
         <linearGradient id="i1a" x1="4" y1="4" x2="48" y2="48" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FFD700"/><stop offset="1" stopColor="#FFF5A0"/>
+          <stop stopColor="#FFD700"/><stop offset="1" stopColor="#B8860B"/>
         </linearGradient>
         <linearGradient id="i1b" x1="22" y1="22" x2="30" y2="30" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FFD700"/><stop offset="1" stopColor="#FFFBE0"/>
+          <stop stopColor="#FFD700"/><stop offset="1" stopColor="#B8860B"/>
         </linearGradient>
       </defs>
     </svg>
@@ -33,7 +32,7 @@ function IconInnovation() {
 
 function IconCommunity() {
   return (
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+    <svg width="44" height="44" viewBox="0 0 52 52" fill="none">
       <circle cx="26" cy="26" r="24.5" stroke="url(#i2a)" strokeWidth="1.2"/>
       <circle cx="26" cy="26" r="4" stroke="url(#i2a)" strokeWidth="1.5" fill="none"/>
       <circle cx="14" cy="20" r="3" stroke="url(#i2a)" strokeWidth="1.2" fill="none"/>
@@ -48,7 +47,7 @@ function IconCommunity() {
       <line x1="38" y1="23" x2="38" y2="29" stroke="url(#i2a)" strokeWidth="1.1" strokeLinecap="round"/>
       <defs>
         <linearGradient id="i2a" x1="4" y1="4" x2="48" y2="48" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FFD700"/><stop offset="1" stopColor="#FFF5A0"/>
+          <stop stopColor="#FFD700"/><stop offset="1" stopColor="#B8860B"/>
         </linearGradient>
       </defs>
     </svg>
@@ -57,7 +56,7 @@ function IconCommunity() {
 
 function IconEngineering() {
   return (
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+    <svg width="44" height="44" viewBox="0 0 52 52" fill="none">
       <circle cx="26" cy="26" r="24.5" stroke="url(#i3a)" strokeWidth="1.2"/>
       <path d="M26 12L31 34L26 30L21 34L26 12Z" stroke="url(#i3a)" strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
       <path d="M14 36h24" stroke="url(#i3a)" strokeWidth="1.5" strokeLinecap="round"/>
@@ -66,10 +65,10 @@ function IconEngineering() {
       <circle cx="26" cy="24" r="2.5" fill="url(#i3b)"/>
       <defs>
         <linearGradient id="i3a" x1="4" y1="4" x2="48" y2="48" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FFD700"/><stop offset="1" stopColor="#FFF5A0"/>
+          <stop stopColor="#FFD700"/><stop offset="1" stopColor="#B8860B"/>
         </linearGradient>
         <linearGradient id="i3b" x1="22" y1="20" x2="30" y2="30" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FFD700"/><stop offset="1" stopColor="#FFFBE0"/>
+          <stop stopColor="#FFD700"/><stop offset="1" stopColor="#B8860B"/>
         </linearGradient>
       </defs>
     </svg>
@@ -78,7 +77,7 @@ function IconEngineering() {
 
 function IconLeadership() {
   return (
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+    <svg width="44" height="44" viewBox="0 0 52 52" fill="none">
       <circle cx="26" cy="26" r="24.5" stroke="url(#i4a)" strokeWidth="1.2"/>
       <path d="M13 22l5 7 8-12 8 12 5-7" stroke="url(#i4a)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
       <path d="M14 30h24" stroke="url(#i4a)" strokeWidth="1.2" strokeLinecap="round"/>
@@ -90,7 +89,7 @@ function IconLeadership() {
       <circle cx="39" cy="22" r="1.8" fill="url(#i4a)"/>
       <defs>
         <linearGradient id="i4a" x1="4" y1="4" x2="48" y2="48" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FFD700"/><stop offset="1" stopColor="#FFF5A0"/>
+          <stop stopColor="#FFD700"/><stop offset="1" stopColor="#B8860B"/>
         </linearGradient>
       </defs>
     </svg>
@@ -125,133 +124,129 @@ const features = [
   },
 ];
 
+const SUMMARY_TEXT = "From the divine forge of imagination, we sculpt digital realms and empower visionary builders. Join our celestial order, where the boundless curiosity of the Nibble Computer Society shapes the future, turning innovation into enduring legend.";
+
 export default function AboutNibble() {
   const containerRef = useRef<HTMLElement>(null);
+  const bgRef = useRef<HTMLImageElement>(null);
+  const dividerRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const btnRef = useRef<HTMLDivElement>(null);
-  const rayRef = useRef<HTMLDivElement>(null);
+  const summaryContainerRef = useRef<HTMLDivElement>(null);
+  const summaryTextRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current || !headerRef.current || !btnRef.current || !rayRef.current) return;
+    if (!containerRef.current) return;
 
-    // Reveal Timeline
-    const tl = gsap.timeline({ 
-      defaults: { ease: "power3.out" },
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 75%",
-      }
-    });
-
-    // Fade in text elements
-    tl.fromTo(
-      headerRef.current.children,
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, stagger: 0.15 }
-    )
-    // Spring up cards
-    .fromTo(
-      cardsRef.current.filter(Boolean),
-      { y: 40, opacity: 0, scale: 0.95 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.1, ease: "back.out(1.4)" },
-      "-=0.5"
-    )
-    // Fade in CTA
-    .fromTo(
-      btnRef.current,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 },
-      "-=0.4"
-    );
-
-    // Continuous floating animation for cards
-    cardsRef.current.filter(Boolean).forEach((card, i) => {
-      if (!card) return;
-      // Alternate rotation for organic feel
-      const rot = i % 2 === 0 ? -1.5 : 1.5; 
-      gsap.to(card, {
-        y: -14,
-        rotation: rot,
-        duration: 3 + i * 0.3,
-        yoyo: true,
-        repeat: -1,
-        ease: "sine.inOut",
-        delay: i * 0.15,
+    const ctx = gsap.context(() => {
+      // 1. Divider & Header Sequence
+      const tl = gsap.timeline({ 
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 75%",
+        }
       });
-    });
 
-    // Pulsing background ray
-    gsap.to(rayRef.current, {
-      opacity: 0.85,
-      duration: 3,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut",
-    });
+      tl.fromTo(dividerRef.current, 
+          { scaleX: 0, opacity: 0 }, 
+          { scaleX: 1, opacity: 1, duration: 1.5, ease: "power4.inOut" }
+        )
+        .fromTo(
+          headerRef.current?.children || [],
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: "power3.out" },
+          "-=1.0"
+        );
+
+      // 2. Parallax background
+      if (bgRef.current) {
+        gsap.to(bgRef.current, {
+          yPercent: 12,
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true
+          }
+        });
+      }
+
+      // 3. Scroll-locked Summary Word Reveal
+      if (summaryTextRef.current && summaryContainerRef.current) {
+        const words = summaryTextRef.current.querySelectorAll('.word-reveal');
+        
+        gsap.fromTo(words,
+          { opacity: 0, y: 15, filter: 'blur(8px)' },
+          {
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            stagger: 0.1,
+            ease: "sine.out",
+            scrollTrigger: {
+              trigger: summaryContainerRef.current,
+              start: "top 60%",     // Pin when summary reaches upper center
+              end: "+=500",         // Scrub length
+              scrub: 1.5,
+              pin: true,            // Lock section
+            }
+          }
+        );
+      }
+    }, containerRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={containerRef} className="relative w-full min-h-screen overflow-hidden bg-black selection:bg-yellow-500/30 selection:text-yellow-100">
+    <section ref={containerRef} className="relative w-full min-h-screen bg-[#FAFAF8] text-[#111] overflow-hidden">
       
-      {/* ── Background Elements ── */}
-      <Image
-        src="/aboutNibbleBackground.png"
-        alt="Kingdom of Nibble"
-        fill
-        className="object-cover object-top opacity-90"
-        loading="lazy"
-      />
+      {/* ── Background Parallax Image ── */}
+      <div className="absolute inset-0 w-full h-[120%] -top-[10%] pointer-events-none z-0">
+        <Image
+          ref={bgRef}
+          src="/aboutNibbleBackground.png"
+          alt="Kingdom of Nibble Background"
+          fill
+          className="object-cover object-top opacity-80"
+          priority
+        />
+        {/* Soft edge blending gradients to fade the image cleanly into standard white borders */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAFAF8] via-transparent to-[#FAFAF8] opacity-90" />
+      </div>
 
-      {/* Top radial glow */}
-      <div
-        ref={rayRef}
-        className="absolute top-0 left-1/2 z-10 w-4/5 h-3/5 -translate-x-1/2 pointer-events-none opacity-50 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,240,160,0.35)_0%,rgba(255,220,80,0.10)_50%,transparent_72%)]"
-      />
-
-      {/* Bottom mist */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 h-1/3 pointer-events-none bg-[linear-gradient(to_top,rgba(240,230,195,0.50)_0%,transparent_100%)]" />
-
-      {/* Edge vignette */}
-      <div className="absolute inset-0 z-10 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_42%,rgba(160,140,90,0.22)_100%)]" />
-
-      {/* ════ CONTENT ════ */}
-      <div className="relative z-20 flex flex-col items-center min-h-screen px-6 pb-14">
+      <div className="site-container relative z-10 flex flex-col items-center">
         
-        {/* ── Heading block ── */}
-        <div ref={headerRef} className="flex flex-col items-center max-w-3xl pt-10 text-center md:pt-16">
-          
-          {/* Badge */}
-          <span className="inline-block mb-4 px-5 py-1.5 rounded-full text-[10px] md:text-xs tracking-[0.18em] uppercase font-['Cinzel',serif] text-[#c8a84b] bg-yellow-400/10 border border-[#c8a84b]/40 backdrop-blur-md shadow-[0_0_15px_rgba(255,215,0,0.1)]">
+        {/* 1. DIVIDER TRANSITION (TOP) */}
+        <div className="w-full flex justify-center pt-24 pb-12">
+          <div 
+            ref={dividerRef} 
+            className="h-px w-3/4 max-w-2xl bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent shadow-[0_0_15px_rgba(212,175,55,0.8)] opacity-0 origin-center"
+          />
+        </div>
+
+        {/* 2. HEADING BLOCK (CENTERED) */}
+        <div ref={headerRef} className="flex flex-col items-center text-center px-4">
+          <span className="inline-block mb-4 px-4 py-1 rounded-full text-[10px] md:text-xs tracking-[0.2em] uppercase font-sans text-[#B8860B] border border-[#D4AF37]/30 bg-white/40 backdrop-blur-sm shadow-sm">
             Official Technical Society · JSSATEN
           </span>
 
-          {/* Main title */}
-          <h1 className="m-0 font-['Cinzel',serif] text-[clamp(2.4rem,6vw,5rem)] font-semibold leading-[1.1] tracking-[0.02em] bg-[linear-gradient(160deg,#fffde0_0%,#FFD700_38%,#ffe88a_62%,#fdfcf7_100%)] bg-clip-text text-transparent drop-shadow-[0_2px_24px_rgba(180,140,30,0.50)]">
+          <h1 className="m-0 font-serif text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[1.1] text-[#B8860B] drop-shadow-sm">
             The Kingdom of Nibble
           </h1>
 
-          {/* Divider */}
-          <div className="my-5 w-48 h-px bg-[linear-gradient(90deg,transparent,rgba(255,215,0,0.65),transparent)]" />
-
-          {/* Subheading */}
-          <p className="m-0 font-['Cinzel',serif] text-[clamp(0.85rem,1.8vw,1.25rem)] font-medium text-[#f0e4b8] tracking-[0.06em] leading-relaxed drop-shadow-[0_2px_14px_rgba(140,100,10,0.45)]">
+          <p className="mt-4 font-serif text-[clamp(1rem,2vw,1.3rem)] font-medium text-black/70 tracking-[0.02em]">
             Where Builders Rise. Where Innovation Becomes Legacy.
-          </p>
-
-          {/* Description */}
-          <p className="mt-5 max-w-xl font-['Inter',sans-serif] text-[clamp(0.75rem,1.2vw,0.92rem)] font-light text-[#fdfcf7]/80 leading-[1.8] tracking-[0.015em] drop-shadow-[0_1px_8px_rgba(60,40,0,0.28)]">
-            From the divine forge of imagination, the Nibble Computer Society sculpts
-            digital realms and empowers visionary builders. We are the celestial order
-            of JSSATEN — turning curiosity into craft, and innovation into enduring legend.
           </p>
         </div>
 
-        {/* Spacer to show floating temple background */}
-        <div className="flex-1 min-h-[clamp(160px,20vh,280px)] w-full" />
+        {/* 3. VISUAL CENTERPIECE SPACER */}
+        {/* Forces vertical gap allowing the golden background temple to breathe, adding depth. */}
+        <div className="w-full min-h-[max(25vh,200px)] pointer-events-none" />
 
-        {/* ── Feature Cards ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* 4. PORTRAITS ROW (SINGLE HORIZONTAL LINE) */}
+        <div className="w-full max-w-6xl px-4 flex flex-col md:flex-row md:flex-nowrap justify-center items-center gap-4 sm:gap-6 lg:gap-8 mb-20 z-20">
           {features.map((feature, i) => (
             <RoyalFeatureCard 
               key={feature.id} 
@@ -264,9 +259,25 @@ export default function AboutNibble() {
           ))}
         </div>
 
-        {/* ── CTA Button ── */}
-        <div ref={btnRef} className="mt-12">
-          <RoyalAscendButton />
+        {/* 5. SCROLL-LOCKED SUMMARY */}
+        <div ref={summaryContainerRef} className="w-full flex-col flex items-center justify-center min-h-[40vh] pb-32 px-4 z-20">
+          <div className="max-w-4xl text-center">
+            <p 
+              ref={summaryTextRef}
+              className="font-serif text-[clamp(1.2rem,2.8vw,2.2rem)] font-medium text-black/85 leading-relaxed tracking-wide drop-shadow-sm"
+            >
+              {SUMMARY_TEXT.split(' ').map((word, index) => (
+                <span key={index} className="inline-block mr-[0.25em] word-reveal opacity-0 translate-y-4">
+                  {word}
+                </span>
+              ))}
+            </p>
+          </div>
+          
+          {/* Action button beneath summary */}
+          <div className="mt-16 opacity-0 word-reveal translate-y-4 transition-transform hover:scale-105 cursor-pointer">
+            <RoyalAscendButton />
+          </div>
         </div>
 
       </div>

@@ -26,6 +26,12 @@ const HackathonTracks = dynamic(() => import('./components/tracks/Tracks'), {
 const Timeline = dynamic(() => import('./components/timeline/Timeline'), {
   ssr: false,
 });
+const PhotoStream = dynamic(() => import('./components/previous/PhotoStream'), {
+  ssr: false,
+});
+const Sponsors = dynamic(() => import('./components/sponsors/Sponsors'), {
+  ssr: false,
+});
 
 export default function Home() {
   return (
@@ -48,6 +54,8 @@ export default function Home() {
         <AboutNibble />
         <HackathonTracks />
         <Timeline />
+        <PhotoStream />
+        <Sponsors />
       </div>
     </>
   );
