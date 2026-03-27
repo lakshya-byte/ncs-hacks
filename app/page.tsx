@@ -3,7 +3,6 @@
 import dynamic from 'next/dynamic';
 import LoadingScreen from './components/ui/LoadingScreen';
 
-
 // Dynamic import with no SSR — canvas + GSAP are client-only
 const AsgardCanvas = dynamic(() => import('./components/Hero/AsgardCanvas'), {
   ssr: false,
@@ -20,6 +19,12 @@ const ParticleOverlay = dynamic(() => import('./components/Hero/ParticleOverlay'
 const AboutNibble = dynamic(() => import('./components/aboutNibble/AboutNibble'), {
   ssr: false,
   loading: () => <LoadingScreen />,
+});
+const HackathonTracks = dynamic(() => import('./components/tracks/Tracks'), {
+  ssr: false,
+});
+const Timeline = dynamic(() => import('./components/timeline/Timeline'), {
+  ssr: false,
 });
 
 export default function Home() {
@@ -41,6 +46,8 @@ export default function Home() {
       {/* Content below hero */}
       <div className="relative z-20">
         <AboutNibble />
+        <HackathonTracks />
+        <Timeline />
       </div>
     </>
   );

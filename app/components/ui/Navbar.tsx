@@ -14,6 +14,7 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
   const [ctaHovered, setCtaHovered] = useState(false);
   const [ctaPressed, setCtaPressed] = useState(false);
   const [mouseX, setMouseX] = useState(0.5);
@@ -22,13 +23,27 @@ export default function Navbar() {
   const rafRef = useRef<number | null>(null);
   const t = useRef(0);
 
-  // Scroll tracking
+  // Scroll tracking to delay appearance until after Hero (900vh)
   useEffect(() => {
     const handleScroll = () => {
       const y = window.scrollY;
-      setScrolled(y > 40);
-      setScrollProgress(Math.min(1, y / 300));
+      const heroThreshold = window.innerHeight * 9 - 100; // Just before particle section ends
+      
+      const isPastHero = y > heroThreshold;
+      setIsVisible(isPastHero);
+      
+      if (isPastHero) {
+        setScrolled(y > heroThreshold + 40);
+        setScrollProgress(Math.min(1, (y - heroThreshold) / 300));
+      } else {
+        setScrolled(false);
+        setScrollProgress(0);
+      }
     };
+    
+    // Initial check on mount
+    handleScroll();
+    
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -62,9 +77,12 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className="fixed top-0 left-0 right-0 z-[100] pointer-events-none"
-      style={{ transform: `translateY(${floatY}px)` }}
+      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] pointer-events-none ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 w-[100vw] -translate-y-24'
+      }`}
     >
+      {/* ── Inner wrapper separating the continuous float from the entry transition ── */}
+      <div style={{ transform: `translateY(${floatY}px)` }} className="w-full">
       {/* Width constrainer */}
       <div
         className="max-w-[1160px] mx-auto px-6 pointer-events-auto transition-[margin] duration-500"
@@ -248,6 +266,8 @@ export default function Navbar() {
           </div>
         </div>{/* end main panel */}
       </div>
+
+      </div>{/* end inner wrapper */}
     </nav>
   );
 }

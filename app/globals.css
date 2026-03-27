@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* ══════════════════════════════════════════════════════════
+   GLOBAL RESET
+══════════════════════════════════════════════════════════ */
 *,
 *::before,
 *::after {
@@ -8,32 +11,66 @@
   padding: 0;
 }
 
+/* ══════════════════════════════════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════════════════════════════════ */
 :root {
-  --gold: #c9a227;
-  --gold-light: #f5d980;
-  --font-cinzel: 'Cinzel', serif;
-  color-scheme: dark;
+  --gold:             #c9a227;
+  --gold-light:       #f5d980;
+  --font-cinzel:      'Cinzel', serif;
+  color-scheme:       dark;
+
+  /* ── SITE LAYOUT SYSTEM ──────────────────────────────── */
+  /* Single source of truth for page width and gutters */
+  --site-max-width:   1280px;     /* max-w-7xl equivalent */
+  --site-gutter:      clamp(1.5rem, 5vw, 5rem); /* fluid side padding */
 }
 
+/* ══════════════════════════════════════════════════════════
+   ROOT ELEMENTS
+══════════════════════════════════════════════════════════ */
 html {
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  /* Prevent horizontal overflow on all viewports */
+  overflow-x: hidden;
 }
 
-html::-webkit-scrollbar {
-  display: none;
-}
+html::-webkit-scrollbar { display: none; }
 
 body {
   font-family: var(--font-cinzel);
-  overflow-x: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  overflow-x: hidden;
+  /* Guarantee body never exceeds viewport width */
+  width: 100%;
+  max-width: 100%;
 }
 
-body::-webkit-scrollbar {
-  display: none;
+body::-webkit-scrollbar { display: none; }
+
+/* ══════════════════════════════════════════════════════════
+   GLOBAL LAYOUT UTILITY
+   Usage:  <div class="site-container"> … </div>
+   Provides: centred content with consistent gutters.
+   Every content section MUST use this wrapper.
+══════════════════════════════════════════════════════════ */
+.site-container {
+  width: 100%;
+  max-width: var(--site-max-width);
+  margin-inline: auto;           /* centres the block */
+  padding-inline: var(--site-gutter);
+}
+
+/* Full-width sections still need overflow protection */
+section,
+footer,
+header,
+nav {
+  width: 100%;
+  max-width: 100%;
 }
 
 canvas {
