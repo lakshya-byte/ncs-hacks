@@ -4,6 +4,7 @@ import './globals.css';
 import LenisProvider from './components/utils/LenisProvider';
 import Navbar from './components/ui/Navbar';
 import Footer from './components/ui/Footer';
+import AudioSystem from './components/ui/AudioSystem';
 
 const cinzel = Cinzel({
   subsets: ['latin'],
@@ -30,6 +31,7 @@ export default function RootLayout({
     <html lang="en" className={cinzel.variable}>
       <body>
         <LenisProvider>
+          <AudioSystem />
           <Navbar />
           {children}
           <Footer />
