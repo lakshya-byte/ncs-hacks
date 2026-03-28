@@ -58,8 +58,50 @@ const tracks = [
   },
 ];
 
+const lightRays = [
+  { left: "12%", width: "28%", rotate: -20, duration: 42, delay: -8 },
+  { left: "38%", width: "24%", rotate: -12, duration: 48, delay: -18 },
+  { left: "66%", width: "30%", rotate: -24, duration: 46, delay: -28 },
+];
+
+const cloudFields = [
+  { top: "10%", width: "62%", duration: 70, delay: -16 },
+  { top: "44%", width: "54%", duration: 82, delay: -36 },
+  { top: "68%", width: "60%", duration: 76, delay: -52 },
+];
+
+const PARALLAX = {
+  clouds: -14,
+  rays: -26,
+  particles: -38,
+  gradient: -18,
+};
+
+const MOBILE_PARTICLE_OPACITY_FACTOR = 0.85;
+
+const particles = [
+  { left: "8%", top: "82%", size: 2, duration: 24, delay: -8, opacity: 0.3 },
+  { left: "16%", top: "74%", size: 2, duration: 29, delay: -14, opacity: 0.36 },
+  { left: "22%", top: "86%", size: 1.5, duration: 27, delay: -5, opacity: 0.24 },
+  { left: "29%", top: "72%", size: 2, duration: 33, delay: -22, opacity: 0.32 },
+  { left: "36%", top: "88%", size: 1.5, duration: 26, delay: -16, opacity: 0.22 },
+  { left: "43%", top: "78%", size: 2, duration: 35, delay: -3, opacity: 0.35 },
+  { left: "49%", top: "84%", size: 1.5, duration: 30, delay: -25, opacity: 0.26 },
+  { left: "55%", top: "76%", size: 2, duration: 32, delay: -12, opacity: 0.3 },
+  { left: "61%", top: "90%", size: 1.5, duration: 28, delay: -18, opacity: 0.24 },
+  { left: "67%", top: "80%", size: 2, duration: 34, delay: -10, opacity: 0.33 },
+  { left: "72%", top: "86%", size: 1.5, duration: 31, delay: -27, opacity: 0.22 },
+  { left: "78%", top: "74%", size: 2, duration: 36, delay: -21, opacity: 0.32 },
+  { left: "84%", top: "88%", size: 1.5, duration: 25, delay: -6, opacity: 0.25 },
+  { left: "90%", top: "79%", size: 2, duration: 33, delay: -19, opacity: 0.34 },
+];
+
 export default function HackathonTracks() {
   const sectionRef = useRef<HTMLElement>(null);
+  const cloudLayerRef = useRef<HTMLDivElement>(null);
+  const raysLayerRef = useRef<HTMLDivElement>(null);
+  const particlesLayerRef = useRef<HTMLDivElement>(null);
+  const gradientMotionLayerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
@@ -73,6 +115,19 @@ export default function HackathonTracks() {
         scrub: true,
         onUpdate: (self) => {
           const index = Math.min(5, Math.floor(self.progress * 6));
+          const centeredProgress = self.progress - 0.5;
+          if (cloudLayerRef.current) {
+            gsap.set(cloudLayerRef.current, { y: centeredProgress * PARALLAX.clouds });
+          }
+          if (raysLayerRef.current) {
+            gsap.set(raysLayerRef.current, { y: centeredProgress * PARALLAX.rays });
+          }
+          if (particlesLayerRef.current) {
+            gsap.set(particlesLayerRef.current, { y: centeredProgress * PARALLAX.particles });
+          }
+          if (gradientMotionLayerRef.current) {
+            gsap.set(gradientMotionLayerRef.current, { y: centeredProgress * PARALLAX.gradient });
+          }
           setActiveIndex((prev) => (prev !== index ? index : prev));
         },
       });
@@ -100,8 +155,108 @@ export default function HackathonTracks() {
         ))}
       </div>
 
-      {/* Volumetric glow overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(212,175,55,0.08)_0%,transparent_60%)] pointer-events-none" />
+      {/* Atmospheric system: gradient motion, clouds, rays, particles */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_16%,rgba(255,247,220,0.6)_0%,rgba(255,255,255,0)_58%)] pointer-events-none" />
+
+      <div
+        ref={gradientMotionLayerRef}
+        className="absolute inset-0 pointer-events-none will-change-transform"
+      >
+        <div className="absolute -inset-[18%] bg-[linear-gradient(112deg,rgba(212,175,55,0.08)_0%,rgba(255,255,255,0)_45%,rgba(255,248,228,0.2)_78%,rgba(255,255,255,0.05)_100%)] animate-[tracksGradientShift_50s_ease-in-out_infinite_alternate]" />
+      </div>
+
+      <div
+        ref={cloudLayerRef}
+        className="absolute inset-0 pointer-events-none hidden md:block will-change-transform"
+      >
+        {cloudFields.map((cloud, idx) => (
+          <div
+            key={`cloud-${idx}`}
+            className="absolute -left-[18%] h-[20%] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.24)_0%,rgba(255,248,230,0.08)_48%,rgba(255,255,255,0)_100%)]"
+            style={{
+              top: cloud.top,
+              width: cloud.width,
+              animationName: "tracksCloudDrift",
+              animationTimingFunction: "linear",
+              animationIterationCount: "infinite",
+              animationDuration: `${cloud.duration}s`,
+              animationDelay: `${cloud.delay}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      <div
+        ref={raysLayerRef}
+        className="absolute inset-0 pointer-events-none will-change-transform"
+      >
+        {lightRays.map((ray, idx) => (
+          <div
+            key={`ray-${idx}`}
+            className="absolute top-[-42%] h-[180%] rounded-[999px] bg-[linear-gradient(180deg,rgba(255,241,195,0)_0%,rgba(223,187,92,0.16)_40%,rgba(255,241,195,0.02)_72%,rgba(255,241,195,0)_100%)]"
+            style={{
+              left: ray.left,
+              width: ray.width,
+              transform: `rotate(${ray.rotate}deg)`,
+              animationName: "tracksRayDrift, tracksRayBreath",
+              animationTimingFunction: "ease-in-out, ease-in-out",
+              animationIterationCount: "infinite, infinite",
+              animationDirection: "alternate, normal",
+              animationDuration: `${ray.duration}s, 14s`,
+              animationDelay: `${ray.delay}s, ${ray.delay / 2}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      <div
+        ref={particlesLayerRef}
+        className="absolute inset-0 pointer-events-none will-change-transform"
+      >
+        <div className="absolute inset-0 md:hidden">
+          {particles.slice(0, 8).map((particle, idx) => (
+            <span
+              key={`particle-mobile-${idx}`}
+              className="absolute rounded-full bg-[#fff5d2] shadow-[0_0_8px_rgba(212,175,55,0.2)]"
+              style={{
+                left: particle.left,
+                top: particle.top,
+                width: `${particle.size}px`,
+                height: `${particle.size}px`,
+                opacity: particle.opacity * MOBILE_PARTICLE_OPACITY_FACTOR,
+                animationName: "tracksParticleRise",
+                animationTimingFunction: "linear",
+                animationIterationCount: "infinite",
+                animationDuration: `${particle.duration + 6}s`,
+                animationDelay: `${particle.delay}s`,
+              }}
+            />
+          ))}
+        </div>
+        <div className="absolute inset-0 hidden md:block">
+          {particles.map((particle, idx) => (
+            <span
+              key={`particle-${idx}`}
+              className="absolute rounded-full bg-[#fff7df] shadow-[0_0_10px_rgba(212,175,55,0.22)]"
+              style={{
+                left: particle.left,
+                top: particle.top,
+                width: `${particle.size}px`,
+                height: `${particle.size}px`,
+                opacity: particle.opacity,
+                animationName: "tracksParticleRise",
+                animationTimingFunction: "linear",
+                animationIterationCount: "infinite",
+                animationDuration: `${particle.duration}s`,
+                animationDelay: `${particle.delay}s`,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Volumetric center glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(212,175,55,0.07)_0%,transparent_62%)] pointer-events-none" />
 
       {/* ══ RESPONSIVE PINNED LAYOUT ══ */}
       <div className="relative z-10 w-full h-[100dvh] flex items-center justify-center pointer-events-none">
