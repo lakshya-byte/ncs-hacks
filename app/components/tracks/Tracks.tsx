@@ -95,9 +95,10 @@ export default function HackathonTracks() {
 
       {/* ══ MAIN LAYOUT — Standard centred container with two columns ══ */}
       <div className="relative z-10 w-full h-full flex items-center">
-        <div className="w-full max-w-7xl mx-auto px-8 lg:px-16 grid grid-cols-2 gap-16 items-center">
-          {/* LEFT: Text — normal document flow, no absolute */}
-          <div className="flex flex-col">
+        <div className="site-container relative h-full flex items-center">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 items-center">
+            {/* LEFT: Text — normal document flow, no absolute */}
+            <div className="flex flex-col">
             <span
               className="font-serif leading-none text-transparent select-none"
               style={{
@@ -151,6 +152,7 @@ export default function HackathonTracks() {
                 );
               })}
             </div>
+          </div>
           </div>
         </div>
       </div>

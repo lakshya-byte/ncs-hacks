@@ -32,30 +32,44 @@ const PhotoStream = dynamic(() => import('./components/previous/PhotoStream'), {
 const Sponsors = dynamic(() => import('./components/sponsors/Sponsors'), {
   ssr: false,
 });
+const CallToAction = dynamic(() => import('./components/CTA/CallToAction'), {
+  ssr: false,
+});
 
 export default function Home() {
   return (
     <>
       {/* Scroll container — creates scroll height for GSAP ScrollTrigger */}
-      <div
-        id="scroll-container"
-        className="relative h-[900vh] w-full z-[1]"
-      >
-        <div className="sticky top-0 left-0 w-full h-screen overflow-hidden bg-black">
-          {/* Cinematic canvas + overlay */}
-          <AsgardCanvas />
-          <CinematicOverlay />
-          <ParticleOverlay />
+      <div id="home">
+        <div
+          id="scroll-container"
+          className="relative h-[900vh] w-full z-[1]"
+        >
+          <div className="sticky top-0 left-0 w-full h-screen overflow-hidden bg-black">
+            {/* Cinematic canvas + overlay */}
+            <AsgardCanvas />
+            <CinematicOverlay />
+            <ParticleOverlay />
+          </div>
         </div>
       </div>
 
       {/* Content below hero */}
       <div className="relative z-20">
-        <AboutNibble />
-        <HackathonTracks />
-        <Timeline />
-        <PhotoStream />
-        <Sponsors />
+        <section id="about">
+          {/* <AboutNibble /> */}
+        </section>
+        <section id="tracks">
+          <HackathonTracks />
+        </section>
+        <section id="timeline">
+          <Timeline />
+        </section>
+        <section id="sponsors">
+          <PhotoStream />
+          <Sponsors />
+        </section>
+        <CallToAction />
       </div>
     </>
   );

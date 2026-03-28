@@ -5,10 +5,10 @@ import Link from 'next/link';
 
 const NAV_LINKS = [
   { name: 'Home', href: '#' },
-  { name: 'About', href: '#' },
-  { name: 'Tracks', href: '#' },
-  { name: 'Timeline', href: '#' },
-  { name: 'Sponsors', href: '#' },
+  { name: 'About', href: '#about' },
+  { name: 'Tracks', href: '#tracks' },
+  { name: 'Timeline', href: '#timeline' },
+  { name: 'Sponsors', href: '#sponsors' },
 ];
 
 export default function Navbar() {
@@ -77,15 +77,15 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] pointer-events-none ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 w-[100vw] -translate-y-24'
+      className={`fixed top-0 inset-x-0 z-[100] transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] pointer-events-none ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-24'
       }`}
     >
       {/* ── Inner wrapper separating the continuous float from the entry transition ── */}
-      <div style={{ transform: `translateY(${floatY}px)` }} className="w-full">
+      <div style={{ transform: `translateY(${floatY}px)` }} className="w-full flex justify-center">
       {/* Width constrainer */}
       <div
-        className="max-w-[1160px] mx-auto px-6 pointer-events-auto transition-[margin] duration-500"
+        className="w-full max-w-[1160px] px-6 pointer-events-auto transition-[margin] duration-500"
         style={{ marginTop }}
       >
         {/* ── OUTER AURA (Layer 0) ── */}

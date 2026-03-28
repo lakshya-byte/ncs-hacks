@@ -39,7 +39,7 @@ export default function PhotoStream() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(212,175,55,0.06)_0%,transparent_70%)] pointer-events-none" />
 
       {/* Grid Container */}
-      <div className="site-container relative h-[150%] max-w-[1400px] mx-auto w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 px-4 sm:px-8 py-10 rotate-[-2deg] scale-105">
+      <div className="relative h-[150%] w-full max-w-[1400px] mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 px-4 sm:px-8 py-10 rotate-[-2deg] scale-105">
         
         {/* Column 1 - UP */}
         <div className="relative h-full overflow-hidden scroll-group">

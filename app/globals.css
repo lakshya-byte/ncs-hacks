@@ -20,10 +20,16 @@
   --font-cinzel:      'Cinzel', serif;
   color-scheme:       dark;
 
-  /* ── SITE LAYOUT SYSTEM ──────────────────────────────── */
-  /* Single source of truth for page width and gutters */
-  --site-max-width:   1280px;     /* max-w-7xl equivalent */
-  --site-gutter:      clamp(1.5rem, 5vw, 5rem); /* fluid side padding */
+  /* ── CANONICAL LAYOUT SYSTEM ─────────────────────────── */
+  /* Single source of truth — every section uses these */
+  --site-max-width:   1280px;               /* matches Tailwind max-w-7xl  */
+  --site-gutter:      clamp(1.5rem, 4vw, 4rem); /* responsive side padding */
+
+  /* ── SPACING SCALE ───────────────────────────────────── */
+  --space-section:    5rem;        /* py-20 — default section padding       */
+  --space-section-lg: 7rem;       /* py-28 — large sections                */
+  --gap-grid:         1.5rem;     /* gap-6  — default grid / flex gap      */
+  --gap-grid-lg:      2rem;       /* gap-8  — wider grid gap               */
 }
 
 /* ══════════════════════════════════════════════════════════
