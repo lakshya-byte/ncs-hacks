@@ -1,12 +1,8 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useEffect, useRef, useState } from 'react';
 import TimelineSpine from './TimelineSpine';
 import TimelineCard from './TimelineCard';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const timelineData = [
   {
@@ -67,149 +63,224 @@ const timelineData = [
   },
 ] as const;
 
-const TOP_START_PERCENT = 14;
-const TOP_END_PERCENT = 86;
-const DESKTOP_SCROLL_HEIGHT = 'h-[360vh]';
-const PROGRESS_EPSILON = 0.001;
+const CARD_REVEAL_THRESHOLD = 0.32;
+const CARD_REVEAL_ROOT_MARGIN = '0px 0px -10% 0px';
+const MAX_SCROLL_SPEED_BOOST = 1.8;
+const SCROLL_DELTA_NORMALIZER = 16;
+const FLOW_SPEED_LERP_FACTOR = 0.18;
+const FLOW_SPEED_SETTLE_DELAY_MS = 130;
+const PARTICLE_BASE_LEFT = 42;
+const PARTICLE_LEFT_STEP = 11;
+const PARTICLE_LEFT_RANGE = 22;
+const PARTICLE_COUNT = 14;
 
 export default function TimelineSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [progress, setProgress] = useState(0);
+  const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [isMobile, setIsMobile] = useState(false);
+  const [visibleCards, setVisibleCards] = useState<boolean[]>(() => timelineData.map(() => false));
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [flowSpeed, setFlowSpeed] = useState(1);
 
-  const nodePositions = useMemo(() => {
-    if (timelineData.length <= 1) return [50];
-    const step = (TOP_END_PERCENT - TOP_START_PERCENT) / (timelineData.length - 1);
-    return timelineData.map((_, idx) => TOP_START_PERCENT + idx * step);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 767px)');
+    const updateMobileState = () => setIsMobile(mediaQuery.matches);
+    updateMobileState();
+    mediaQuery.addEventListener('change', updateMobileState);
+
+    return () => mediaQuery.removeEventListener('change', updateMobileState);
   }, []);
 
   useEffect(() => {
-    const mm = gsap.matchMedia();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setVisibleCards((previous) => {
+          const next = [...previous];
+          let didChange = false;
 
-    mm.add('(max-width: 767px)', () => {
-      setIsMobile(true);
-      setProgress(0);
-      setActiveIndex(0);
-    });
+          for (const entry of entries) {
+            const idx = Number((entry.target as HTMLElement).dataset.timelineIndex);
+            if (Number.isNaN(idx)) {
+              if (process.env.NODE_ENV === 'development') {
+                console.warn('Timeline card missing valid data-timeline-index');
+              }
+              continue;
+            }
 
-    mm.add('(min-width: 768px)', () => {
-      setIsMobile(false);
+            if (entry.isIntersecting && !next[idx]) {
+              next[idx] = true;
+              didChange = true;
+            }
+          }
 
-      const trigger = ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: true,
-        onUpdate: (self) => {
-          const currentProgress = self.progress;
-          setProgress((prev) => (Math.abs(prev - currentProgress) > PROGRESS_EPSILON ? currentProgress : prev));
+          if (!didChange) return previous;
 
-          const nextIndex = Math.min(timelineData.length - 1, Math.floor(currentProgress * timelineData.length));
-          setActiveIndex((prev) => (prev !== nextIndex ? nextIndex : prev));
-        },
-      });
+          const lastVisible = next.reduce((acc, seen, idx) => (seen ? idx : acc), 0);
+          setActiveIndex(lastVisible);
 
-      return () => {
-        trigger.kill();
-      };
-    });
+          return next;
+        });
+      },
+      {
+        root: null,
+        threshold: CARD_REVEAL_THRESHOLD,
+        rootMargin: CARD_REVEAL_ROOT_MARGIN,
+      },
+    );
 
-    return () => mm.revert();
+    for (const card of cardRefs.current) {
+      if (card) observer.observe(card);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
-  const activeGlowTop = nodePositions[activeIndex];
+  useEffect(() => {
+    let lastY = window.scrollY;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      const delta = Math.abs(currentY - lastY);
+      lastY = currentY;
+
+      const speedBoost = Math.min(MAX_SCROLL_SPEED_BOOST, delta / SCROLL_DELTA_NORMALIZER);
+      setFlowSpeed((prev) => prev + (1 + speedBoost - prev) * FLOW_SPEED_LERP_FACTOR);
+
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      timeoutId = setTimeout(() => {
+        setFlowSpeed((prev) => prev + (1 - prev) * FLOW_SPEED_LERP_FACTOR);
+      }, FLOW_SPEED_SETTLE_DELAY_MS);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, []);
 
   return (
     <section
       ref={sectionRef}
-      className={`relative w-full bg-[radial-gradient(ellipse_at_top,rgba(255,236,187,0.38)_0%,rgba(252,250,244,0.98)_42%,#f5f1e7_100%)] ${isMobile ? 'py-16' : DESKTOP_SCROLL_HEIGHT}`}
+      className="relative overflow-hidden bg-[radial-gradient(ellipse_at_top,rgba(255,236,187,0.48)_0%,rgba(252,250,244,0.98)_42%,#f5f1e7_100%)] py-28 md:py-36"
     >
       <style
         dangerouslySetInnerHTML={{
           __html: `
             @keyframes runePulse {
-              0% { transform: scale(1); opacity: 0.42; }
-              64% { transform: scale(1.4); opacity: 0; }
-              100% { transform: scale(1.4); opacity: 0; }
+              0% { transform: scale(0.95); opacity: 0.5; }
+              70% { transform: scale(1.35); opacity: 0; }
+              100% { transform: scale(1.35); opacity: 0; }
+            }
+            @keyframes spineRiver {
+              0% { transform: translateY(100%); }
+              100% { transform: translateY(-100%); }
+            }
+            @keyframes spineStreak {
+              0% { transform: translateY(100%); }
+              100% { transform: translateY(-100%); }
+            }
+            @keyframes spinePulse {
+              0%, 100% { opacity: 0.42; }
+              50% { opacity: 0.86; }
+            }
+            @keyframes cardFloat {
+              0%, 100% { transform: translateY(0px); }
+              50% { transform: translateY(-8px); }
+            }
+            @keyframes borderShine {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+            @keyframes cloudDriftLeft {
+              0% { transform: translate3d(0, 0, 0); }
+              100% { transform: translate3d(-6%, -4%, 0); }
+            }
+            @keyframes cloudDriftRight {
+              0% { transform: translate3d(0, 0, 0); }
+              100% { transform: translate3d(8%, 5%, 0); }
+            }
+            @keyframes nodeBurst {
+              0% { transform: scale(0.6); opacity: 0; }
+              25% { opacity: 0.7; }
+              100% { transform: scale(1.45); opacity: 0; }
+            }
+            @keyframes particleRise {
+              0% { transform: translateY(36px) scale(0.95); opacity: 0; }
+              10% { opacity: 0.55; }
+              100% { transform: translateY(-52px) scale(1.15); opacity: 0; }
             }
           `,
         }}
       />
 
-      <div className={`${isMobile ? 'relative' : 'sticky top-0 h-screen'} overflow-hidden`}>
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-20 left-[-10%] h-[55vh] w-[55vw] rounded-full bg-white/55 blur-3xl" />
-          <div className="absolute top-[26%] right-[-12%] h-[48vh] w-[45vw] rounded-full bg-[#fff8de]/80 blur-3xl" />
-          <div className="absolute bottom-[-14%] left-1/3 h-[42vh] w-[34vw] rounded-full bg-white/45 blur-3xl" />
-        </div>
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="absolute -left-[16%] top-[10%] h-[45vh] w-[52vw] rounded-full bg-white/35 blur-3xl" style={{ animation: 'cloudDriftLeft 20s ease-in-out infinite alternate' }} />
+        <div className="absolute -right-[14%] top-[35%] h-[48vh] w-[50vw] rounded-full bg-[#fff5db]/65 blur-3xl" style={{ animation: 'cloudDriftRight 24s ease-in-out infinite alternate' }} />
+        <div className="absolute left-1/2 top-0 h-full w-[420px] -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,rgba(255,223,154,0.38),rgba(255,223,154,0)_70%)]" />
 
-        {isMobile ? (
-          <div className="site-container relative">
-            <TimelineSpine progress={progress} activeIndex={activeIndex} nodePositions={nodePositions} runes={timelineData.map((item) => item.rune)} isMobile />
-            <div className="space-y-8 pl-16 pr-2">
-              {timelineData.map((stage, idx) => (
-                <div key={stage.id} className="relative">
-                  <span className="absolute -left-[2.8rem] top-5 grid h-9 w-9 place-items-center rounded-full border border-[#d6b26a]/80 bg-[#fff6df] text-[#906718] shadow-[0_0_16px_rgba(212,175,55,0.45)]">
-                    {stage.rune}
-                  </span>
+        {[...Array(PARTICLE_COUNT)].map((_, idx) => {
+          const left = PARTICLE_BASE_LEFT + ((idx * PARTICLE_LEFT_STEP) % PARTICLE_LEFT_RANGE);
+          const delay = (idx * 0.55).toFixed(2);
+          const duration = (4.8 + (idx % 4) * 0.7).toFixed(2);
+          return (
+            <span
+              key={idx}
+              className="absolute top-[calc(90%-20px)] h-[3px] w-[3px] rounded-full bg-[#f6ce7a]/70 blur-[0.4px]"
+              style={{
+                left: `${left}%`,
+                animation: `particleRise ${duration}s linear ${delay}s infinite`,
+              }}
+            />
+          );
+        })}
+      </div>
+
+      <div className="site-container relative z-[1]">
+        <TimelineSpine
+          activeIndex={activeIndex}
+          visibleNodes={visibleCards}
+          runes={timelineData.map((item) => item.rune)}
+          flowSpeed={flowSpeed}
+          isMobile={isMobile}
+        />
+
+        <div className="relative">
+          {timelineData.map((stage, idx) => {
+            const isVisible = visibleCards[idx];
+            const isActive = idx === activeIndex;
+
+            return (
+              <div
+                key={stage.id}
+                ref={(el) => {
+                  cardRefs.current[idx] = el;
+                }}
+                data-timeline-index={idx}
+                className={`relative ${idx === 0 ? 'mt-6' : 'mt-28 md:mt-32'}`}
+              >
+                <div className={`flex ${isMobile ? 'justify-start pl-16 pr-2' : stage.side === 'left' ? 'justify-start pr-[calc(50%+100px)]' : 'justify-end pl-[calc(50%+100px)]'}`}>
                   <TimelineCard
                     title={stage.title}
                     date={stage.date}
                     description={stage.description}
                     side={stage.side}
-                    isActive={idx === activeIndex}
-                    isMobile
+                    isVisible={isVisible}
+                    isActive={isActive}
+                    isMobile={isMobile}
                   />
                 </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="site-container relative h-full">
-            <div className="pointer-events-none absolute inset-0">
-              <div
-                className="absolute left-1/2 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,225,154,0.36),transparent_67%)] transition-all duration-500"
-                style={{ top: `calc(${activeGlowTop}% - 210px)` }}
-              />
-            </div>
-
-            <TimelineSpine progress={progress} activeIndex={activeIndex} nodePositions={nodePositions} runes={timelineData.map((item) => item.rune)} />
-
-            {timelineData.map((stage, idx) => {
-              const nodeTop = nodePositions[idx];
-              const isActive = idx === activeIndex;
-
-              return (
-                <div key={stage.id} className="absolute left-0 top-0 h-full w-full">
-                  <div className="absolute left-1/2 w-full" style={{ top: `${nodeTop}%`, transform: 'translate(-50%, -50%)' }}>
-                    <div className="relative flex items-center justify-center">
-                      <div className={`flex w-1/2 ${stage.side === 'left' ? 'justify-end pr-14' : 'justify-end pr-24'}`}>
-                        {stage.side === 'left' ? (
-                          <TimelineCard title={stage.title} date={stage.date} description={stage.description} side="left" isActive={isActive} />
-                        ) : (
-                          <span className={`font-serif text-sm uppercase tracking-[0.24em] text-[#ad7e20] transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-35'}`}>
-                            {stage.date}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className={`flex w-1/2 ${stage.side === 'right' ? 'justify-start pl-14' : 'justify-start pl-24'}`}>
-                        {stage.side === 'right' ? (
-                          <TimelineCard title={stage.title} date={stage.date} description={stage.description} side="right" isActive={isActive} />
-                        ) : (
-                          <span className={`font-serif text-sm uppercase tracking-[0.24em] text-[#ad7e20] transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-35'}`}>
-                            {stage.date}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
