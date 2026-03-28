@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState, useCallback } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useEffect, useRef, useState, useCallback } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const TOTAL_FRAMES = 160;
-const FRAME_DIR = '/ezgif-4228b47dc4eb8e89-jpg';
+const FRAME_DIR = "/ezgif-4228b47dc4eb8e89-jpg";
 
 function getFrameSrc(index: number): string {
-  const padded = String(index).padStart(3, '0');
+  const padded = String(index).padStart(3, "0");
   return `${FRAME_DIR}/ezgif-frame-${padded}.jpg`;
 }
 
@@ -63,7 +63,7 @@ export default function AsgardCanvas() {
       // Cover fill: maintain aspect ratio
       const scale = Math.max(
         canvas.width / img.naturalWidth,
-        canvas.height / img.naturalHeight
+        canvas.height / img.naturalHeight,
       );
       const w = img.naturalWidth * scale;
       const h = img.naturalHeight * scale;
@@ -86,34 +86,34 @@ export default function AsgardCanvas() {
           0,
           canvas.width / 2,
           canvas.height / 2,
-          canvas.width * 0.6
+          canvas.width * 0.6,
         );
         gradient.addColorStop(0, `rgba(255, 220, 120, ${bloomAlpha})`);
-        gradient.addColorStop(1, 'rgba(255, 200, 80, 0)');
+        gradient.addColorStop(1, "rgba(255, 200, 80, 0)");
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
     },
-    []
+    [],
   );
 
   // RAF render loop with lerp smoothing
   const renderLoop = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     // Lerp current frame toward target
     currentFrameRef.current = lerp(
       currentFrameRef.current,
       targetFrameRef.current,
-      0.12
+      0.12,
     );
 
     const frameIndex = Math.min(
       Math.round(currentFrameRef.current),
-      TOTAL_FRAMES - 1
+      TOTAL_FRAMES - 1,
     );
 
     const progress = scrollProgressRef.current;
@@ -141,16 +141,16 @@ export default function AsgardCanvas() {
       canvas.height = window.innerHeight;
     };
     resize();
-    window.addEventListener('resize', resize);
+    window.addEventListener("resize", resize);
 
     // Start render loop
     rafRef.current = requestAnimationFrame(renderLoop);
 
     // GSAP ScrollTrigger mapping scroll → frame
     const trigger = ScrollTrigger.create({
-      trigger: '#scroll-container',
-      start: 'top top',
-      end: () => "+=" + (window.innerHeight * 5),
+      trigger: "#scroll-container",
+      start: "top top",
+      end: () => "+=" + window.innerHeight * 5,
       scrub: 1.2,
       onUpdate: (self) => {
         const progress = self.progress;
@@ -160,7 +160,7 @@ export default function AsgardCanvas() {
     });
 
     return () => {
-      window.removeEventListener('resize', resize);
+      window.removeEventListener("resize", resize);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       trigger.kill();
     };
@@ -187,7 +187,7 @@ export default function AsgardCanvas() {
       <canvas
         ref={canvasRef}
         className={`absolute top-0 left-0 w-full h-full block -z-10 transition-opacity duration-800 ease-[ease] ${
-          loaded ? 'opacity-100' : 'opacity-0'
+          loaded ? "opacity-100" : "opacity-0"
         }`}
       />
     </>

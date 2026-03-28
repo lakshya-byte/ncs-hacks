@@ -1,16 +1,16 @@
 import type { Metadata } from 'next';
-import { Cinzel } from 'next/font/google';
+import { Cinzel, Skranji, Germania_One, Montserrat, Noto_Sans } from 'next/font/google';
 import './globals.css';
 import LenisProvider from './components/utils/LenisProvider';
 import Navbar from './components/ui/Navbar';
 import Footer from './components/ui/Footer';
 import AudioSystem from './components/ui/AudioSystem';
 
-const cinzel = Cinzel({
-  subsets: ['latin'],
-  weight: ['400', '700', '900'],
-  variable: '--font-cinzel',
-});
+const cinzel = Cinzel({ subsets: ['latin'], weight: ['400', '700', '900'], variable: '--font-cinzel' });
+const skranji = Skranji({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-skranji' });
+const germania = Germania_One({ subsets: ['latin'], weight: ['400'], variable: '--font-germania' });
+const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500', '600', '800'], variable: '--font-montserrat' });
+const notoSans = Noto_Sans({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-noto' });
 
 export const metadata: Metadata = {
   title: 'Asgard — Where Gods Build Legends',
@@ -28,7 +28,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={cinzel.variable}>
+    <html lang="en" className={`${cinzel.variable} ${skranji.variable} ${germania.variable} ${montserrat.variable} ${notoSans.variable}`}>
       <body>
         <LenisProvider>
           <AudioSystem />

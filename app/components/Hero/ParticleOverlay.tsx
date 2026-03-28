@@ -187,12 +187,11 @@ function ParticleText({ scrollProgress, isMobile }: { scrollProgress: number, is
 export default function ParticleOverlay() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
-  const [isMobile, setIsMobile] = useState(() => 
-    typeof window !== 'undefined' ? window.innerWidth < 768 : false
-  );
+  const [isMobile, setIsMobile] = useState(false); // Start false to match SSR
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mediaQuery.matches); // Hydrate immediate client width
     const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
     mediaQuery.addEventListener("change", handler);
     return () => mediaQuery.removeEventListener("change", handler);

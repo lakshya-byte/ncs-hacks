@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@theme {
+  --font-serif: var(--font-cinzel);
+  --font-display: var(--font-skranji);
+  --font-sans: var(--font-montserrat);
+  --font-rune: var(--font-noto);
+}
+
 /* ══════════════════════════════════════════════════════════
    GLOBAL RESET
 ══════════════════════════════════════════════════════════ */
@@ -18,6 +25,10 @@
   --gold:             #c9a227;
   --gold-light:       #f5d980;
   --font-cinzel:      'Cinzel', serif;
+  --font-skranji:     'Skranji', system-ui, sans-serif;
+  --font-germania:    'Germania One', system-ui, sans-serif;
+  --font-montserrat:  'Montserrat', sans-serif;
+  --font-noto:        'Noto Sans', sans-serif;
   color-scheme:       dark;
 
   /* ── CANONICAL LAYOUT SYSTEM ─────────────────────────── */
@@ -41,8 +52,8 @@ html {
   -ms-overflow-style: none;
   /* Prevent horizontal overflow on all viewports without breaking CSS position: sticky */
   overflow-x: clip; 
-  /* Custom Viking Cursor (Helmet) */
-  cursor: url('/vikings/Vikings--cursor--SweezyCursors.cur'), auto;
+  /* Custom Gold & Blue Diamond Cursor */
+  cursor: url('/Gold & Blue Diamond/Gold & Blue Diamond--cursor--SweezyCursors.cur'), auto;
 }
 
 html::-webkit-scrollbar { display: none; }
@@ -61,7 +72,7 @@ body {
   min-height: -webkit-fill-available;
 }
 
-/* Custom Viking Pointer (Axe) for Interactive Elements */
+/* Custom Gold & Blue Diamond Pointer for Interactive Elements */
 a, 
 button, 
 [role="button"], 
@@ -71,7 +82,9 @@ label,
 select,
 summary,
 .cursor-pointer {
-  cursor: url('/vikings/Vikings--pointer--SweezyCursors.cur'), pointer;
+  cursor: url('/Gold & Blue Diamond/Gold & Blue Diamond--pointer--SweezyCursors.cur'), pointer;
+  height: 16px;
+  width: 16px;
 }
 
 body::-webkit-scrollbar { display: none; }

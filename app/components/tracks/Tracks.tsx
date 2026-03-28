@@ -314,14 +314,15 @@ export default function HackathonTracks() {
                             <div className="absolute -inset-8 bg-gradient-to-tr from-[#E6B800] via-[#FFF5A0] to-[#E6B800] bg-[size:300%_300%] animate-[borderEnergy_6s_ease-in-out_infinite] blur-[8px] opacity-100" />
                             
                             {/* Inner Image Container */}
-                            <div className="relative w-full h-full rounded-[calc(2rem-4px)] md:rounded-[calc(2rem-6px)] overflow-hidden bg-[#0A0F1C] z-10">
+                            <div className="relative z-10 h-full w-full overflow-hidden rounded-[calc(2rem-4px)] bg-[#0A0F1C] md:rounded-[calc(2rem-6px)]">
                               <Image 
                                 src={track.image}
                                 alt={track.title}
                                 fill
+                                sizes="(max-width: 768px) 300px, 420px"
                                 className="object-cover brightness-105"
                               />
-                              <div className="absolute inset-0 shadow-[inset_0_0_30px_rgba(255,215,0,0.3)] mix-blend-screen pointer-events-none z-20" />
+                              <div className="pointer-events-none absolute inset-0 z-20 mix-blend-screen shadow-[inset_0_0_30px_rgba(255,215,0,0.3)]" />
                             </div>
                             
                           </div>

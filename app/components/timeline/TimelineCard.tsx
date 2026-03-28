@@ -1,54 +1,87 @@
 'use client';
 
-import React from 'react';
-
-const CARD_TILT_Y_DEGREES = 5;
-const CARD_TILT_X_DEGREES = 1;
+import React, { useRef, useState } from 'react';
 
 type TimelineCardProps = {
   title: string;
   date: string;
   description: string;
   side: 'left' | 'right';
-  isVisible: boolean;
-  isActive: boolean;
-  isMobile?: boolean;
+  className?: string;
 };
 
-export default function TimelineCard({ title, date, description, side, isVisible, isActive, isMobile = false }: TimelineCardProps) {
-  const alignClass = side === 'left' ? 'md:text-right' : 'md:text-left';
+export default function TimelineCard({ title, date, description, side, className = '' }: TimelineCardProps) {
+  const isLeft = side === 'left';
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [rotation, setRotation] = useState({ x: 0, y: 0 });
 
-  const tiltRotate = !isMobile && side === 'left'
-    ? `rotateY(${CARD_TILT_Y_DEGREES}deg) rotateX(${CARD_TILT_X_DEGREES}deg)`
-    : !isMobile
-      ? `rotateY(-${CARD_TILT_Y_DEGREES}deg) rotateX(${CARD_TILT_X_DEGREES}deg)`
-      : 'none';
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = ((y - centerY) / centerY) * -8; // max 8 deg tilt
+    const rotateY = ((x - centerX) / centerX) * 8;
+    
+    setRotation({ x: rotateX, y: rotateY });
+  };
+
+  const handleMouseLeave = () => {
+    setRotation({ x: 0, y: 0 });
+  };
 
   return (
-    <article
-      className={`group relative overflow-hidden rounded-[1.7rem] border border-transparent p-[1px] transition-all duration-700 ${
-        isVisible ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-10 scale-95 opacity-0'
-      } ${isMobile ? 'w-full' : 'w-[min(450px,92%)]'}`}
-      style={{
-        transformStyle: isMobile ? 'flat' : 'preserve-3d',
-        transform: isVisible ? `${tiltRotate} translateY(0px)` : `${tiltRotate} translateY(32px)`,
-      }}
+    <article 
+      className={`relative w-full perspective-[1200px] ${className}`}
     >
-      <div className="absolute inset-0 rounded-[inherit] bg-[conic-gradient(from_140deg,rgba(255,227,160,0.98),rgba(240,189,83,0.45),rgba(255,248,225,0.9),rgba(239,178,67,0.52),rgba(255,227,160,0.98))]" style={{ animation: 'borderShine 4.6s linear infinite' }} />
-
       <div
-        className={`relative rounded-[calc(1.7rem-1px)] border border-white/35 bg-[linear-gradient(155deg,rgba(255,255,255,0.62),rgba(255,248,230,0.3))] px-6 py-6 backdrop-blur-[30px] ${alignClass} ${
-          isActive ? 'shadow-[0_30px_70px_rgba(177,129,42,0.28),inset_0_1px_0_rgba(255,255,255,0.7)]' : 'shadow-[0_22px_55px_rgba(148,111,35,0.18),inset_0_1px_0_rgba(255,255,255,0.6)]'
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className={`relative flex flex-col justify-center overflow-hidden rounded-[2rem] border-[2px] border-[#d4af37]/50 bg-white/40 p-8 backdrop-blur-[24px] transition-[transform,border-color,box-shadow,background-color] duration-300 ease-out hover:border-[#d4af37]/80 hover:bg-white/50 md:p-12 md:px-14 ${
+          isLeft ? 'items-start text-left md:items-end md:text-right' : 'items-start text-left md:items-start md:text-left'
         }`}
-        style={{ animation: isMobile ? 'none' : 'cardFloat 6.2s ease-in-out infinite' }}
+        style={{
+          transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
+          boxShadow: '0 16px 40px -10px rgba(218,165,32,0.15), inset 0 2px 0 rgba(255,255,255,0.7)',
+        }}
       >
-        <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[radial-gradient(circle_at_18%_12%,rgba(255,255,255,0.6),rgba(255,255,255,0)_44%)]" />
-        <div className="pointer-events-none absolute inset-[1px] rounded-[calc(1.7rem-2px)] border border-[#f8e6bd]/35" />
+        {/* Soft Background Radial Glow inside the card */}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.8),transparent_60%)] opacity-70" />
 
-        <p className="relative font-serif text-xs uppercase tracking-[0.25em] text-[#b38224] md:text-sm">{date}</p>
-        <h3 className="relative mt-2 font-serif text-[1.35rem] leading-tight text-[#2f2616] md:text-[1.8rem]">{title}</h3>
-        <p className="relative mt-3 text-sm leading-relaxed text-[#5a4a36] md:text-[0.98rem]">{description}</p>
+        {/* Inner Gold Accent Shine */}
+        <div className="pointer-events-none absolute inset-0 rounded-[inherit] border border-[#f8e6bd]/40" />
+
+        {/* Dynamic Highlight tied to mouse tilt! */}
+        <div 
+          className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/0 via-white/40 to-white/0 transition-opacity duration-300"
+          style={{ opacity: (Math.abs(rotation.x) + Math.abs(rotation.y)) > 2 ? 1 : 0 }}
+        />
+
+        {/* Text Container: Full width respecting padding natively. Removes hardcoded widths that risked shifting. */}
+        <div className="relative z-10 flex min-w-0 w-full flex-col gap-3 break-words">
+          <p className="font-serif text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[#b38224] md:text-xs">
+            {date}
+          </p>
+          <h3 
+            className="text-3xl leading-none text-[#2f2616] md:text-[2.75rem]" 
+            style={{ fontFamily: 'var(--font-skranji), system-ui, sans-serif' }}
+          >
+            {title}
+          </h3>
+          <p 
+            className="mt-1 text-sm font-light leading-relaxed tracking-wide text-[#5a4a36] text-balance md:text-base" 
+            style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
+          >
+            {description}
+          </p>
+        </div>
       </div>
     </article>
   );
 }
+
