@@ -41,6 +41,8 @@ html {
   -ms-overflow-style: none;
   /* Prevent horizontal overflow on all viewports without breaking CSS position: sticky */
   overflow-x: clip; 
+  /* Custom Viking Cursor (Helmet) */
+  cursor: url('/vikings/Vikings--cursor--SweezyCursors.cur'), auto;
 }
 
 html::-webkit-scrollbar { display: none; }
@@ -57,6 +59,19 @@ body {
   width: 100%;
   max-width: 100%;
   min-height: -webkit-fill-available;
+}
+
+/* Custom Viking Pointer (Axe) for Interactive Elements */
+a, 
+button, 
+[role="button"], 
+input[type="submit"], 
+input[type="button"], 
+label,
+select,
+summary,
+.cursor-pointer {
+  cursor: url('/vikings/Vikings--pointer--SweezyCursors.cur'), pointer;
 }
 
 body::-webkit-scrollbar { display: none; }

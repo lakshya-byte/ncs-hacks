@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 
-const AUDIO_SRC = '/nickpanekaiassets-viking-chant-ancient-norse-style-401648 (1).mp3';
+const AUDIO_SRC = '/music/nickpanekaiassets-viking-chant-ancient-norse-style-401648 (1).mp3';
 const START_TIME = 0; // Start at 0s
 const LOOP_END = 27;  // Loop exactly when hitting 27s
 
