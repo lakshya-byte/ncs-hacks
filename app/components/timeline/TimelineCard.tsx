@@ -2,6 +2,9 @@
 
 import React from 'react';
 
+const CARD_TILT_Y_DEGREES = 5;
+const CARD_TILT_X_DEGREES = 1;
+
 type TimelineCardProps = {
   title: string;
   date: string;
@@ -15,7 +18,11 @@ type TimelineCardProps = {
 export default function TimelineCard({ title, date, description, side, isVisible, isActive, isMobile = false }: TimelineCardProps) {
   const alignClass = side === 'left' ? 'md:text-right' : 'md:text-left';
 
-  const tiltRotate = !isMobile && side === 'left' ? 'rotateY(5deg) rotateX(1deg)' : !isMobile ? 'rotateY(-5deg) rotateX(1deg)' : 'none';
+  const tiltRotate = !isMobile && side === 'left'
+    ? `rotateY(${CARD_TILT_Y_DEGREES}deg) rotateX(${CARD_TILT_X_DEGREES}deg)`
+    : !isMobile
+      ? `rotateY(-${CARD_TILT_Y_DEGREES}deg) rotateX(${CARD_TILT_X_DEGREES}deg)`
+      : 'none';
 
   return (
     <article

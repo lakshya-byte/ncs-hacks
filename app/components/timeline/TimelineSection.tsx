@@ -63,6 +63,17 @@ const timelineData = [
   },
 ] as const;
 
+const CARD_REVEAL_THRESHOLD = 0.32;
+const CARD_REVEAL_ROOT_MARGIN = '0px 0px -10% 0px';
+const MAX_SCROLL_SPEED_BOOST = 1.8;
+const SCROLL_DELTA_NORMALIZER = 16;
+const FLOW_SPEED_LERP_FACTOR = 0.18;
+const FLOW_SPEED_SETTLE_DELAY_MS = 130;
+const PARTICLE_BASE_LEFT = 42;
+const PARTICLE_LEFT_STEP = 11;
+const PARTICLE_LEFT_RANGE = 22;
+const PARTICLE_COUNT = 14;
+
 export default function TimelineSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
@@ -89,7 +100,12 @@ export default function TimelineSection() {
 
           for (const entry of entries) {
             const idx = Number((entry.target as HTMLElement).dataset.timelineIndex);
-            if (Number.isNaN(idx)) continue;
+            if (Number.isNaN(idx)) {
+              if (process.env.NODE_ENV === 'development') {
+                console.warn('Timeline card missing valid data-timeline-index');
+              }
+              continue;
+            }
 
             if (entry.isIntersecting && !next[idx]) {
               next[idx] = true;
@@ -107,8 +123,8 @@ export default function TimelineSection() {
       },
       {
         root: null,
-        threshold: 0.32,
-        rootMargin: '0px 0px -10% 0px',
+        threshold: CARD_REVEAL_THRESHOLD,
+        rootMargin: CARD_REVEAL_ROOT_MARGIN,
       },
     );
 
@@ -128,16 +144,16 @@ export default function TimelineSection() {
       const delta = Math.abs(currentY - lastY);
       lastY = currentY;
 
-      const speedBoost = Math.min(1.8, delta / 16);
-      setFlowSpeed((prev) => prev + (1 + speedBoost - prev) * 0.18);
+      const speedBoost = Math.min(MAX_SCROLL_SPEED_BOOST, delta / SCROLL_DELTA_NORMALIZER);
+      setFlowSpeed((prev) => prev + (1 + speedBoost - prev) * FLOW_SPEED_LERP_FACTOR);
 
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
 
       timeoutId = setTimeout(() => {
-        setFlowSpeed((prev) => prev + (1 - prev) * 0.18);
-      }, 130);
+        setFlowSpeed((prev) => prev + (1 - prev) * FLOW_SPEED_LERP_FACTOR);
+      }, FLOW_SPEED_SETTLE_DELAY_MS);
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -210,8 +226,8 @@ export default function TimelineSection() {
         <div className="absolute -right-[14%] top-[35%] h-[48vh] w-[50vw] rounded-full bg-[#fff5db]/65 blur-3xl" style={{ animation: 'cloudDriftRight 24s ease-in-out infinite alternate' }} />
         <div className="absolute left-1/2 top-0 h-full w-[420px] -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,rgba(255,223,154,0.38),rgba(255,223,154,0)_70%)]" />
 
-        {[...Array(14)].map((_, idx) => {
-          const left = 42 + ((idx * 11) % 22);
+        {[...Array(PARTICLE_COUNT)].map((_, idx) => {
+          const left = PARTICLE_BASE_LEFT + ((idx * PARTICLE_LEFT_STEP) % PARTICLE_LEFT_RANGE);
           const delay = (idx * 0.55).toFixed(2);
           const duration = (4.8 + (idx % 4) * 0.7).toFixed(2);
           return (
