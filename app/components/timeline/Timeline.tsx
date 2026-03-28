@@ -121,7 +121,7 @@ export default function Timeline() {
   return (
     <section
       ref={sectionRef}
-      className={`relative w-full bg-[radial-gradient(ellipse_at_top,rgba(255,233,173,0.36)_0%,rgba(250,250,248,0.98)_40%,#f6f4ee_100%)] ${isMobile ? 'py-16' : DESKTOP_SCROLL_HEIGHT}`}
+      className={`relative w-full bg-[radial-gradient(ellipse_at_top,rgba(255,233,173,0.36)_0%,rgba(250,250,248,0.98)_40%,#f6f4ee_100%)] ${isMobile ? 'section-main' : DESKTOP_SCROLL_HEIGHT}`}
     >
       <style
         dangerouslySetInnerHTML={{
@@ -143,9 +143,9 @@ export default function Timeline() {
         </div>
 
         {isMobile ? (
-          <div className="site-container relative">
+          <div className="container-main relative">
             <div className="absolute left-6 top-4 bottom-4 w-[2px] bg-gradient-to-b from-[#f1ddb5] via-[#d9b96e] to-[#f1ddb5]" />
-            <div className="space-y-8 pl-16 pr-2">
+            <div className="space-y-8 pl-16 pr-4">
               {timelineData.map((stage, idx) => (
                 <div key={stage.id} className="relative rounded-2xl border border-[#d6b26a]/45 bg-white/75 p-5 shadow-[0_16px_40px_rgba(159,123,49,0.16)] backdrop-blur-xl">
                   <span className="absolute -left-[2.8rem] top-6 grid h-9 w-9 place-items-center rounded-full border border-[#d6b26a]/80 bg-[#fff6df] text-[#906718] shadow-[0_0_16px_rgba(212,175,55,0.45)]">
@@ -160,7 +160,7 @@ export default function Timeline() {
             </div>
           </div>
         ) : (
-          <div className="site-container relative h-full">
+          <div className="container-main relative h-full">
             <div className="pointer-events-none absolute inset-0">
               <div
                 className="absolute left-1/2 w-[420px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,224,151,0.32),transparent_67%)] transition-all duration-500"

@@ -50,13 +50,13 @@ export default function GodLevelFooter() {
     <>
       <footer
         ref={footerRef}
-        className="relative w-full overflow-hidden bg-[#FAFAF8] text-slate-800 pt-24 pb-8 selection:bg-[#FFD700]/30 selection:text-slate-900 z-10 border-t border-[#FFD700]/20"
+        className="relative w-full overflow-hidden bg-[#FAFAF8] text-slate-800 section-main pb-8 selection:bg-[#FFD700]/30 selection:text-slate-900 z-10 border-t border-[#FFD700]/20"
       >
         {/* ════ DIVINE BACKGROUND AMBIENCE ════ */}
         <div className="ambient-bg absolute top-0 left-1/2 -translate-x-1/2 w-[120vw] max-w-[1400px] h-[800px] bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.08)_0%,rgba(250,250,248,0)_70%)] pointer-events-none -z-10" />
 
         {/* ── Site-standard centred container ── */}
-        <div className="site-container relative z-10 flex flex-col items-center">
+        <div className="container-main relative z-10 flex flex-col items-center">
           
           {/* ════ FINAL CTA ECHO ════ */}
           <div className="flex flex-col items-center text-center mb-24 w-full">
@@ -69,10 +69,10 @@ export default function GodLevelFooter() {
           </div>
 
           {/* ════ MAIN GRID (3 columns) ════ */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 w-full mb-24 items-start">
+          <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-6 md:gap-8 lg:gap-12 w-full mb-24 items-start">
             
             {/* ── COLUMN 1: IDENTITY & SOCIALS ── */}
-            <div className="reveal-col flex flex-col gap-8 md:justify-self-start">
+            <div className="reveal-col col-span-4 md:col-span-4 lg:col-span-4 flex flex-col gap-8 md:justify-self-start">
               <div className="flex flex-col gap-3">
                 <h3 className="font-serif text-[11px] font-bold tracking-[0.25em] text-[#B8860B] uppercase">
                   Nibble Contacts
@@ -102,7 +102,7 @@ export default function GodLevelFooter() {
             </div>
 
             {/* ── COLUMN 2: THE GATEWAY MAP (CENTERPIECE) ── */}
-            <div className="reveal-col flex flex-col gap-8 items-center text-center md:justify-self-center">
+            <div className="reveal-col col-span-4 md:col-span-4 lg:col-span-4 flex flex-col gap-8 items-center text-center md:justify-self-center">
               <div className="flex flex-col gap-3 items-center">
                 <h3 className="font-serif text-[11px] font-bold tracking-[0.25em] text-[#B8860B] uppercase">
                   Gateway Coordinates
@@ -141,7 +141,7 @@ export default function GodLevelFooter() {
             </div>
 
             {/* ── COLUMN 3: TRANSMISSIONS & NOTICES ── */}
-            <div className="reveal-col flex flex-col gap-8 md:justify-self-end w-full max-w-[280px]">
+            <div className="reveal-col col-span-4 md:col-span-8 lg:col-span-4 flex flex-col gap-8 md:justify-self-end w-full max-w-[280px]">
               <div className="flex flex-col gap-3">
                 <h3 className="font-serif text-[11px] font-bold tracking-[0.25em] text-[#B8860B] uppercase">
                   Comm Transmissions
@@ -201,7 +201,7 @@ export default function GodLevelFooter() {
                   </span>
                 </h4>
                 <p className="font-sans text-[12px] text-slate-600/90 leading-relaxed font-light italic">
-                  "The event commences when the portal opens. Bring your systems. Innovation awaits beyond the rift!"
+                  &quot;The event commences when the portal opens. Bring your systems. Innovation awaits beyond the rift!&quot;
                 </p>
               </div>
             </div>
@@ -229,8 +229,8 @@ export default function GodLevelFooter() {
 
           {/* ════ COPYRIGHT ════ */}
           <div className="mt-12 text-center reveal-col w-full border-t border-slate-200/60 pt-6">
-            <p className="font-sans text-[10px] tracking-[0.2em] text-slate-400 uppercase">
-              © {new Date().getFullYear()} The NIOH Post | All Rights Reserved | "Stay Curious"
+              <p className="font-sans text-[10px] tracking-[0.2em] text-slate-400 uppercase">
+                © {new Date().getFullYear()} The NIOH Post | All Rights Reserved | &quot;Stay Curious&quot;
               <br />
               <span className="text-[#B8860B] mt-2 block font-medium">Transmitted by JSS Academy Creative Labs</span>
             </p>

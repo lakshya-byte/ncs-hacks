@@ -22,12 +22,12 @@
 
   /* ── CANONICAL LAYOUT SYSTEM ─────────────────────────── */
   /* Single source of truth — every section uses these */
-  --site-max-width:   1280px;               /* matches Tailwind max-w-7xl  */
-  --site-gutter:      clamp(1.5rem, 4vw, 4rem); /* responsive side padding */
+  --site-max-width:   1200px;
+  --site-gutter:      24px;
 
   /* ── SPACING SCALE ───────────────────────────────────── */
-  --space-section:    5rem;        /* py-20 — default section padding       */
-  --space-section-lg: 7rem;       /* py-28 — large sections                */
+  --space-section:    6.25rem;    /* 100px */
+  --space-section-lg: 8.75rem;    /* 140px */
   --gap-grid:         1.5rem;     /* gap-6  — default grid / flex gap      */
   --gap-grid-lg:      2rem;       /* gap-8  — wider grid gap               */
 }
@@ -67,22 +67,24 @@ body::-webkit-scrollbar { display: none; }
    Provides: centred content with consistent gutters.
    Every content section MUST use this wrapper.
 ══════════════════════════════════════════════════════════ */
+.container-main,
 .site-container {
   width: 100%;
   max-width: var(--site-max-width);
   margin-inline: auto;           /* centres the block */
-  padding-inline: 0.75rem;       /* px-3 on mobile */
+  padding-left: var(--site-gutter);
+  padding-right: var(--site-gutter);
 }
 
-@media (min-width: 768px) {
-  .site-container {
-    padding-inline: 1rem;        /* px-4 on tablet */
-  }
+.section-main {
+  padding-top: var(--space-section);
+  padding-bottom: var(--space-section);
 }
 
-@media (min-width: 1280px) {
-  .site-container {
-    padding-inline: 1.5rem;      /* px-6 on desktop */
+@media (min-width: 1024px) {
+  .section-main {
+    padding-top: var(--space-section-lg);
+    padding-bottom: var(--space-section-lg);
   }
 }
 
