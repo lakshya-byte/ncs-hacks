@@ -65,8 +65,10 @@ const timelineData = [
   },
 ] as const;
 
-const TOP_START = 14;
-const TOP_END = 86;
+const TOP_START_PERCENT = 14;
+const TOP_END_PERCENT = 86;
+const DESKTOP_SCROLL_HEIGHT = 'h-[360vh]';
+const PROGRESS_EPSILON = 0.001;
 
 export default function Timeline() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -75,8 +77,9 @@ export default function Timeline() {
   const [isMobile, setIsMobile] = useState(false);
 
   const nodePositions = useMemo(() => {
-    const step = (TOP_END - TOP_START) / (timelineData.length - 1);
-    return timelineData.map((_, idx) => TOP_START + idx * step);
+    if (timelineData.length <= 1) return [50];
+    const step = (TOP_END_PERCENT - TOP_START_PERCENT) / (timelineData.length - 1);
+    return timelineData.map((_, idx) => TOP_START_PERCENT + idx * step);
   }, []);
 
   useEffect(() => {
@@ -98,7 +101,7 @@ export default function Timeline() {
         scrub: true,
         onUpdate: (self) => {
           const currentProgress = self.progress;
-          setProgress((prev) => (Math.abs(prev - currentProgress) > 0.001 ? currentProgress : prev));
+          setProgress((prev) => (Math.abs(prev - currentProgress) > PROGRESS_EPSILON ? currentProgress : prev));
 
           const nextIndex = Math.min(timelineData.length - 1, Math.floor(currentProgress * timelineData.length));
           setActiveIndex((prev) => (prev !== nextIndex ? nextIndex : prev));
@@ -118,7 +121,7 @@ export default function Timeline() {
   return (
     <section
       ref={sectionRef}
-      className={`relative w-full bg-[radial-gradient(ellipse_at_top,rgba(255,233,173,0.36)_0%,rgba(250,250,248,0.98)_40%,#f6f4ee_100%)] ${isMobile ? 'py-16' : 'h-[360vh]'}`}
+      className={`relative w-full bg-[radial-gradient(ellipse_at_top,rgba(255,233,173,0.36)_0%,rgba(250,250,248,0.98)_40%,#f6f4ee_100%)] ${isMobile ? 'py-16' : DESKTOP_SCROLL_HEIGHT}`}
     >
       <style
         dangerouslySetInnerHTML={{
@@ -182,7 +185,7 @@ export default function Timeline() {
 
               return (
                 <div key={stage.id} className="absolute left-0 top-0 h-full w-full">
-                  <div className="absolute left-1/2 w-full -translate-x-1/2" style={{ top: `${nodeTop}%`, transform: 'translateY(-50%)' }}>
+                  <div className="absolute left-1/2 w-full" style={{ top: `${nodeTop}%`, transform: 'translate(-50%, -50%)' }}>
                     <div className="relative flex items-center justify-center">
                       <div className={`flex w-1/2 ${stage.side === 'left' ? 'justify-end pr-14' : 'justify-end pr-24'}`}>
                         {stage.side === 'left' ? (
@@ -199,7 +202,7 @@ export default function Timeline() {
                             <p className="mt-3 text-[0.97rem] leading-relaxed text-[#595041]">{stage.description}</p>
                           </article>
                         ) : (
-                          <span className={`font-serif text-sm uppercase tracking-[0.24em] text-[#ad7e20] transition-opacity duration-400 ${isActive ? 'opacity-100' : 'opacity-35'}`}>
+                          <span className={`font-serif text-sm uppercase tracking-[0.24em] text-[#ad7e20] transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-35'}`}>
                             {stage.date}
                           </span>
                         )}
@@ -240,7 +243,7 @@ export default function Timeline() {
                             <p className="mt-3 text-[0.97rem] leading-relaxed text-[#595041]">{stage.description}</p>
                           </article>
                         ) : (
-                          <span className={`font-serif text-sm uppercase tracking-[0.24em] text-[#ad7e20] transition-opacity duration-400 ${isActive ? 'opacity-100' : 'opacity-35'}`}>
+                          <span className={`font-serif text-sm uppercase tracking-[0.24em] text-[#ad7e20] transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-35'}`}>
                             {stage.date}
                           </span>
                         )}
