@@ -35,6 +35,9 @@ const Sponsors = dynamic(() => import('./components/sponsors/Sponsors'), {
 const CallToAction = dynamic(() => import('./components/CTA/CallToAction'), {
   ssr: false,
 });
+const PrizesSection = dynamic(() => import('./components/prizes/PrizesSection'), {
+  ssr: false,
+});
 
 export default function Home() {
   return (
@@ -68,6 +71,7 @@ export default function Home() {
         <section id="sponsors">
           <PhotoStream />
           <Sponsors />
+          <PrizesSection />
         </section>
         <CallToAction />
       </div>
