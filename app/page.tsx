@@ -23,7 +23,7 @@ const AboutNibble = dynamic(() => import('./components/aboutNibble/AboutNibble')
 const HackathonTracks = dynamic(() => import('./components/tracks/Tracks'), {
   ssr: false,
 });
-const Timeline = dynamic(() => import('./components/timeline/Timeline'), {
+const TimelineSection = dynamic(() => import('./components/timeline/TimelineSection'), {
   ssr: false,
 });
 const PhotoStream = dynamic(() => import('./components/previous/PhotoStream'), {
@@ -63,7 +63,7 @@ export default function Home() {
           <HackathonTracks />
         </section>
         <section id="timeline">
-          <Timeline />
+          <TimelineSection />
         </section>
         <section id="sponsors">
           <PhotoStream />
