@@ -53,7 +53,6 @@ html {
   /* Prevent horizontal overflow on all viewports without breaking CSS position: sticky */
   overflow-x: clip; 
   /* Custom Gold & Blue Diamond Cursor */
-  cursor: url('/Gold & Blue Diamond/Gold & Blue Diamond--cursor--SweezyCursors.cur'), auto;
 }
 
 html::-webkit-scrollbar { display: none; }
@@ -82,7 +81,6 @@ label,
 select,
 summary,
 .cursor-pointer {
-  cursor: url('/Gold & Blue Diamond/Gold & Blue Diamond--pointer--SweezyCursors.cur'), pointer;
   height: 16px;
   width: 16px;
 }
