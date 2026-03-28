@@ -66,6 +66,7 @@ export default function MascotView({ model, mascotRef, onHoverChange, onClickMas
             height={120}
             sizes="(max-width: 768px) 78px, 104px"
             priority={false}
+            unoptimized={true}
             style={{
               transform: `translate3d(0, ${(model.pulse * -4).toFixed(2)}px, 0)`,
               transition: 'transform 240ms ease',

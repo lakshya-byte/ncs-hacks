@@ -159,6 +159,7 @@ export default function KingdomOfNibble() {
                 src="/aboutNibbleBackground.png"
                 alt="Divine structure of the Kingdom of Nibble"
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 600px"
                 className="object-cover object-center opacity-60 mix-blend-luminosity group-hover:mix-blend-normal transition-all duration-1000"
               />
               
