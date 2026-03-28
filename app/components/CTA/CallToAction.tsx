@@ -84,7 +84,7 @@ export default function CallToAction() {
   return (
     <section 
       ref={containerRef} 
-      className="relative w-full min-h-[50vh] md:h-screen h-auto flex flex-col items-center justify-center py-28 md:py-0 overflow-hidden bg-[#05080f] text-white"
+      className="relative w-full min-h-[50vh] md:h-screen h-auto flex flex-col items-center justify-center section-main md:py-0 overflow-hidden bg-[#05080f] text-white"
     >
       {/* ── BACKGROUND LAYER ── */}
       {/* Ambient background glow (radial light) */}
@@ -102,7 +102,7 @@ export default function CallToAction() {
       </div>
 
       {/* ── CONTENT CONTAINER ── */}
-      <div className="relative z-10 flex flex-col items-center text-center px-4 site-container pointer-events-auto">
+      <div className="relative z-10 flex flex-col items-center text-center container-main pointer-events-auto">
         
         {/* Optional Floating Rune / Symbol */}
         <div 

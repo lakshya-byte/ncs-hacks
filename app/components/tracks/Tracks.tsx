@@ -106,12 +106,12 @@ export default function HackathonTracks() {
       {/* ══ RESPONSIVE PINNED LAYOUT ══ */}
       <div className="relative z-10 w-full h-[100dvh] flex items-center justify-center pointer-events-none">
         {/* We use pointer-events-none on wrapper to pass swipe physics down cleanly, re-enable for interactivity inside */}
-        <div className="site-container relative flex items-center justify-center w-full h-full max-h-[900px] py-12 md:py-0 pointer-events-auto">
+        <div className="container-main relative flex items-center justify-center w-full h-full max-h-[900px] py-12 md:py-0 pointer-events-auto">
           
-          <div className="w-full flex flex-col md:grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-16 items-center justify-center">
+          <div className="w-full grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-6 md:gap-8 lg:gap-12 items-center justify-center">
             
             {/* TEXT SIDE */}
-            <div className="flex flex-col items-center md:items-start text-center md:text-left order-first md:order-0">
+            <div className="col-span-4 md:col-span-4 lg:col-span-5 flex flex-col items-center md:items-start text-center md:text-left order-first md:order-0">
               <span
                 className="font-serif leading-none text-transparent select-none"
                 style={{
@@ -135,7 +135,7 @@ export default function HackathonTracks() {
             </div>
 
             {/* VISUAL SIDE */}
-            <div className="flex items-center justify-center w-full mt-2 md:mt-0">
+            <div className="col-span-4 md:col-span-4 lg:col-span-7 flex items-center justify-center w-full mt-2 md:mt-0">
               <div className="relative w-[75%] max-w-[300px] md:w-full md:max-w-[420px] aspect-square">
                 {tracks.map((track, idx) => {
                   const isActive = idx === activeIndex;

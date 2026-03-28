@@ -216,10 +216,10 @@ export default function AboutNibble() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#FAFAF8] via-transparent to-[#FAFAF8] opacity-90" />
       </div>
 
-      <div className="site-container relative z-10 flex flex-col items-center">
+      <div className="container-main relative z-10 flex flex-col items-center">
         
         {/* 1. DIVIDER TRANSITION (TOP) */}
-        <div className="w-full flex justify-center pt-24 pb-12">
+        <div className="w-full flex justify-center pt-24 pb-8">
           <div 
             ref={dividerRef} 
             className="h-px w-3/4 max-w-2xl bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent shadow-[0_0_15px_rgba(212,175,55,0.8)] opacity-0 origin-center"
@@ -246,7 +246,7 @@ export default function AboutNibble() {
         <div className="w-full min-h-[max(25vh,200px)] pointer-events-none" />
 
         {/* 4. PORTRAITS ROW (HORIZONTAL SNAP SCROLL ON MOBILE) */}
-        <div className="w-full max-w-6xl px-4 py-4 flex flex-row overflow-x-auto snap-x snap-mandatory md:overflow-visible md:snap-none md:justify-center items-center gap-6 lg:gap-8 mb-20 z-20 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="w-full py-4 flex flex-row overflow-x-auto snap-x snap-mandatory md:overflow-visible md:snap-none md:justify-center items-center gap-6 lg:gap-8 mb-20 z-20 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {features.map((feature, i) => (
             <div key={feature.id} className="snap-center shrink-0 w-[80vw] sm:w-[60vw] md:w-auto flex justify-center">
               <RoyalFeatureCard 

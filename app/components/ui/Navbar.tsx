@@ -85,7 +85,7 @@ export default function Navbar() {
       <div style={{ transform: `translateY(${floatY}px)` }} className="w-full flex justify-center">
       {/* Width constrainer */}
       <div
-        className="w-full max-w-[1160px] px-6 pointer-events-auto transition-[margin] duration-500"
+        className="container-main pointer-events-auto transition-[margin] duration-500"
         style={{ marginTop }}
       >
         {/* ── OUTER AURA (Layer 0) ── */}

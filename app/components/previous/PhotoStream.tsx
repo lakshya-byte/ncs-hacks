@@ -39,10 +39,10 @@ export default function PhotoStream() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(212,175,55,0.06)_0%,transparent_70%)] pointer-events-none" />
 
       {/* Grid Container */}
-      <div className="relative h-[150%] w-full max-w-[1400px] mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 px-4 sm:px-8 py-10 rotate-[-2deg] scale-105">
+      <div className="container-main relative h-[150%] w-full grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-6 md:gap-8 py-10 rotate-[-2deg] scale-105">
         
         {/* Column 1 - UP */}
-        <div className="relative h-full overflow-hidden scroll-group">
+        <div className="relative h-full overflow-hidden scroll-group col-span-2 md:col-span-2 lg:col-span-2">
           <div className="flex flex-col gap-4 sm:gap-6 anim-scroll-up" style={{ animationDuration: '32s' }}>
             {/* Original Set */}
             {IMAGES_COL_1.map((id) => <PhotoCard key={`c1-a-${id}`} id={id} />)}
@@ -52,7 +52,7 @@ export default function PhotoStream() {
         </div>
 
         {/* Column 2 - DOWN */}
-        <div className="relative h-full overflow-hidden scroll-group">
+        <div className="relative h-full overflow-hidden scroll-group col-span-2 md:col-span-2 lg:col-span-2">
           <div className="flex flex-col gap-4 sm:gap-6 anim-scroll-down" style={{ animationDuration: '45s' }}>
             {IMAGES_COL_2.map((id) => <PhotoCard key={`c2-a-${id}`} id={id} />)}
             {IMAGES_COL_2.map((id) => <PhotoCard key={`c2-b-${id}`} id={id} />)}
@@ -60,7 +60,7 @@ export default function PhotoStream() {
         </div>
 
         {/* Column 3 - UP (Hidden on Mobile) */}
-        <div className="relative h-full overflow-hidden scroll-group hidden md:block">
+        <div className="relative h-full overflow-hidden scroll-group hidden md:block md:col-span-4 lg:col-span-2">
           <div className="flex flex-col gap-4 sm:gap-6 anim-scroll-up" style={{ animationDuration: '38s' }}>
             {IMAGES_COL_3.map((id) => <PhotoCard key={`c3-a-${id}`} id={id} />)}
             {IMAGES_COL_3.map((id) => <PhotoCard key={`c3-b-${id}`} id={id} />)}
@@ -68,7 +68,7 @@ export default function PhotoStream() {
         </div>
 
         {/* Column 4 - DOWN (Hidden on Tablet) */}
-        <div className="relative h-full overflow-hidden scroll-group hidden lg:block">
+        <div className="relative h-full overflow-hidden scroll-group hidden lg:block lg:col-span-3">
           <div className="flex flex-col gap-4 sm:gap-6 anim-scroll-down" style={{ animationDuration: '50s' }}>
             {IMAGES_COL_4.map((id) => <PhotoCard key={`c4-a-${id}`} id={id} />)}
             {IMAGES_COL_4.map((id) => <PhotoCard key={`c4-b-${id}`} id={id} />)}
@@ -76,7 +76,7 @@ export default function PhotoStream() {
         </div>
 
         {/* Column 5 - UP (Hidden on Tablet) */}
-        <div className="relative h-full overflow-hidden scroll-group hidden lg:block">
+        <div className="relative h-full overflow-hidden scroll-group hidden lg:block lg:col-span-3">
           <div className="flex flex-col gap-4 sm:gap-6 anim-scroll-up" style={{ animationDuration: '28s' }}>
             {IMAGES_COL_5.map((id) => <PhotoCard key={`c5-a-${id}`} id={id} />)}
             {IMAGES_COL_5.map((id) => <PhotoCard key={`c5-b-${id}`} id={id} />)}

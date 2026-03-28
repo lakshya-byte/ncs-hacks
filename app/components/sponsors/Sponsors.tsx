@@ -78,14 +78,14 @@ export default function GodLevelSponsors() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="w-full min-h-auto py-24 bg-[#0A0F1C] relative overflow-hidden font-sans text-white">
+    <section ref={sectionRef} className="w-full min-h-auto section-main bg-[#0A0F1C] relative overflow-hidden font-sans text-white">
       
       {/* Global Background Ambience */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-5 pointer-events-none mix-blend-screen" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-[radial-gradient(ellipse,rgba(212,175,55,0.06)_0%,transparent_60%)] pointer-events-none z-0" />
 
       {/* CONTAINER */}
-      <div className="site-container relative z-10 flex flex-col gap-24">
+      <div className="container-main relative z-10 flex flex-col gap-12 md:gap-16 lg:gap-24">
 
         {/* Header */}
         <div className="sp-reveal flex flex-col items-center text-center">
@@ -95,10 +95,10 @@ export default function GodLevelSponsors() {
         </div>
 
         {/* ════════════ 1. TOP GRID (TITLE + GOLD TOP) ════════════ */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch w-full">
+        <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-6 md:gap-8 lg:gap-12 items-stretch w-full">
           
           {/* LEFT: TITLE SPONSOR */}
-          <div className="sp-reveal lg:col-span-7 flex h-full items-stretch">
+          <div className="sp-reveal col-span-4 md:col-span-8 lg:col-span-7 flex h-full items-stretch">
             <div className="relative w-full flex flex-col items-center justify-center p-8 md:p-14 rounded-2xl bg-gradient-to-b from-[#131A2B] to-[#0A0F1C] border border-[#D4AF37]/30 shadow-[0_10px_40px_rgba(0,0,0,0.5)] overflow-hidden group">
               
               {/* Dynamic Arch Background */}
@@ -139,10 +139,10 @@ export default function GodLevelSponsors() {
           </div>
 
           {/* RIGHT: GOLD TIER TOP */}
-          <div className="sp-reveal lg:col-span-5 flex h-full items-stretch">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full h-full">
+          <div className="sp-reveal col-span-4 md:col-span-8 lg:col-span-5 flex h-full items-stretch">
+            <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-6 md:gap-8 w-full h-full">
               {SPONSORS_DATA.goldLight.map((sp, i) => (
-                <div key={i} className="flex flex-col justify-between items-center text-center p-6 rounded-xl bg-gradient-to-b from-[#161D2F] to-[#0D1321] border border-[#2A3A5C] hover:border-[#A0AABF]/50 shadow-lg transition-all duration-300 w-full h-full">
+                <div key={i} className="col-span-4 md:col-span-4 lg:col-span-6 flex flex-col justify-between items-center text-center p-6 rounded-xl bg-gradient-to-b from-[#161D2F] to-[#0D1321] border border-[#2A3A5C] hover:border-[#A0AABF]/50 shadow-lg transition-all duration-300 w-full h-full">
                   {/* IMAGE SAFE CONTAINER */}
                   <div className="h-[70px] w-full flex items-center justify-center mb-4 shrink-0">
                     <img src={sp.logoUrl} alt={sp.name} className="h-full w-full object-contain opacity-90 grayscale hover:grayscale-0 transition-all text-transparent" />
@@ -171,9 +171,9 @@ export default function GodLevelSponsors() {
             </h3>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 w-full items-stretch">
+          <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-6 md:gap-8 w-full items-stretch">
             {SPONSORS_DATA.goldDark.map((sp, i) => (
-              <div key={i} className="sp-reveal md:col-span-4 relative flex flex-col justify-between items-center text-center p-8 rounded-xl bg-gradient-to-b from-[#161D2F] to-[#0A0F1C] border border-[#D4AF37]/30 shadow-[0_5px_20px_rgba(0,0,0,0.5)] hover:border-[#D4AF37]/60 hover:-translate-y-1 transition-all duration-300 group w-full h-full">
+              <div key={i} className="sp-reveal col-span-4 md:col-span-4 lg:col-span-4 relative flex flex-col justify-between items-center text-center p-8 rounded-xl bg-gradient-to-b from-[#161D2F] to-[#0A0F1C] border border-[#D4AF37]/30 shadow-[0_5px_20px_rgba(0,0,0,0.5)] hover:border-[#D4AF37]/60 hover:-translate-y-1 transition-all duration-300 group w-full h-full">
                 <GoldCardCorners />
                 {/* IMAGE SAFE CONTAINER */}
                 <div className="h-[80px] w-full flex items-center justify-center mb-6 shrink-0">
@@ -201,9 +201,9 @@ export default function GodLevelSponsors() {
             </h3>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-12 gap-4 w-full items-stretch">
+          <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-4 md:gap-6 w-full items-stretch">
             {SPONSORS_DATA.community.map((name, i) => (
-              <div key={i} className="sp-reveal md:col-span-3 flex items-center justify-center p-4 min-h-[80px] rounded-lg bg-[#0F1626] border border-[#1E293B] hover:bg-[#161D2F] hover:border-[#475569] transition-all duration-300 cursor-default text-center group w-full h-full">
+              <div key={i} className="sp-reveal col-span-2 md:col-span-2 lg:col-span-3 flex items-center justify-center p-4 min-h-[80px] rounded-lg bg-[#0F1626] border border-[#1E293B] hover:bg-[#161D2F] hover:border-[#475569] transition-all duration-300 cursor-default text-center group w-full h-full">
                 <span className="font-serif text-[10px] md:text-[11px] text-[#94A3B8] group-hover:text-[#E2E8F0] tracking-[0.15em] uppercase transition-colors">
                   {name}
                 </span>
