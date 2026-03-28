@@ -33,7 +33,10 @@ export interface MascotMessage {
 }
 
 function pickRandom<T>(items: T[]): T {
-  return items[Math.floor(Math.random() * items.length)] ?? items[0];
+  if (items.length === 0) {
+    throw new Error('Mascot message list must not be empty.');
+  }
+  return items[Math.floor(Math.random() * items.length)];
 }
 
 export function getMessageForReason(

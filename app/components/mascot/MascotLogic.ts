@@ -24,6 +24,8 @@ export const MASCOT_ANCHORS: MascotAnchor[] = [
   'mid-left',
 ];
 
+export const MASCOT_SECTION_IDS = ['home', 'about', 'tracks', 'timeline', 'sponsors', 'cta'] as const;
+
 const EDGE_MARGIN = 30;
 const MOBILE_EDGE_MARGIN = 18;
 
@@ -93,7 +95,8 @@ export function pickNextAnchor(
   }
 
   const options = MASCOT_ANCHORS.filter((anchor) => anchor !== previousAnchor);
-  return options[Math.floor(Math.random() * options.length)] ?? previousAnchor;
+  // MASCOT_ANCHORS always contains 4 unique anchors, so options is always non-empty here.
+  return options[Math.floor(Math.random() * options.length)];
 }
 
 export function getMoodFromSection(sectionId: string): MascotSectionMood {

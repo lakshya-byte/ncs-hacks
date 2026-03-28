@@ -7,6 +7,7 @@ import {
   getCooldownMs,
   getMotionProfile,
   getMoodFromSection,
+  MASCOT_SECTION_IDS,
   getVisibleDurationMs,
   overlapsInteractiveElement,
   pickNextAnchor,
@@ -340,8 +341,7 @@ export function useMascot(): MascotController {
         return;
       }
       scrollRafRef.current = window.requestAnimationFrame(() => {
-        const sections = ['home', 'about', 'tracks', 'timeline', 'sponsors', 'cta'];
-        for (const id of sections) {
+        for (const id of MASCOT_SECTION_IDS) {
           const element = document.getElementById(id);
           if (!element) {
             continue;
@@ -387,6 +387,7 @@ export function useMascot(): MascotController {
                 y: basePoint.y + floatY + offsetY + pulseOffset,
               };
 
+      // 16.67ms = one 60fps frame; this computes an exponentially-weighted interpolation factor.
       const lerp = 1 - Math.pow(0.0001, dt / 16.67);
       currentPositionRef.current = {
         x: currentPositionRef.current.x + (targetPoint.x - currentPositionRef.current.x) * lerp,
