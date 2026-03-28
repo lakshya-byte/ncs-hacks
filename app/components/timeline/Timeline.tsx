@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -11,7 +11,7 @@ const timelineData = [
     id: 1,
     title: 'Registration Opens',
     date: '1 April',
-    description: 'The Bifröst bridge summons the worthy. Submit your entry to the Allfather\'s council and begin your journey to Valhalla\'s halls of innovation.',
+    description: "The Bifröst bridge summons the worthy. Submit your entry to the Allfather's council and begin your journey to Valhalla's halls of innovation.",
     rune: 'ᚱ',
     side: 'right',
   },
@@ -51,7 +51,7 @@ const timelineData = [
     id: 6,
     title: 'Final Presentations',
     date: '25 April',
-    description: 'Stand before the high council of Asgard. Demonstrate your creation\'s power, let your voice echo through the great golden halls.',
+    description: "Stand before the high council of Asgard. Demonstrate your creation's power, let your voice echo through the great golden halls.",
     rune: 'ᚷ',
     side: 'left',
   },
@@ -63,143 +63,196 @@ const timelineData = [
     rune: 'ᛟ',
     side: 'right',
   },
-];
+] as const;
+
+const TOP_START = 14;
+const TOP_END = 86;
 
 export default function Timeline() {
   const sectionRef = useRef<HTMLElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: '+=600%',
-        pin: true,
-        scrub: true,
-        onUpdate: (self) => {
-          const index = Math.min(6, Math.floor(self.progress * 7));
-          setActiveIndex((prev) => (prev !== index ? index : prev));
-        },
-      });
-    }, sectionRef);
-    return () => ctx.revert();
+  const nodePositions = useMemo(() => {
+    const step = (TOP_END - TOP_START) / (timelineData.length - 1);
+    return timelineData.map((_, idx) => TOP_START + idx * step);
   }, []);
 
+  useEffect(() => {
+    const mm = gsap.matchMedia();
+
+    mm.add('(max-width: 767px)', () => {
+      setIsMobile(true);
+      setProgress(0);
+      setActiveIndex(0);
+    });
+
+    mm.add('(min-width: 768px)', () => {
+      setIsMobile(false);
+
+      const trigger = ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: true,
+        onUpdate: (self) => {
+          const currentProgress = self.progress;
+          setProgress((prev) => (Math.abs(prev - currentProgress) > 0.001 ? currentProgress : prev));
+
+          const nextIndex = Math.min(timelineData.length - 1, Math.floor(currentProgress * timelineData.length));
+          setActiveIndex((prev) => (prev !== nextIndex ? nextIndex : prev));
+        },
+      });
+
+      return () => {
+        trigger.kill();
+      };
+    });
+
+    return () => mm.revert();
+  }, []);
+
+  const activeGlowTop = nodePositions[activeIndex];
+
   return (
-    <section ref={sectionRef} className="relative h-screen w-full overflow-hidden bg-[#FAFAF8]">
-
-      {/* Keyframe for energy flow */}
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes energyFlow {
-          0%   { transform: translateY(-300px); opacity: 0; }
-          20%  { opacity: 1; }
-          80%  { opacity: 1; }
-          100% { transform: translateY(120vh);  opacity: 0; }
-        }
-      `}} />
-
-      {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,215,0,0.07)_0%,transparent_60%)] pointer-events-none" />
-      <div className="absolute bottom-0 w-full h-40 bg-gradient-to-t from-white/80 to-transparent pointer-events-none" />
-
-      {/* ── Bifröst Spine (Left on mobile, Centre on desktop) ── */}
-      <div className="absolute left-8 md:left-1/2 -translate-x-1/2 top-0 h-full w-[2px] overflow-hidden z-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#FFD700]/50 to-transparent" />
-        <div
-          className="absolute w-full h-48 bg-gradient-to-b from-transparent via-[#FFD700] to-transparent opacity-80"
-          style={{ animation: 'energyFlow 3.5s ease-in-out infinite' }}
-        />
-      </div>
-      <div className="absolute left-8 md:left-1/2 -translate-x-1/2 top-0 h-full w-px bg-white/50 pointer-events-none" />
-
-      {/* ── Radial glow that tracks active node ── */}
-      <div
-        className="absolute left-8 md:left-1/2 -translate-x-1/2 w-[300px] md:w-[700px] h-[300px] md:h-[700px] rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.07),transparent_60%)] pointer-events-none transition-all duration-[1000ms] ease-out"
-        style={{ top: `calc(${9 + activeIndex * 13}% - 150px)` }} // roughly centered on the node
+    <section
+      ref={sectionRef}
+      className={`relative w-full bg-[radial-gradient(ellipse_at_top,rgba(255,233,173,0.36)_0%,rgba(250,250,248,0.98)_40%,#f6f4ee_100%)] ${isMobile ? 'py-16' : 'h-[360vh]'}`}
+    >
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            @keyframes runePulse {
+              0% { transform: scale(1); opacity: 0.4; }
+              60% { transform: scale(1.45); opacity: 0; }
+              100% { transform: scale(1.45); opacity: 0; }
+            }
+          `,
+        }}
       />
 
-      {/* ── Timeline Nodes ── */}
-      <div className="relative w-full h-full pointer-events-none">
-        {timelineData.map((stage, idx) => {
-          const isActive = idx === activeIndex;
-          const isComplete = idx < activeIndex;
-          const topPct = 9 + idx * 13;
+      <div className={`${isMobile ? 'relative' : 'sticky top-0 h-screen'} overflow-hidden`}>
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-20 left-[-10%] h-[55vh] w-[55vw] rounded-full bg-white/55 blur-3xl" />
+          <div className="absolute top-[26%] right-[-12%] h-[48vh] w-[45vw] rounded-full bg-[#fff8de]/80 blur-3xl" />
+          <div className="absolute bottom-[-14%] left-1/3 h-[42vh] w-[34vw] rounded-full bg-white/45 blur-3xl" />
+        </div>
 
-          return (
+        {isMobile ? (
+          <div className="site-container relative">
+            <div className="absolute left-6 top-4 bottom-4 w-[2px] bg-gradient-to-b from-[#f1ddb5] via-[#d9b96e] to-[#f1ddb5]" />
+            <div className="space-y-8 pl-16 pr-2">
+              {timelineData.map((stage, idx) => (
+                <div key={stage.id} className="relative rounded-2xl border border-[#d6b26a]/45 bg-white/75 p-5 shadow-[0_16px_40px_rgba(159,123,49,0.16)] backdrop-blur-xl">
+                  <span className="absolute -left-[2.8rem] top-6 grid h-9 w-9 place-items-center rounded-full border border-[#d6b26a]/80 bg-[#fff6df] text-[#906718] shadow-[0_0_16px_rgba(212,175,55,0.45)]">
+                    {stage.rune}
+                  </span>
+                  <p className="mb-2 font-serif text-sm uppercase tracking-[0.22em] text-[#aa7b1f]">{stage.date}</p>
+                  <h3 className="font-serif text-xl tracking-wide text-[#2f2a1f]">{stage.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[#554c3f]">{stage.description}</p>
+                  {idx !== timelineData.length - 1 && <div className="pointer-events-none absolute -bottom-4 left-6 h-4 w-px bg-[#d6b26a]/55" />}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="site-container relative h-full">
+            <div className="pointer-events-none absolute inset-0">
+              <div
+                className="absolute left-1/2 w-[420px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,224,151,0.32),transparent_67%)] transition-all duration-500"
+                style={{
+                  top: `calc(${activeGlowTop}% - 210px)`,
+                  height: '420px',
+                }}
+              />
+            </div>
+
+            <div className="pointer-events-none absolute left-1/2 top-[10%] h-[80%] w-[30px] -translate-x-1/2 rounded-full bg-gradient-to-b from-[#fff8d8]/80 via-[#e4c47d]/70 to-[#fff8d8]/80 blur-[7px]" />
+            <div className="pointer-events-none absolute left-1/2 top-[10%] h-[80%] w-[12px] -translate-x-1/2 rounded-full border border-[#cfaa54]/50 bg-[repeating-linear-gradient(to_bottom,rgba(123,86,23,0.2)_0px,rgba(123,86,23,0.2)_2px,rgba(255,255,255,0)_2px,rgba(255,255,255,0)_10px)]" />
+            <div className="pointer-events-none absolute left-1/2 top-[10%] h-[80%] w-[4px] -translate-x-1/2 rounded-full bg-[#fffdf7]/80" />
             <div
-              key={stage.id}
-              className="absolute left-0 w-full"
-              style={{ top: `${topPct}%`, transform: 'translateY(-50%)' }}
-            >
-              <div className="site-container relative flex items-center justify-start md:justify-center pl-16 md:pl-0">
-                
-                {/* ── MOBILE DATE (Visible only on mobile) ── */}
-                <div className={`md:hidden absolute top-[-25px] left-16 font-sans text-sm font-bold tracking-[0.1em] uppercase text-[#B8860B] transition-all duration-700 ${isActive ? 'opacity-100' : 'opacity-50'}`}>
-                  {stage.date}
-                </div>
+              className="pointer-events-none absolute left-1/2 top-[10%] w-[8px] -translate-x-1/2 rounded-full bg-[linear-gradient(to_top,#ffe39d_0%,#fffbec_60%,#fff_100%)] shadow-[0_0_20px_rgba(238,192,95,0.7),0_0_45px_rgba(241,201,120,0.5)]"
+              style={{ height: `${Math.max(4, progress * 80)}%` }}
+            />
 
-                {/* ── DESKTOP LEFT HALF ── */}
-                <div className="hidden md:flex w-1/2 justify-end pr-8 lg:pr-10">
-                  {stage.side === 'left' ? (
-                    <div className={`relative max-w-[380px] w-full p-7 rounded-3xl border border-[#FFD700]/40 bg-white/65 backdrop-blur-2xl shadow-[0_20px_50px_rgba(212,175,55,0.15)] text-right transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] pointer-events-auto ${
-                      isActive ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4 pointer-events-none'
-                    }`}>
-                      <span className="absolute -right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 bg-white/70 border-r border-t border-[#FFD700]/40 rotate-45 rounded-sm" />
-                      <h3 className="font-serif text-[22px] uppercase tracking-widest text-slate-800 mb-3 leading-snug">{stage.title}</h3>
-                      <p className="font-sans text-[14px] text-slate-500 leading-relaxed font-light mb-0">{stage.description}</p>
+            {timelineData.map((stage, idx) => {
+              const nodeTop = nodePositions[idx];
+              const isActive = idx === activeIndex;
+
+              return (
+                <div key={stage.id} className="absolute left-0 top-0 h-full w-full">
+                  <div className="absolute left-1/2 w-full -translate-x-1/2" style={{ top: `${nodeTop}%`, transform: 'translateY(-50%)' }}>
+                    <div className="relative flex items-center justify-center">
+                      <div className={`flex w-1/2 ${stage.side === 'left' ? 'justify-end pr-14' : 'justify-end pr-24'}`}>
+                        {stage.side === 'left' ? (
+                          <article
+                            className={`relative max-w-[430px] rounded-3xl border bg-white/72 p-8 text-right backdrop-blur-2xl transition-all duration-500 ${
+                              isActive
+                                ? 'translate-y-0 scale-100 opacity-100 border-[#d7b36a]/70 shadow-[0_20px_60px_rgba(170,130,40,0.24)]'
+                                : 'translate-y-4 scale-[0.97] opacity-0 border-[#d7b36a]/35 pointer-events-none'
+                            }`}
+                          >
+                            <span className="absolute -right-[9px] top-1/2 h-[18px] w-[18px] -translate-y-1/2 rotate-45 border-r border-t border-[#d7b36a]/60 bg-white/80" />
+                            <p className="font-serif text-sm uppercase tracking-[0.22em] text-[#ad7e20]">{stage.date}</p>
+                            <h3 className="mt-3 font-serif text-[1.8rem] leading-tight text-[#2e281d]">{stage.title}</h3>
+                            <p className="mt-3 text-[0.97rem] leading-relaxed text-[#595041]">{stage.description}</p>
+                          </article>
+                        ) : (
+                          <span className={`font-serif text-sm uppercase tracking-[0.24em] text-[#ad7e20] transition-opacity duration-400 ${isActive ? 'opacity-100' : 'opacity-35'}`}>
+                            {stage.date}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                        <div
+                          className={`relative grid place-items-center rounded-full border bg-[radial-gradient(circle_at_30%_25%,#fffdf5_0%,#f4deaa_55%,#d8b565_100%)] text-[#7d5514] transition-all duration-500 ${
+                            isActive
+                              ? 'h-[78px] w-[78px] scale-100 border-[#f1cd80] shadow-[0_0_25px_rgba(224,173,72,0.7),0_0_55px_rgba(231,194,118,0.45)]'
+                              : 'h-[52px] w-[52px] scale-95 border-[#d2ac5f]/70 opacity-50'
+                          }`}
+                        >
+                          {isActive && (
+                            <span
+                              className="absolute inset-0 rounded-full border border-[#f8dc9d]/70"
+                              style={{ animation: 'runePulse 1.5s ease-out infinite' }}
+                            />
+                          )}
+                          <span className={`${isActive ? 'text-[2rem]' : 'text-[1.35rem]'} font-serif leading-none drop-shadow-[0_0_8px_rgba(255,241,203,0.9)]`}>
+                            {stage.rune}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className={`flex w-1/2 ${stage.side === 'right' ? 'justify-start pl-14' : 'justify-start pl-24'}`}>
+                        {stage.side === 'right' ? (
+                          <article
+                            className={`relative max-w-[430px] rounded-3xl border bg-white/72 p-8 backdrop-blur-2xl transition-all duration-500 ${
+                              isActive
+                                ? 'translate-y-0 scale-100 opacity-100 border-[#d7b36a]/70 shadow-[0_20px_60px_rgba(170,130,40,0.24)]'
+                                : 'translate-y-4 scale-[0.97] opacity-0 border-[#d7b36a]/35 pointer-events-none'
+                            }`}
+                          >
+                            <span className="absolute -left-[9px] top-1/2 h-[18px] w-[18px] -translate-y-1/2 rotate-45 border-b border-l border-[#d7b36a]/60 bg-white/80" />
+                            <p className="font-serif text-sm uppercase tracking-[0.22em] text-[#ad7e20]">{stage.date}</p>
+                            <h3 className="mt-3 font-serif text-[1.8rem] leading-tight text-[#2e281d]">{stage.title}</h3>
+                            <p className="mt-3 text-[0.97rem] leading-relaxed text-[#595041]">{stage.description}</p>
+                          </article>
+                        ) : (
+                          <span className={`font-serif text-sm uppercase tracking-[0.24em] text-[#ad7e20] transition-opacity duration-400 ${isActive ? 'opacity-100' : 'opacity-35'}`}>
+                            {stage.date}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  ) : (
-                    <span className={`font-sans text-lg font-bold tracking-[0.18em] uppercase text-[#B8860B] transition-all duration-700 ${isActive ? 'opacity-100 scale-105' : isComplete ? 'opacity-70' : 'opacity-40'}`}>
-                      {stage.date}
-                    </span>
-                  )}
-                </div>
-
-                {/* ── THE NODE (Positioned on the spine) ── */}
-                <div className="absolute left-8 md:static -translate-x-1/2 md:translate-x-0 z-30 flex-shrink-0 pointer-events-auto">
-                  <div className={`rounded-full border bg-gradient-to-br from-[#FFFAEB] to-[#FAFAF8] flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-                    isActive
-                      ? 'w-[60px] h-[60px] md:w-[80px] md:h-[80px] border-[#FFD700] shadow-[0_0_45px_rgba(212,175,55,0.65)]'
-                      : isComplete
-                        ? 'w-10 h-10 md:w-12 md:h-12 border-[#FFD700]/70 shadow-[0_0_18px_rgba(212,175,55,0.35)] opacity-90'
-                        : 'w-8 h-8 md:w-10 md:h-10 border-[#FFD700]/25 opacity-40'
-                  }`}>
-                    {isActive && <div className="absolute inset-0 rounded-full border border-[#FFD700] animate-ping opacity-30" />}
-                    {isActive && <div className="absolute inset-[4px] rounded-full border border-[#B8860B]/30 border-dashed animate-spin" style={{ animationDuration: '10s' }} />}
-                    <span className={`relative z-10 font-serif text-[#B8860B] transition-all duration-700 ${isActive ? 'text-[24px] md:text-[30px] drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]' : 'text-base md:text-lg'}`}>
-                      {stage.rune}
-                    </span>
                   </div>
                 </div>
-
-                {/* ── DESKTOP RIGHT HALF & MOBILE CARD ── */}
-                <div className="w-full md:w-1/2 flex justify-start md:pl-8 lg:pl-10">
-                  {stage.side === 'right' || true ? ( // On mobile, ALWAYS show a card on the right side of the spine
-                    <div className={`relative max-w-full md:max-w-[380px] w-full p-5 md:p-7 rounded-2xl md:rounded-3xl border border-[#FFD700]/40 bg-white/65 backdrop-blur-2xl shadow-[0_20px_50px_rgba(212,175,55,0.15)] transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] pointer-events-auto ${
-                      isActive ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4 pointer-events-none'
-                    } ${stage.side === 'left' ? 'md:hidden' : ''}`}> 
-                      {/* Arrow tip → left (Only needed if it's an actual desktop right card or any mobile card) */}
-                      <span className="absolute -left-2 top-10 md:top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 bg-white/70 border-l border-b border-[#FFD700]/40 rotate-45 rounded-sm" />
-                      <h3 className="font-serif text-[18px] md:text-[22px] uppercase tracking-widest text-slate-800 mb-2 md:mb-3 leading-snug">{stage.title}</h3>
-                      <p className="font-sans text-[13px] md:text-[14px] text-slate-500 leading-relaxed font-light mb-0">{stage.description}</p>
-                    </div>
-                  ) : null}
-                  
-                  {/* Desktop Right Date (hidden on mobile) */}
-                  {stage.side === 'left' && (
-                    <span className={`hidden md:block font-sans text-lg font-bold tracking-[0.18em] uppercase text-[#B8860B] transition-all duration-700 ${isActive ? 'opacity-100 scale-105' : isComplete ? 'opacity-70' : 'opacity-40'}`}>
-                      {stage.date}
-                    </span>
-                  )}
-                </div>
-
-              </div>
-            </div>
-          );
-        })}
+              );
+            })}
+          </div>
+        )}
       </div>
-
     </section>
   );
 }
