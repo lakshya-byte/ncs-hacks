@@ -231,7 +231,7 @@ export default function ParticleOverlay() {
           transform: `translateY(${progress > 0.9 ? Math.max(0, 20 - (progress - 0.9) * 200) : 20}px)` 
         }}
       >
-        <div className="font-[Cinzel,serif] text-[1.2rem] md:text-[1.5rem] tracking-[0.4em] text-[#FFD700] uppercase drop-shadow-[0_0_15px_rgba(255,215,0,0.6)]">
+        <div className="font-heading text-[1.2rem] md:text-[1.5rem] tracking-[0.4em] text-[#FFD700] uppercase drop-shadow-[0_0_15px_rgba(255,215,0,0.6)]">
           NCS In Out Hacks
         </div>
       </div>

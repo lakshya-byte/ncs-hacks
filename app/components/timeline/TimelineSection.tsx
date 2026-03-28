@@ -249,7 +249,7 @@ export default function TimelineSection() {
         ].map((rune, i) => (
           <div
             key={`bg-rune-${i}`}
-            className="absolute font-rune text-[#9f6825] opacity-[0.06] blur-[2px]"
+            className="absolute font-accent text-[#9f6825] opacity-[0.06] blur-[2px]"
             style={{
               top: rune.top,
               left: rune.left,
@@ -306,7 +306,7 @@ export default function TimelineSection() {
                 >
                   <div className="timeline-node-inner relative flex h-[56px] w-[56px] scale-[0.85] items-center justify-center rounded-full border border-[#cea15a]/55 bg-[radial-gradient(circle_at_28%_24%,#fff8e9_0%,#ddb36f_62%,#9f6825_100%)] opacity-50 md:h-[72px] md:w-[72px]">
                     <span className="timeline-node-pulse absolute inset-[-4px] rounded-full border border-[#fae4bb]/70 opacity-0" />
-                    <span className="timeline-rune-text font-rune text-[1.4rem] leading-none text-[#70480f] drop-shadow-[0_0_10px_rgba(255,242,203,0.92)] md:text-[1.8rem]">
+                    <span className="timeline-rune-text font-accent text-[1.4rem] leading-none text-[#70480f] drop-shadow-[0_0_10px_rgba(255,242,203,0.92)] md:text-[1.8rem]">
                       {stage.rune}
                     </span>
                   </div>
@@ -321,7 +321,7 @@ export default function TimelineSection() {
                   }`}
                   style={{ gridRow: idx + 1 }}
                 >
-                  <div className="w-full shrink-0 md:w-full md:max-w-[540px]">
+                  <div className={`w-full min-w-0 md:max-w-[540px] px-6 md:px-0 ${isLeft ? 'md:pr-10' : 'md:pl-10'}`}>
                     <TimelineCard
                       {...stage}
                       className="timeline-card pointer-events-auto -translate-y-[40px] scale-[0.96] opacity-0"

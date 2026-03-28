@@ -155,7 +155,7 @@ export default function CinematicOverlay() {
       {/* Norse rune decorative symbol */}
       <div
         ref={runeRef}
-        className="absolute top-[12%] left-1/2 -translate-x-1/2 text-[1.8rem] text-center tracking-[1.5rem] font-[Cinzel,serif] text-[rgba(201,162,39,0.6)]"
+        className="absolute top-[12%] left-1/2 -translate-x-1/2 text-[1.8rem] text-center tracking-[1.5rem] font-heading text-[rgba(201,162,39,0.6)]"
       >
         ᚨ ᚱ ᚷ ᚨ ᚱ
       </div>
@@ -166,11 +166,11 @@ export default function CinematicOverlay() {
         className="absolute bottom-[18%] w-full text-center flex flex-col items-center gap-3"
       >
         <h1
-          className="font-[Cinzel,serif] text-[clamp(2rem,5vw,3.5rem)] font-bold text-white tracking-[0.25em] uppercase m-0 [text-shadow:0_0_40px_rgba(201,162,39,0.6),0_2px_20px_rgba(0,0,0,0.8)]"
+          className="font-heading text-[clamp(2rem,5vw,3.5rem)] font-bold text-white tracking-[0.25em] uppercase m-0 [text-shadow:0_0_40px_rgba(201,162,39,0.6),0_2px_20px_rgba(0,0,0,0.8)]"
         >
           Enter the Realm
         </h1>
-        <div className="flex items-center gap-4 text-[rgba(255,255,255,0.55)] text-[0.85rem] tracking-[0.3em] uppercase font-[Cinzel,serif]">
+        <div className="flex items-center gap-4 text-[rgba(255,255,255,0.55)] text-[0.85rem] tracking-[0.3em] uppercase font-heading">
           <span className="inline-block w-10 h-px bg-current" />
           Scroll to pass through
           <span className="inline-block w-10 h-px bg-current" />
@@ -183,18 +183,18 @@ export default function CinematicOverlay() {
         className="absolute bottom-[18%] w-full text-center flex flex-col items-center gap-4 opacity-0"
       >
         <div
-          className="font-[Cinzel,serif] text-[clamp(0.7rem,1.5vw,1rem)] tracking-[0.5em] uppercase text-[#c9a227] [text-shadow:0_0_20px_rgba(201,162,39,0.8)]"
+          className="font-heading text-[clamp(0.7rem,1.5vw,1rem)] tracking-[0.5em] uppercase text-[#c9a227] [text-shadow:0_0_20px_rgba(201,162,39,0.8)]"
         >
           ✦ You have arrived ✦
         </div>
         <h2
-          className="font-[Cinzel,serif] text-[clamp(2.5rem,6vw,4.5rem)] font-bold text-white tracking-[0.2em] uppercase m-0 [text-shadow:0_0_60px_rgba(255,220,100,0.9),0_0_120px_rgba(201,162,39,0.5),0_4px_30px_rgba(0,0,0,0.9)]"
+          className="font-heading text-[clamp(2.5rem,6vw,4.5rem)] font-bold text-white tracking-[0.2em] uppercase m-0 [text-shadow:0_0_60px_rgba(255,220,100,0.9),0_0_120px_rgba(201,162,39,0.5),0_4px_30px_rgba(0,0,0,0.9)]"
         >
           Welcome to Asgard
         </h2>
         <div
           ref={subtitleRef}
-          className="font-[Cinzel,serif] text-[clamp(0.9rem,2vw,1.3rem)] text-[rgba(255,220,120,0.85)] tracking-[0.3em] uppercase opacity-0 [text-shadow:0_0_20px_rgba(201,162,39,0.6)]"
+          className="font-heading text-[clamp(0.9rem,2vw,1.3rem)] text-[rgba(255,220,120,0.85)] tracking-[0.3em] uppercase opacity-0 [text-shadow:0_0_20px_rgba(201,162,39,0.6)]"
         >
           Where Gods Build Legends
         </div>
@@ -225,7 +225,7 @@ function ScrollIndicator() {
   return (
     <div
       ref={indicatorRef}
-      className="absolute bottom-[6%] left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[rgba(255,255,255,0.45)] text-[0.7rem] tracking-[0.3em] uppercase font-[Cinzel,serif]"
+      className="absolute bottom-[6%] left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[rgba(255,255,255,0.45)] text-[0.7rem] tracking-[0.3em] uppercase font-heading"
     >
       <div
         className="w-px h-10 [animation:scrollPulse_2s_ease-in-out_infinite] bg-[linear-gradient(to_bottom,rgba(201,162,39,0.8),transparent)]"

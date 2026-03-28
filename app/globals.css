@@ -1,10 +1,52 @@
 @import "tailwindcss";
 
 @theme {
-  --font-serif: var(--font-cinzel);
-  --font-display: var(--font-skranji);
-  --font-sans: var(--font-montserrat);
-  --font-rune: var(--font-noto);
+  --font-heading: var(--font-cinzel);
+  --font-body: var(--font-noto);
+  --font-accent: var(--font-cinzel);
+}
+
+@layer base {
+  h1, .h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 5vw + 1rem, 4.5rem);
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  h2, .h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(2.25rem, 4vw + 1rem, 3rem);
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  h3, .h3 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 3vw + 0.5rem, 2rem);
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  p, .body-text {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.5vw + 0.5rem, 1.125rem);
+    line-height: 1.6;
+  }
+  small, .accent-text {
+    font-family: var(--font-accent);
+    font-size: clamp(0.75rem, 1vw + 0.5rem, 0.875rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+}
+
+@layer utilities {
+  .gpu-accelerate {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -25,9 +67,6 @@
   --gold:             #c9a227;
   --gold-light:       #f5d980;
   --font-cinzel:      'Cinzel', serif;
-  --font-skranji:     'Skranji', system-ui, sans-serif;
-  --font-germania:    'Germania One', system-ui, sans-serif;
-  --font-montserrat:  'Montserrat', sans-serif;
   --font-noto:        'Noto Sans', sans-serif;
   color-scheme:       dark;
 
@@ -59,7 +98,7 @@ html {
 html::-webkit-scrollbar { display: none; }
 
 body {
-  font-family: var(--font-cinzel);
+  font-family: var(--font-body);
   scrollbar-width: none;
   -ms-overflow-style: none;
   /* Clip rather than hidden rescues sticky scrolling on iOS/Android */

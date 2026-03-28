@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -40,7 +41,7 @@ const RunicDivider = ({ color = "#D4AF37" }: { color?: string }) => (
   <div className="flex flex-col items-center justify-center mb-6">
     <div className="w-8 h-8 rotate-45 border flex items-center justify-center relative" style={{ borderColor: `${color}40` }}>
       <div className="w-5 h-5 border flex items-center justify-center" style={{ borderColor: color }}>
-        <span className="-rotate-45 font-serif text-[10px]" style={{ color }}>ᛟ</span>
+        <span className="-rotate-45 font-heading text-[10px]" style={{ color }}>ᛟ</span>
       </div>
     </div>
   </div>
@@ -78,7 +79,7 @@ export default function GodLevelSponsors() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="w-full min-h-auto section-main bg-[radial-gradient(ellipse_at_bottom,rgba(255,236,187,0.3)_0%,rgba(252,250,244,1)_50%,#f5f1e7_100%)] relative overflow-hidden font-sans text-slate-900">
+    <section ref={sectionRef} className="w-full min-h-auto section-main bg-[radial-gradient(ellipse_at_bottom,rgba(255,236,187,0.3)_0%,rgba(252,250,244,1)_50%,#f5f1e7_100%)] relative overflow-hidden font-body text-slate-900">
       
       {/* Global Background Ambience */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] opacity-10 pointer-events-none" />
@@ -89,7 +90,7 @@ export default function GodLevelSponsors() {
 
         {/* Header */}
         <div className="sp-reveal flex flex-col items-center text-center">
-          <h2 className="font-serif text-3xl md:text-5xl text-[#2f2616] tracking-[0.2em] uppercase drop-shadow-[0_2px_15px_rgba(212,175,55,0.1)]">
+          <h2 className="font-heading text-3xl md:text-5xl text-[#2f2616] tracking-[0.2em] uppercase drop-shadow-[0_2px_15px_rgba(212,175,55,0.1)]">
             Stairway of Sovereigns
           </h2>
         </div>
@@ -99,7 +100,7 @@ export default function GodLevelSponsors() {
           
           {/* LEFT: TITLE SPONSOR */}
           <div className="sp-reveal col-span-4 md:col-span-8 lg:col-span-7 flex h-full items-stretch">
-            <div className="relative w-full flex flex-col items-center justify-center p-8 md:p-14 rounded-2xl bg-white/60 backdrop-blur-xl border border-[#D4AF37]/40 shadow-[0_15px_45px_rgba(212,175,55,0.08)] overflow-hidden group">
+            <div className="flex w-full flex-col justify-between overflow-hidden rounded-3xl border border-[#d4af37]/45 bg-white/75 shadow-[0_30px_60px_-15px_rgba(235,213,165,0.4)] md:flex-row bg-linear-to-b md:bg-linear-to-r from-white/90 to-white/50 backdrop-blur-xl transition-[transform,box-shadow,border-color] duration-500 ease-out hover:scale-[1.02] hover:border-[#d4af37]/75 hover:shadow-[0_45px_75px_-20px_rgba(215,183,115,0.5)]">
               
               {/* Dynamic Arch Background */}
               <div className="absolute -top-[20%] left-1/2 -translate-x-1/2 w-[150%] max-w-[800px] aspect-square rounded-full border-t-2 border-[#D4AF37]/30 opacity-70 pointer-events-none group-hover:border-[#D4AF37]/50 transition-colors duration-700" />
@@ -107,7 +108,7 @@ export default function GodLevelSponsors() {
               <div className="absolute inset-0 bg-gradient-to-b from-[rgba(212,175,55,0.02)] to-transparent pointer-events-none" />
 
               {/* Runic Trim */}
-              <div className="absolute top-6 w-full flex justify-between px-12 md:px-20 text-[#D4AF37]/30 font-serif text-2xl tracking-[0.4em] pointer-events-none select-none">
+              <div className="absolute top-6 w-full flex justify-between px-12 md:px-20 text-[#D4AF37]/30 font-heading text-2xl tracking-[0.4em] pointer-events-none select-none">
                 <span>ᚠ ᚢ ᚦ</span>
                 <span>ᚱ ᚲ ᚷ</span>
               </div>
@@ -115,24 +116,26 @@ export default function GodLevelSponsors() {
               {/* Content */}
               <div className="relative z-10 w-full flex flex-col items-center mt-8">
                 {/* IMAGE SAFE CONTAINER */}
-                <div className="h-[90px] w-full max-w-[300px] flex items-center justify-center mb-8 shrink-0">
-                  <img 
+                <div className="relative h-[90px] w-full max-w-[280px] flex items-center justify-center mb-5 shrink-0">
+                  <Image 
                     src={SPONSORS_DATA.titleSponsor.logoUrl} 
-                    alt="Title Sponsor" 
-                    className="h-full w-full object-contain filter drop-shadow-[0_4px_12px_rgba(212,175,55,0.2)]"
+                    alt={SPONSORS_DATA.titleSponsor.name} 
+                    fill
+                    sizes="(max-width: 768px) 280px, 400px"
+                    className="object-contain opacity-90 drop-shadow-sm" 
                   />
                 </div>
                 
-                <h3 className="font-serif text-3xl md:text-4xl text-[#B8860B] tracking-[0.15em] mb-4 text-center uppercase">
+                <h3 className="font-heading text-3xl md:text-4xl text-[#B8860B] tracking-[0.15em] mb-4 text-center uppercase">
                   {SPONSORS_DATA.titleSponsor.name}
                 </h3>
                 
                 <div className="flex items-center gap-4 w-full max-w-md justify-center">
-                  <div className="flex-1 h-px bg-gradient-to-r from-transparent to-[#D4AF37]/40" />
-                  <p className="font-sans text-[11px] md:text-xs tracking-[0.3em] text-[#5a4a36] uppercase whitespace-nowrap">
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 block h-16 bg-linear-to-t from-white/90 to-transparent md:hidden" />
+                  <p className="font-body text-[11px] md:text-xs tracking-[0.3em] text-[#5a4a36] uppercase whitespace-nowrap">
                     {SPONSORS_DATA.titleSponsor.desc}
                   </p>
-                  <div className="flex-1 h-px bg-gradient-to-l from-transparent to-[#D4AF37]/40" />
+                  <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-16 bg-linear-to-l from-white/90 to-transparent md:block" />
                 </div>
               </div>
             </div>
@@ -144,14 +147,14 @@ export default function GodLevelSponsors() {
               {SPONSORS_DATA.goldLight.map((sp, i) => (
                 <div key={i} className="col-span-4 md:col-span-4 lg:col-span-6 flex flex-col justify-between items-center text-center p-6 rounded-xl bg-white/40 backdrop-blur-md border border-[#D4AF37]/20 hover:border-[#D4AF37]/50 shadow-sm transition-all duration-300 w-full h-full group">
                   {/* IMAGE SAFE CONTAINER */}
-                  <div className="h-[70px] w-full flex items-center justify-center mb-4 shrink-0">
-                    <img src={sp.logoUrl} alt={sp.name} className="h-full w-full object-contain opacity-80 grayscale group-hover:grayscale-0 transition-all text-transparent" />
+                  <div className="relative h-[70px] w-full flex items-center justify-center mb-4 shrink-0">
+                    <Image src={sp.logoUrl} alt={sp.name} fill sizes="(max-width: 768px) 150px, 200px" className="object-contain opacity-80 transition-opacity text-transparent grayscale group-hover:grayscale-0" />
                   </div>
-                  <div className="flex flex-col items-center justify-end flex-grow w-full">
-                    <h4 className="font-serif text-[11px] text-slate-800 tracking-[0.1em] font-bold mb-2 uppercase">
+                  <div className="flex grow flex-col justify-center bg-white/40 p-10 md:w-2/3 lg:p-14">
+                    <span className="mb-2 font-heading text-[10px] font-bold tracking-[0.1em] text-[#d4af37] uppercase">
                       {sp.name}
-                    </h4>
-                    <p className="font-sans text-[10px] text-slate-500 leading-relaxed font-light">
+                    </span>
+                    <p className="font-body text-[10px] text-slate-500 leading-relaxed font-light">
                       {sp.desc}
                     </p>
                   </div>
@@ -166,7 +169,7 @@ export default function GodLevelSponsors() {
         <div className="w-full flex flex-col gap-8">
           <div className="sp-reveal flex flex-col items-center text-center">
             <RunicDivider color="#D4AF37" />
-            <h3 className="font-serif text-2xl text-[#B8860B] tracking-[0.2em] uppercase">
+            <h3 className="font-heading text-2xl text-[#B8860B] tracking-[0.2em] uppercase">
               Gold Tier
             </h3>
           </div>
@@ -177,13 +180,13 @@ export default function GodLevelSponsors() {
                 <GoldCardCorners />
                 {/* IMAGE SAFE CONTAINER */}
                 <div className="h-[80px] w-full flex items-center justify-center mb-6 shrink-0">
-                  <img src={sp.logoUrl} alt={sp.name} className="h-full w-full object-contain filter saturate-[0.8] hover:saturate-[1.2] transition-all text-transparent" />
+                  <Image src={sp.logoUrl} alt={sp.name} fill sizes="(max-width: 768px) 150px, 200px" className="object-contain opacity-80" />
                 </div>
                 <div className="flex flex-col items-center justify-end flex-grow w-full">
-                  <h4 className="font-serif text-[13px] md:text-[14px] text-slate-900 tracking-[0.15em] mb-3 uppercase">
+                  <h4 className="font-heading text-[13px] md:text-[14px] text-slate-900 tracking-[0.15em] mb-3 uppercase">
                     {sp.name}
                   </h4>
-                  <p className="font-sans text-[11px] md:text-[12px] text-slate-600 leading-relaxed font-light">
+                  <p className="font-body text-[11px] md:text-[12px] text-slate-600 leading-relaxed font-light">
                     {sp.desc}
                   </p>
                 </div>
@@ -196,7 +199,7 @@ export default function GodLevelSponsors() {
         <div className="w-full flex flex-col gap-8">
           <div className="sp-reveal flex flex-col items-center text-center">
             <RunicDivider color="#b38224" />
-            <h3 className="font-serif text-xl text-slate-500 tracking-[0.2em] uppercase">
+            <h3 className="font-heading text-xl text-slate-500 tracking-[0.2em] uppercase">
               Community Partners
             </h3>
           </div>
@@ -204,7 +207,7 @@ export default function GodLevelSponsors() {
           <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-4 md:gap-6 w-full items-stretch">
             {SPONSORS_DATA.community.map((name, i) => (
               <div key={i} className="sp-reveal col-span-2 md:col-span-2 lg:col-span-3 flex items-center justify-center p-4 min-h-[80px] rounded-lg bg-white/30 border border-[#D4AF37]/10 hover:bg-white/60 hover:border-[#D4AF37]/40 transition-all duration-300 cursor-default text-center group w-full h-full">
-                <span className="font-serif text-[10px] md:text-[11px] text-slate-600 group-hover:text-slate-900 tracking-[0.15em] uppercase transition-colors">
+                <span className="font-heading text-[10px] md:text-[11px] text-slate-600 group-hover:text-slate-900 tracking-[0.15em] uppercase transition-colors">
                   {name}
                 </span>
               </div>

@@ -75,12 +75,12 @@ const RoyalFeatureCard = React.forwardRef<HTMLDivElement, RoyalFeatureCardProps>
               </div>
 
               {/* Title */}
-              <h3 className="m-0 font-serif text-[clamp(0.7rem,1vw,0.85rem)] font-bold tracking-[0.15em] text-[#B8860B] uppercase drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)] transition-colors duration-300 group-hover:text-[#8B6508]">
+              <h3 className="m-0 font-heading text-[clamp(0.7rem,1vw,0.85rem)] font-bold tracking-[0.15em] text-[#B8860B] uppercase drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)] transition-colors duration-300 group-hover:text-[#8B6508]">
                 {title}
               </h3>
 
               {/* Subtitle */}
-              <p className="mt-3 font-sans text-[clamp(0.65rem,0.9vw,0.8rem)] font-medium text-black/60 leading-[1.6] tracking-[0.02em] whitespace-pre-line transition-colors duration-300 group-hover:text-black/80">
+              <p className="mt-3 font-body text-[clamp(0.65rem,0.9vw,0.8rem)] font-medium text-black/60 leading-[1.6] tracking-[0.02em] whitespace-pre-line transition-colors duration-300 group-hover:text-black/80">
                 {subtitle}
               </p>
             </div>

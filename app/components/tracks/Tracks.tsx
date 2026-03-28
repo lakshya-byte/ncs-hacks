@@ -34,27 +34,11 @@ const tracks = [
   },
   {
     id: "04",
-    title: "IoT / Robotics",
+    title: "Open Innovation",
     description:
-      "Breathe life into the inanimate. Bridge the celestial gap between hardware and software to animate a seamlessly connected, brilliant physical world.",
-    bgGradient: "from-[#F9F8F5] to-[#EBE8E0]",
-    image: "/tracks/IOT.png",
-  },
-  {
-    id: "05",
-    title: "Cybersecurity",
-    description:
-      "Become the guardians of the vault. Design impenetrable digital shields and defensive algorithms to protect sacred realms against chaotic forces.",
-    bgGradient: "from-[#FAFAF8] to-[#EAEAEA]",
-    image: "/tracks/CyberSecuirty.png",
-  },
-  {
-    id: "06",
-    title: "Sustainability",
-    description:
-      "Architect a greener eternity. Develop innovative technology honoring the balance of nature to sustain our beautiful world for eras to come.",
-    bgGradient: "from-[#F8F9F5] to-[#E6EBE0]",
-    image: "/tracks/Sustainablity.png",
+      "The Infinite Gate. For those whose visions transcend the specified realms. Craft the unforeseen and forge original paths through the uncharted territories of innovation.",
+    bgGradient: "from-[#FAFAF8] to-[#F1EDE2]",
+    image: "/tracks/OpenInnovation.png",
   },
 ];
 
@@ -114,7 +98,7 @@ export default function HackathonTracks() {
         pin: true,
         scrub: true,
         onUpdate: (self) => {
-          const index = Math.min(5, Math.floor(self.progress * 6));
+          const index = Math.min(3, Math.floor(self.progress * 4));
           const centeredProgress = self.progress - 0.5;
           if (cloudLayerRef.current) {
             gsap.set(cloudLayerRef.current, { y: centeredProgress * PARALLAX.clouds });
@@ -268,7 +252,7 @@ export default function HackathonTracks() {
             {/* TEXT SIDE */}
             <div className="col-span-4 md:col-span-4 lg:col-span-5 flex flex-col items-center md:items-start text-center md:text-left order-first md:order-0">
               <span
-                className="font-serif leading-none text-transparent select-none"
+                className="font-heading leading-none text-transparent select-none"
                 style={{
                   WebkitTextStroke: "1px rgba(212, 175, 55, 0.4)",
                   fontSize: "clamp(3.5rem, 12vw, 7rem)",
@@ -278,13 +262,13 @@ export default function HackathonTracks() {
               </span>
 
               <h2
-                className="mt-1 md:mt-2 font-serif font-medium leading-[1.1] tracking-tight text-[#B8860B] drop-shadow-[0_0_20px_rgba(212,175,55,0.2)] transition-all duration-700"
+                className="mt-1 md:mt-2 font-heading font-medium leading-[1.1] tracking-tight text-[#B8860B] drop-shadow-[0_0_20px_rgba(212,175,55,0.2)] transition-all duration-700"
                 style={{ fontSize: "clamp(1.75rem, 8vw, 4rem)" }}
               >
                 {active.title}
               </h2>
 
-              <p className="mt-4 md:mt-7 mx-auto md:mx-0 font-sans text-sm md:text-base leading-relaxed text-slate-500 max-w-sm font-light tracking-wide transition-all duration-700 px-4 md:px-0">
+              <p className="mt-4 md:mt-7 mx-auto md:mx-0 font-body text-sm md:text-base leading-relaxed text-slate-500 max-w-sm font-light tracking-wide transition-all duration-700 px-4 md:px-0">
                 {active.description}
               </p>
             </div>
@@ -321,6 +305,7 @@ export default function HackathonTracks() {
                                 fill
                                 sizes="(max-width: 768px) 300px, 420px"
                                 className="object-cover brightness-105"
+                              unoptimized={true}
                               />
                               <div className="pointer-events-none absolute inset-0 z-20 mix-blend-screen shadow-[inset_0_0_30px_rgba(255,215,0,0.3)]" />
                             </div>

@@ -25,7 +25,7 @@ export default function LoadingScreen() {
 
         {/* Textual feedback */}
         <div className="flex flex-col items-center gap-2">
-          <h2 className="font-['Cinzel',serif] text-[#FFD700] text-xl tracking-[0.4em] uppercase drop-shadow-[0_0_10px_rgba(255,215,0,0.5)] animate-pulse">
+          <h2 className="font-heading text-[#FFD700] text-xl tracking-[0.4em] uppercase drop-shadow-[0_0_10px_rgba(255,215,0,0.5)] animate-pulse">
             Entering Asgard
           </h2>
           <span className="font-['Inter',sans-serif] text-white/40 text-[10px] uppercase tracking-[0.2em]">

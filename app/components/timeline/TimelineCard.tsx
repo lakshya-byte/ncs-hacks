@@ -42,9 +42,7 @@ export default function TimelineCard({ title, date, description, side, className
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className={`relative flex flex-col justify-center overflow-hidden rounded-[2rem] border-[2px] border-[#d4af37]/50 bg-white/40 p-8 backdrop-blur-[24px] transition-[transform,border-color,box-shadow,background-color] duration-300 ease-out hover:border-[#d4af37]/80 hover:bg-white/50 md:p-12 md:px-14 ${
-          isLeft ? 'items-start text-left md:items-end md:text-right' : 'items-start text-left md:items-start md:text-left'
-        }`}
+        className="relative w-full overflow-hidden rounded-[2rem] border-[2px] border-[#d4af37]/40 bg-white/60 p-6 md:px-12 md:py-10 backdrop-blur-md transition-[transform,border-color,box-shadow,background-color] duration-300 ease-out hover:border-[#d4af37]/80 hover:bg-white/80 shadow-lg gpu-accelerate"
         style={{
           transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
           boxShadow: '0 16px 40px -10px rgba(218,165,32,0.15), inset 0 2px 0 rgba(255,255,255,0.7)',
@@ -58,24 +56,24 @@ export default function TimelineCard({ title, date, description, side, className
 
         {/* Dynamic Highlight tied to mouse tilt! */}
         <div 
-          className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/0 via-white/40 to-white/0 transition-opacity duration-300"
+          className="pointer-events-none absolute inset-0 bg-linear-to-tr from-white/0 via-white/40 to-white/0 transition-opacity duration-300"
           style={{ opacity: (Math.abs(rotation.x) + Math.abs(rotation.y)) > 2 ? 1 : 0 }}
         />
 
-        {/* Text Container: Full width respecting padding natively. Removes hardcoded widths that risked shifting. */}
-        <div className="relative z-10 flex min-w-0 w-full flex-col gap-3 break-words">
-          <p className="font-serif text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[#b38224] md:text-xs">
+        {/* Text Container: Uses standard block layout to guarantee padding limits are completely respected. */}
+        <div className={`relative z-10 w-full wrap-break-word ${isLeft ? 'text-left md:text-right' : 'text-left md:text-left'}`}>
+          <p className="font-heading text-[0.75rem] font-bold uppercase tracking-[0.2em] text-[#b8860b] md:text-xs mb-3">
             {date}
           </p>
           <h3 
-            className="text-3xl leading-none text-[#2f2616] md:text-[2.75rem]" 
-            style={{ fontFamily: 'var(--font-skranji), system-ui, sans-serif' }}
+            className="text-2xl font-bold leading-[1.15] text-slate-900 md:text-[2.2rem] lg:text-[2.6rem] mb-4 drop-shadow-sm" 
+            style={{ fontFamily: 'var(--font-heading)' }}
           >
             {title}
           </h3>
           <p 
-            className="mt-1 text-sm font-light leading-relaxed tracking-wide text-[#5a4a36] text-balance md:text-base" 
-            style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
+            className="text-sm font-medium leading-relaxed tracking-wide text-slate-600 md:text-[1.05rem] text-balance" 
+            style={{ fontFamily: 'var(--font-body)' }}
           >
             {description}
           </p>

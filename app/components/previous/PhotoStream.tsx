@@ -92,12 +92,12 @@ export default function PhotoStream() {
       {/* Forefront Text Overlay */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none w-full text-center">
         <h2 
-          className="font-serif text-[#B8860B] tracking-wide leading-[1.1] drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]"
+          className="font-heading text-[#B8860B] tracking-wide leading-[1.1] drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]"
           style={{ fontSize: 'clamp(3rem, 6vw, 6rem)' }}
         >
           Memories of Asgard
         </h2>
-        <p className="mt-4 font-sans text-xs tracking-[0.3em] uppercase text-[#B8860B]/80 font-medium bg-white/40 inline-block px-6 py-2 rounded-full backdrop-blur-md border border-[#D4AF37]/20 shadow-sm">
+        <p className="mt-4 font-body text-xs tracking-[0.3em] uppercase text-[#B8860B]/80 font-medium bg-white/40 inline-block px-6 py-2 rounded-full backdrop-blur-md border border-[#D4AF37]/20 shadow-sm">
           A Legacy Forged in Code
         </p>
       </div>
@@ -116,7 +116,7 @@ function PhotoCard({ id }: { id: number }) {
       className={`relative w-full ${isTall ? 'aspect-[3/4]' : 'aspect-square'} rounded-3xl border border-[#D4AF37]/20 bg-gradient-to-br from-white/60 to-white/10 backdrop-blur-md shadow-[0_10px_30px_rgba(212,175,55,0.05)] overflow-hidden transition-all duration-700 ease-out hover:scale-[1.04] hover:shadow-[0_20px_40px_rgba(212,175,55,0.25)] hover:border-[#D4AF37]/50 group mx-auto cursor-pointer`}
     >
       <div className="absolute inset-4 rounded-xl overflow-hidden border border-[#FFD700]/10 flex items-center justify-center bg-white/20">
-        <p className="font-sans text-[10px] sm:text-xs tracking-[0.2em] uppercase text-[#B8860B]/60 text-center px-4 leading-relaxed group-hover:text-[#B8860B] transition-colors duration-500">
+        <p className="font-body text-[10px] sm:text-xs tracking-[0.2em] uppercase text-[#B8860B]/60 text-center px-4 leading-relaxed group-hover:text-[#B8860B] transition-colors duration-500">
           Photo Slot <br/><span className="text-[8px] opacity-70">Memories</span>
         </p>
         

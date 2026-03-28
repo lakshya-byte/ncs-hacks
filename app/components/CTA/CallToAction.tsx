@@ -110,13 +110,13 @@ export default function CallToAction() {
           className="mb-8 w-16 h-16 rounded-full border border-[#D4AF37]/50 flex items-center justify-center bg-white/60 backdrop-blur-sm shadow-[0_0_30px_rgba(212,175,55,0.15)]"
         >
           {/* Elder Futhark Algiz (Protection/Ascension) */}
-          <span className="font-serif text-2xl text-[#b8860b] drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">ᛉ</span>
+          <span className="font-heading text-2xl text-[#b8860b] drop-shadow-[0_2px_4px_rgba(212,175,55,0.3)]">ᛉ</span>
         </div>
 
         {/* Main Headline */}
         <h2 
           ref={headlineRef}
-          className="font-serif text-5xl md:text-7xl lg:text-8xl tracking-[0.15em] uppercase mb-6"
+          className="font-heading text-5xl md:text-7xl lg:text-8xl tracking-[0.15em] uppercase mb-6"
         >
           <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#2f2616] via-[#B8860B] to-[#5a4a36] drop-shadow-[0_2px_15px_rgba(212,175,55,0.2)]">
             The Realm Awaits
@@ -126,8 +126,8 @@ export default function CallToAction() {
         {/* Subtext */}
         <p 
           ref={subtextRef}
-          className="font-sans text-lg md:text-xl text-[#5a4a36] font-light tracking-[0.2em] uppercase max-w-2xl mb-12"
-          style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
+          className="font-body text-lg md:text-xl text-[#5a4a36] font-light tracking-[0.2em] uppercase max-w-2xl mb-12"
+          style={{ fontFamily: 'var(--font-body)' }}
         >
           Only those who dare to build will ascend.
         </p>
@@ -136,7 +136,7 @@ export default function CallToAction() {
         <a 
           ref={buttonRef}
           href="#register"
-          className="group relative inline-flex items-center justify-center px-10 py-5 rounded-full bg-gradient-to-r from-[#D4AF37] via-[#f5d980] to-[#D4AF37] text-[#2f2616] font-serif font-bold text-sm md:text-base tracking-[0.3em] uppercase overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-[0_10px_35px_rgba(212,175,55,0.4)] cursor-pointer"
+          className="group relative inline-flex items-center justify-center px-10 py-5 rounded-full bg-gradient-to-r from-[#D4AF37] via-[#f5d980] to-[#D4AF37] text-[#2f2616] font-heading font-bold text-sm md:text-base tracking-[0.3em] uppercase overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-[0_10px_35px_rgba(212,175,55,0.4)] cursor-pointer"
         >
           {/* Light sweep effect on hover */}
           <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-[150%] skew-x-[-15deg] group-hover:animate-[ctaSweep_1.5s_ease-in-out_infinite]" />

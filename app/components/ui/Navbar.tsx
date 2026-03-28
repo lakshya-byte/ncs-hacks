@@ -18,26 +18,32 @@ export default function Navbar() {
   const [ctaHovered, setCtaHovered] = useState(false);
   const [ctaPressed, setCtaPressed] = useState(false);
   const [mouseX, setMouseX] = useState(0.5);
-  const [floatY, setFloatY] = useState(0);
   const navRef = useRef<HTMLElement>(null);
   const rafRef = useRef<number | null>(null);
   const t = useRef(0);
 
   // Scroll tracking to delay appearance until after Hero (900vh)
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const y = window.scrollY;
-      const heroThreshold = window.innerHeight * 9 - 100; // Just before particle section ends
-      
-      const isPastHero = y > heroThreshold;
-      setIsVisible(isPastHero);
-      
-      if (isPastHero) {
-        setScrolled(y > heroThreshold + 40);
-        setScrollProgress(Math.min(1, (y - heroThreshold) / 300));
-      } else {
-        setScrolled(false);
-        setScrollProgress(0);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const y = window.scrollY;
+          const heroThreshold = window.innerHeight * 9 - 100; // Just before particle section ends
+          
+          const isPastHero = y > heroThreshold;
+          setIsVisible(isPastHero);
+          
+          if (isPastHero) {
+            setScrolled(y > heroThreshold + 40);
+            setScrollProgress(Math.min(1, (y - heroThreshold) / 300));
+          } else {
+            if (scrolled !== false) setScrolled(false);
+            if (scrollProgress !== 0) setScrollProgress(0);
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
     
@@ -46,22 +52,33 @@ export default function Navbar() {
     
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [scrolled, scrollProgress]);
 
   // Mouse parallax
   useEffect(() => {
+    let ticking = false;
     const handleMouse = (e: MouseEvent) => {
-      setMouseX(e.clientX / window.innerWidth);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setMouseX(e.clientX / window.innerWidth);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
     window.addEventListener('mousemove', handleMouse, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouse);
   }, []);
 
-  // Floating animation
+  // Floating animation (Optimized: Direct DOM manipulation prevents 60fps re-renders)
+  const floatInnerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const tick = (timestamp: number) => {
       t.current = timestamp;
-      setFloatY(Math.sin(timestamp / 2800) * 2.5);
+      if (floatInnerRef.current) {
+        const floatY = Math.sin(timestamp / 2800) * 2.5;
+        floatInnerRef.current.style.transform = `translateY(${floatY}px) translateZ(0)`;
+      }
       rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
@@ -79,10 +96,10 @@ export default function Navbar() {
       ref={navRef}
       className={`fixed top-0 inset-x-0 z-[100] transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] pointer-events-none ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-24'
-      }`}
+      } gpu-accelerate`}
     >
       {/* ── Inner wrapper separating the continuous float from the entry transition ── */}
-      <div style={{ transform: `translateY(${floatY}px)` }} className="w-full flex justify-center">
+      <div ref={floatInnerRef} className="w-full flex justify-center will-change-transform">
       {/* Width constrainer */}
       <div
         className="container-main pointer-events-auto transition-[margin] duration-500"
@@ -152,7 +169,7 @@ export default function Navbar() {
             <Link href="/" className="flex items-center gap-[10px] no-underline">
             {/* Gold rune orb */}
             <div
-              className="w-7 h-7 rounded-full flex items-center justify-center text-[0.85rem] font-serif shrink-0"
+              className="w-7 h-7 rounded-full flex items-center justify-center text-[0.85rem] font-heading shrink-0"
               style={{
                 background: 'radial-gradient(circle at 35% 35%, #f5d980, #c9a227 50%, #7a5210)',
                 boxShadow: '0 0 12px rgba(201,162,39,0.5), 0 2px 6px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.4)',
@@ -163,7 +180,7 @@ export default function Navbar() {
             </div>
             {/* Wordmark */}
             <span
-              className="font-[Cinzel,_'Times_New_Roman',serif] font-black text-[1.1rem] tracking-[0.35em] uppercase"
+              className="font-heading font-black text-[1.1rem] tracking-[0.35em] uppercase"
               style={{
                 background: 'linear-gradient(135deg, #6b4a0a 0%, #c9a227 30%, #f5d980 55%, #dfb430 75%, #8a5d0e 100%)',
                 WebkitBackgroundClip: 'text',
@@ -185,7 +202,7 @@ export default function Navbar() {
                   href={link.href}
                   className="
                     group relative inline-block
-                    font-[Cinzel,serif] text-[0.68rem] font-medium tracking-[0.2em] uppercase no-underline
+                    font-heading text-[0.68rem] font-medium tracking-[0.2em] uppercase no-underline
                     text-[#3d2600] transition-[color,transform,text-shadow] duration-300 ease-out
                     hover:text-[#9a6f10] hover:-translate-y-0.5
                     hover:[text-shadow:0_0_16px_rgba(201,162,39,0.55),0_0_32px_rgba(201,162,39,0.2)]

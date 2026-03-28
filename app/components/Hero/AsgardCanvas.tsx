@@ -170,7 +170,7 @@ export default function AsgardCanvas() {
     <>
       {!loaded && (
         <div className="absolute inset-0 bg-black flex flex-col items-center justify-center z-100">
-          <div className="font-[Cinzel,serif] text-[#c9a227] text-[1.1rem] tracking-[0.25em] mb-8">
+          <div className="font-heading text-[#c9a227] text-[1.1rem] tracking-[0.25em] mb-8">
             LOADING ASGARD
           </div>
           <div className="w-[260px] h-[3px] bg-white/10 rounded-full overflow-hidden">

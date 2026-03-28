@@ -49,7 +49,6 @@ const prizesData = [
 export default function PrizesSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const desktopCardsRef = useRef<HTMLDivElement>(null);
-  const mobileCardsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // ════════════ DESKTOP SCROLL LOGIC (3D STACK & FLIP) ════════════
@@ -145,22 +144,22 @@ export default function PrizesSection() {
     <section 
       ref={sectionRef} 
       // Height is 400vh to give the user plenty of scroll distance to read all 4 cards
-      className="relative w-full h-[400vh] bg-[#050810] font-sans selection:bg-[#FFD700]/30"
+      className="relative w-full h-[400vh] bg-[#FAF9F6] font-body selection:bg-[#FFD700]/30"
     >
       
       {/* ════════════ DESKTOP: STICKY 3D STACKING ENVIRONMENT ════════════ */}
       <div className="hidden md:flex sticky top-0 w-full h-screen items-center justify-center overflow-hidden perspective-[1500px]">
         
         {/* Cinematic Background Elements */}
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 pointer-events-none mix-blend-screen" />
-        <div className="ambient-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.15)_0%,transparent_60%)] pointer-events-none opacity-40 transition-all duration-500" />
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-5 pointer-events-none mix-blend-multiply" />
+        <div className="ambient-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.1)_0%,transparent_60%)] pointer-events-none opacity-60 transition-all duration-500" />
         
         {/* Title */}
         <div className="absolute top-12 left-1/2 -translate-x-1/2 text-center z-50">
-          <h2 className="font-serif text-[clamp(2rem,4vw,3rem)] text-[#F0E6D2] tracking-[0.2em] uppercase drop-shadow-[0_5px_15px_rgba(212,175,55,0.3)]">
+          <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] text-[#1A1A1A] tracking-[0.2em] uppercase drop-shadow-[0_2px_10px_rgba(212,175,55,0.2)]">
             Divine Treasures
           </h2>
-          <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent mx-auto mt-4" />
+          <div className="w-24 h-[1.5px] bg-linear-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mt-4" />
         </div>
 
         {/* 3D Card Stack Container */}
@@ -175,7 +174,7 @@ export default function PrizesSection() {
               <div className="card-flipper relative w-full h-full transform-style-3d will-change-transform rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.6),inset_0_0_0_1px_rgba(255,215,0,0.2)]">
                 
                 {/* ── FRONT OF CARD ── */}
-                <div className="absolute inset-0 w-full h-full backface-hidden flex flex-col items-center justify-center p-8 bg-gradient-to-b from-[#131A2B]/90 to-[#0A0F1C]/90 backdrop-blur-xl rounded-3xl border border-[#D4AF37]/30">
+                <div className="absolute inset-0 w-full h-full backface-hidden flex flex-col items-center justify-center p-8 bg-linear-to-b from-[#FFFFFF] to-[#FDFBF7] backdrop-blur-xl rounded-3xl border border-[#D4AF37]/40 shadow-xl">
                   {/* Ornate corner accents */}
                   <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-[#D4AF37]/50" />
                   <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-[#D4AF37]/50" />
@@ -183,48 +182,48 @@ export default function PrizesSection() {
                   <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-[#D4AF37]/50" />
 
                   <div className="relative mb-8">
-                    <div className="absolute inset-0 bg-[#FFD700] blur-[40px] opacity-20 rounded-full" />
-                    <span className="relative font-serif text-[80px] text-transparent bg-clip-text bg-gradient-to-b from-[#FFD700] to-[#B8860B] drop-shadow-[0_2px_10px_rgba(212,175,55,0.8)]">
+                    <div className="absolute inset-0 bg-[#FFD700] blur-2xl opacity-20 rounded-full" />
+                    <span className="relative font-heading text-[80px] text-transparent bg-clip-text bg-linear-to-b from-[#FFD700] to-[#B8860B] drop-shadow-[0_2px_10px_rgba(212,175,55,0.8)]">
                       {prize.rune}
                     </span>
                   </div>
 
-                  <span className="font-sans text-xs tracking-[0.4em] text-[#D4AF37] uppercase mb-4">
+                  <span className="font-body text-xs tracking-[0.4em] text-[#B8860B] uppercase mb-4">
                     {prize.tier}
                   </span>
-                  <h3 className="font-serif text-3xl uppercase tracking-widest text-[#F0E6D2] text-center leading-snug">
+                  <h3 className="font-heading text-3xl uppercase tracking-widest text-[#1A1A1A] text-center leading-snug">
                     {prize.title}
                   </h3>
                 </div>
 
                 {/* ── BACK OF CARD (REVEAL) ── */}
                 {/* rotate-y-180 puts it on the back. backface-hidden ensures we don't see it until flipped. */}
-                <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 flex flex-col p-10 bg-gradient-to-br from-[#FFFDF5] to-[#FDFBF2] rounded-3xl border-2 border-[#FFD700] shadow-[inset_0_0_60px_rgba(212,175,55,0.15)]">
+                <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 flex flex-col p-10 bg-linear-to-br from-[#FFFDF5] to-[#FDFBF2] rounded-3xl border-2 border-[#FFD700] shadow-[inset_0_0_60px_rgba(212,175,55,0.15)]">
                   
                   <div className="flex flex-col items-center text-center border-b border-[#D4AF37]/30 pb-6 mb-6">
-                    <span className="font-serif text-sm tracking-[0.2em] text-[#B8860B] uppercase mb-2">
+                    <span className="font-heading text-sm tracking-[0.2em] text-[#B8860B] uppercase mb-2">
                       {prize.title}
                     </span>
-                    <h4 className="font-sans text-5xl font-black text-slate-900 tracking-tight drop-shadow-sm">
+                    <h4 className="font-body text-5xl font-black text-slate-900 tracking-tight drop-shadow-sm">
                       {prize.amount}
                     </h4>
                   </div>
 
-                  <p className="font-sans text-sm text-slate-600 leading-relaxed font-medium mb-6 text-center">
+                  <p className="font-body text-sm text-slate-600 leading-relaxed font-medium mb-6 text-center">
                     {prize.description}
                   </p>
 
                   <div className="flex-1 flex flex-col justify-center">
-                    <span className="font-serif text-xs font-bold tracking-widest text-slate-400 uppercase mb-4">
+                    <span className="font-heading text-xs font-bold tracking-widest text-slate-400 uppercase mb-4">
                       Divine Perks Include:
                     </span>
                     <ul className="space-y-4">
                       {prize.perks.map((perk, idx) => (
                         <li key={idx} className="flex items-start gap-3">
-                          <div className="mt-0.5 flex-shrink-0 w-4 h-4 rounded-full bg-[#FFD700]/20 flex items-center justify-center border border-[#FFD700]/50">
+                          <div className="mt-0.5 shrink-0 w-4 h-4 rounded-full bg-[#FFD700]/20 flex items-center justify-center border border-[#FFD700]/50">
                             <div className="w-1.5 h-1.5 bg-[#B8860B] rounded-full rotate-45" />
                           </div>
-                          <span className="font-sans text-[13px] text-slate-700 font-medium">
+                          <span className="font-body text-[13px] text-slate-700 font-medium">
                             {perk}
                           </span>
                         </li>
@@ -245,36 +244,36 @@ export default function PrizesSection() {
       <div className="md:hidden flex flex-col items-center py-24 px-6 gap-8 relative z-10 min-h-screen">
         
         <div className="text-center mb-8">
-          <h2 className="font-serif text-3xl text-[#F0E6D2] tracking-[0.15em] uppercase drop-shadow-[0_5px_15px_rgba(212,175,55,0.3)]">
+          <h2 className="font-heading text-3xl text-[#1A1A1A] tracking-[0.15em] uppercase">
             Divine Treasures
           </h2>
-          <div className="w-16 h-[1px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent mx-auto mt-4" />
+          <div className="w-16 h-[1.5px] bg-linear-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mt-4" />
         </div>
 
         {prizesData.map((prize) => (
           <div 
             key={prize.id} 
-            className="mobile-card w-full max-w-sm flex flex-col bg-gradient-to-br from-[#131A2B] to-[#0A0F1C] rounded-3xl border border-[#D4AF37]/30 shadow-[0_15px_30px_rgba(0,0,0,0.5)] overflow-hidden"
+            className="mobile-card w-full max-w-sm flex flex-col bg-white rounded-3xl border border-[#D4AF37]/30 shadow-lg overflow-hidden"
           >
             {/* Top Header Section */}
-            <div className="relative p-6 border-b border-[#D4AF37]/20 flex flex-col items-center text-center bg-[#050810]/50">
-              <span className="font-serif text-3xl text-[#FFD700] mb-2">{prize.rune}</span>
-              <span className="font-sans text-[10px] tracking-[0.3em] text-[#D4AF37] uppercase mb-1">{prize.tier}</span>
-              <h3 className="font-serif text-xl uppercase tracking-widest text-[#F0E6D2]">{prize.title}</h3>
+            <div className="relative p-6 border-b border-[#D4AF37]/20 flex flex-col items-center text-center bg-[#FDFBF7]">
+              <span className="font-heading text-3xl text-[#B8860B] mb-2">{prize.rune}</span>
+              <span className="font-body text-[10px] tracking-[0.3em] text-[#B8860B] uppercase mb-1">{prize.tier}</span>
+              <h3 className="font-heading text-xl uppercase tracking-widest text-[#1A1A1A]">{prize.title}</h3>
             </div>
 
             {/* Bottom Content Section */}
-            <div className="p-6 bg-gradient-to-b from-transparent to-[#FFD700]/5">
+            <div className="p-6 bg-linear-to-b from-transparent to-[#D4AF37]/5">
               <div className="text-center mb-6">
-                <h4 className="font-sans text-4xl font-black text-[#F0E6D2] tracking-tight">{prize.amount}</h4>
+                <h4 className="font-body text-4xl font-black text-[#1A1A1A] tracking-tight">{prize.amount}</h4>
               </div>
               <ul className="space-y-3">
                 {prize.perks.map((perk, idx) => (
                   <li key={idx} className="flex items-start gap-3">
-                    <div className="mt-1 flex-shrink-0 w-3 h-3 rounded-full bg-[#FFD700]/10 flex items-center justify-center border border-[#FFD700]/30">
-                      <div className="w-1 h-1 bg-[#D4AF37] rounded-full" />
+                    <div className="mt-1 shrink-0 w-3 h-3 rounded-full bg-[#D4AF37]/10 flex items-center justify-center border border-[#D4AF37]/30">
+                      <div className="w-1 h-1 bg-[#B8860B] rounded-full" />
                     </div>
-                    <span className="font-sans text-xs text-[#F0E6D2]/80 leading-relaxed">
+                    <span className="font-body text-xs text-[#2D2D2D] leading-relaxed">
                       {perk}
                     </span>
                   </li>
