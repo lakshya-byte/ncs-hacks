@@ -89,14 +89,12 @@ export default function TimelineSection() {
 
     mm.add('(max-width: 767px)', () => {
       setIsMobile(true);
-      setProgress(1);
+      setProgress(0);
       setActiveIndex(0);
     });
 
     mm.add('(min-width: 768px)', () => {
       setIsMobile(false);
-      setProgress(0);
-      setActiveIndex(0);
 
       const trigger = ScrollTrigger.create({
         trigger: sectionRef.current,
@@ -107,8 +105,7 @@ export default function TimelineSection() {
           const currentProgress = self.progress;
           setProgress((prev) => (Math.abs(prev - currentProgress) > PROGRESS_EPSILON ? currentProgress : prev));
 
-          const scaled = currentProgress * (timelineData.length - 1);
-          const nextIndex = Math.min(timelineData.length - 1, Math.max(0, Math.round(scaled)));
+          const nextIndex = Math.min(timelineData.length - 1, Math.floor(currentProgress * timelineData.length));
           setActiveIndex((prev) => (prev !== nextIndex ? nextIndex : prev));
         },
       });
