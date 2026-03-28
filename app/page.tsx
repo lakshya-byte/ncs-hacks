@@ -45,7 +45,7 @@ export default function Home() {
           id="scroll-container"
           className="relative h-[900vh] w-full z-[1]"
         >
-          <div className="sticky top-0 left-0 w-full h-screen overflow-hidden bg-black">
+          <div className="sticky top-0 left-0 w-full h-[100dvh] overflow-hidden bg-black">
             {/* Cinematic canvas + overlay */}
             <AsgardCanvas />
             <CinematicOverlay />
@@ -57,7 +57,7 @@ export default function Home() {
       {/* Content below hero */}
       <div className="relative z-20">
         <section id="about">
-          {/* <AboutNibble /> */}
+          <AboutNibble />
         </section>
         <section id="tracks">
           <HackathonTracks />

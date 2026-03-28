@@ -39,8 +39,8 @@ html {
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  /* Prevent horizontal overflow on all viewports */
-  overflow-x: hidden;
+  /* Prevent horizontal overflow on all viewports without breaking CSS position: sticky */
+  overflow-x: clip; 
 }
 
 html::-webkit-scrollbar { display: none; }
@@ -49,10 +49,14 @@ body {
   font-family: var(--font-cinzel);
   scrollbar-width: none;
   -ms-overflow-style: none;
-  overflow-x: hidden;
+  /* Clip rather than hidden rescues sticky scrolling on iOS/Android */
+  overflow-x: clip;
+  /* Prevent GSAP scrub destruction from native bounce */
+  overscroll-behavior-y: none;
   /* Guarantee body never exceeds viewport width */
   width: 100%;
   max-width: 100%;
+  min-height: -webkit-fill-available;
 }
 
 body::-webkit-scrollbar { display: none; }

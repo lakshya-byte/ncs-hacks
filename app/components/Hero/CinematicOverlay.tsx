@@ -15,7 +15,10 @@ export default function CinematicOverlay() {
   const runeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia();
+
+    // ── DESKTOP: FULL PREMIUM ANIMATIONS ──
+    mm.add("(min-width: 768px)", () => {
       // "Enter the Realm" fades out at 20% scroll
       gsap.to(enterTextRef.current, {
         scrollTrigger: {
@@ -101,7 +104,38 @@ export default function CinematicOverlay() {
       );
     });
 
-    return () => ctx.revert();
+    // ── MOBILE: SIMPLIFIED HARDWARE-ACCELERATED ANIMATIONS ──
+    mm.add("(max-width: 767px)", () => {
+      // Grouping intro fades into a single scroll trigger for minimal layout recalculations
+      gsap.to([enterTextRef.current, runeRef.current, startGradientRef.current], {
+        scrollTrigger: {
+          trigger: '#scroll-container',
+          start: 'top top',
+          end: () => "+=" + (window.innerHeight * 1.0),
+          scrub: true,
+        },
+        opacity: 0,
+        y: -15, // simplified y movement
+      });
+
+      // Grouping outro fades into a single scroll trigger block
+      gsap.fromTo(
+        [welcomeTextRef.current, subtitleRef.current, endGradientRef.current],
+        { opacity: 0, y: 15 },
+        {
+          scrollTrigger: {
+            trigger: '#scroll-container',
+            start: () => "top+=" + (window.innerHeight * 4.5) + " top",
+            end: () => "+=" + (window.innerHeight * 1.0),
+            scrub: true,
+          },
+          opacity: 1,
+          y: 0,
+        }
+      );
+    });
+
+    return () => mm.revert();
   }, []);
 
   return (
