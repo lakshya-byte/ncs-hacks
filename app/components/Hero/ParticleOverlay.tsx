@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -7,7 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 // Generate generic particle coords from text on offline canvas
-function generateTextParticles(text: string, width: number, height: number) {
+function generateTextParticles(text: string, width: number, height: number, isMobile: boolean) {
   if (typeof document === 'undefined') return [];
   
   const canvas = document.createElement('canvas');
@@ -32,7 +32,8 @@ function generateTextParticles(text: string, width: number, height: number) {
   const imgData = ctx.getImageData(0, 0, width, height).data;
   const particles = [];
   
-  const step = 3; // particle resolution
+  // Drastically reduce particle count on mobile to drop CPU/GPU load
+  const step = isMobile ? 6 : 3; 
   for (let y = 0; y < height; y += step) {
     for (let x = 0; x < width; x += step) {
       const idx = (y * width + x) * 4;
@@ -47,16 +48,36 @@ function generateTextParticles(text: string, width: number, height: number) {
   return particles;
 }
 
-function ParticleText({ scrollProgress }: { scrollProgress: number }) {
+function ParticleText({ scrollProgress, isMobile }: { scrollProgress: number, isMobile: boolean }) {
   const pointsRef = useRef<THREE.Points>(null);
   const geometryRef = useRef<THREE.BufferGeometry>(null);
+  const { viewport } = useThree();
   
   const basePositions = useRef<Float32Array>(new Float32Array());
   const randomPositions = useRef<Float32Array>(new Float32Array());
   const currentPositions = useRef<Float32Array>(new Float32Array());
   
+  // Calculate dynamic scale to ensure it fits mobile screens (approx 20 units wide originally)
+  const responsiveScale = Math.min(1.0, (viewport.width * 0.85) / 20);
+  
+  // Create circular particle texture
+  const circleTexture = React.useMemo(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      ctx.beginPath();
+      // Draw a solid circle
+      ctx.arc(32, 32, 28, 0, Math.PI * 2);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+    }
+    return new THREE.CanvasTexture(canvas);
+  }, []);
+  
   useEffect(() => {
-    const pts = generateTextParticles("NIOH", 1024, 512);
+    const pts = generateTextParticles("NIOH", 1024, 512, isMobile);
     const base = new Float32Array(pts.length * 3);
     const rand = new Float32Array(pts.length * 3);
     const curr = new Float32Array(pts.length * 3);
@@ -81,7 +102,7 @@ function ParticleText({ scrollProgress }: { scrollProgress: number }) {
     if (geometryRef.current) {
       geometryRef.current.setAttribute('position', new THREE.BufferAttribute(curr, 3));
     }
-  }, []);
+  }, [isMobile]);
 
   useFrame((state, delta) => {
     if (!geometryRef.current?.attributes?.position) return;
@@ -90,14 +111,19 @@ function ParticleText({ scrollProgress }: { scrollProgress: number }) {
     
     const targetProgress = scrollProgress;
     
+    // Scale down mouse hover forces based on scale so the interaction feels the same
     const vec = new THREE.Vector3(state.pointer.x, state.pointer.y, 0.5);
     vec.unproject(state.camera);
     vec.sub(state.camera.position).normalize();
     const dist = -state.camera.position.z / vec.z;
     const mousePos = state.camera.position.clone().add(vec.multiplyScalar(dist));
+    
+    // Adjust mouse pos inversely by scale to match unscaled coordinates
+    mousePos.x /= responsiveScale;
+    mousePos.y /= responsiveScale;
 
-    const hoverRadius = 1.5; 
-    const hoverForce = 0.4;  
+    const hoverRadius = 1.8; 
+    const hoverForce = 0.5;  
 
     for (let i = 0; i < positions.length / 3; i++) {
         const bx = basePositions.current[i*3];
@@ -142,10 +168,12 @@ function ParticleText({ scrollProgress }: { scrollProgress: number }) {
   });
 
   return (
-    <points ref={pointsRef}>
+    <points ref={pointsRef} scale={[responsiveScale, responsiveScale, responsiveScale]}>
       <bufferGeometry ref={geometryRef} />
       <pointsMaterial 
-        size={0.08} 
+        size={isMobile ? 0.14 : 0.08} 
+        map={circleTexture}
+        alphaTest={0.01}
         color="#FFE066" 
         transparent 
         opacity={0.85}
@@ -159,6 +187,16 @@ function ParticleText({ scrollProgress }: { scrollProgress: number }) {
 export default function ParticleOverlay() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
+  const [isMobile, setIsMobile] = useState(() => 
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
 
   useEffect(() => {
     const st = ScrollTrigger.create({
@@ -167,13 +205,14 @@ export default function ParticleOverlay() {
       end: () => "+=" + (window.innerHeight * 7), // forms over 700vh 
       scrub: true,
       onUpdate: (self) => {
-        // smooth curve for assembly
-        setProgress(Math.pow(self.progress, 1.2)); 
+        // Exaggerate curve strictly on mobile so the particles stay scattered longer and form at the very end
+        const power = isMobile ? 3.5 : 1.2;
+        setProgress(Math.pow(self.progress, power)); 
       }
     });
 
     return () => st.kill();
-  }, []);
+  }, [isMobile]);
 
   return (
     <div 
@@ -181,8 +220,8 @@ export default function ParticleOverlay() {
       className="absolute inset-0 z-20"
       style={{
         backgroundColor: progress > 0.8 ? `rgba(0,0,0,${Math.min(0.5, (progress - 0.8) * 2.5)})` : 'transparent',
-        backdropFilter: progress > 0.8 ? `blur(${Math.min(12, (progress - 0.8) * 60)}px)` : 'none',
-        WebkitBackdropFilter: progress > 0.8 ? `blur(${Math.min(12, (progress - 0.8) * 60)}px)` : 'none',
+        backdropFilter: (!isMobile && progress > 0.8) ? `blur(${Math.min(12, (progress - 0.8) * 60)}px)` : 'none',
+        WebkitBackdropFilter: (!isMobile && progress > 0.8) ? `blur(${Math.min(12, (progress - 0.8) * 60)}px)` : 'none',
         pointerEvents: progress > 0.95 ? 'auto' : 'none'
       }}
     >
@@ -200,7 +239,7 @@ export default function ParticleOverlay() {
       
       <div className="absolute inset-0 pointer-events-none">
         <Canvas camera={{ position: [0, 0, 15], fov: 45 }}>
-          <ParticleText scrollProgress={progress} />
+          <ParticleText scrollProgress={progress} isMobile={isMobile} />
         </Canvas>
       </div>
     </div>

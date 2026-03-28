@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -13,6 +14,7 @@ const tracks = [
     description:
       "The All-Seeing Mind. Harness the omniscient power of artificial intelligence, akin to the watchful gaze of the divine. Forge algorithms that perceive the unseen and predict the future.",
     bgGradient: "from-[#FAFAF8] to-[#F3F0E6]",
+    image: "/tracks/AIML.png",
   },
   {
     id: "02",
@@ -20,6 +22,7 @@ const tracks = [
     description:
       "Construct the digital realms of tomorrow. Build robust, scalable, and divine architectures that seamlessly connect the world through glowing networks.",
     bgGradient: "from-[#FDFBF7] to-[#EAE6DB]",
+    image: "/tracks/WebDev.png",
   },
   {
     id: "03",
@@ -27,6 +30,7 @@ const tracks = [
     description:
       "Weave trust into the digital fabric. Create immutable decentralized systems and smart contracts that stand the test of time like ancient, unbreakable runes.",
     bgGradient: "from-[#FAFAF8] to-[#F5F5F0]",
+    image: "/tracks/Blockchain.png",
   },
   {
     id: "04",
@@ -34,6 +38,7 @@ const tracks = [
     description:
       "Breathe life into the inanimate. Bridge the celestial gap between hardware and software to animate a seamlessly connected, brilliant physical world.",
     bgGradient: "from-[#F9F8F5] to-[#EBE8E0]",
+    image: "/tracks/IOT.png",
   },
   {
     id: "05",
@@ -41,6 +46,7 @@ const tracks = [
     description:
       "Become the guardians of the vault. Design impenetrable digital shields and defensive algorithms to protect sacred realms against chaotic forces.",
     bgGradient: "from-[#FAFAF8] to-[#EAEAEA]",
+    image: "/tracks/CyberSecuirty.png",
   },
   {
     id: "06",
@@ -48,6 +54,7 @@ const tracks = [
     description:
       "Architect a greener eternity. Develop innovative technology honoring the balance of nature to sustain our beautiful world for eras to come.",
     bgGradient: "from-[#F8F9F5] to-[#E6EBE0]",
+    image: "/tracks/Sustainablity.png",
   },
 ];
 
@@ -94,16 +101,17 @@ export default function HackathonTracks() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(212,175,55,0.08)_0%,transparent_60%)] pointer-events-none" />
 
       {/* ══ MAIN LAYOUT — Standard centred container with two columns ══ */}
-      <div className="relative z-10 w-full h-full flex items-center">
+      <div className="relative z-10 w-full h-full flex items-center py-20 md:py-0">
         <div className="site-container relative h-full flex items-center">
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 items-center">
-            {/* LEFT: Text — normal document flow, no absolute */}
-            <div className="flex flex-col">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8 lg:gap-16 items-center">
+            
+            {/* TEXT SIDE: Stacks top on mobile, sits left on desktop */}
+            <div className="flex flex-col items-center md:items-start text-center md:text-left order-first md:order-none">
             <span
               className="font-serif leading-none text-transparent select-none"
               style={{
                 WebkitTextStroke: "1px rgba(212, 175, 55, 0.3)",
-                fontSize: "clamp(4rem, 8vw, 7rem)",
+                fontSize: "clamp(3rem, 8vw, 7rem)",
               }}
             >
               {active.id}
@@ -111,19 +119,19 @@ export default function HackathonTracks() {
 
             <h2
               className="mt-2 font-serif font-medium leading-[1.1] tracking-tight text-[#B8860B] drop-shadow-[0_0_20px_rgba(212,175,55,0.2)] transition-all duration-700"
-              style={{ fontSize: "clamp(2rem, 4vw, 4rem)" }}
+              style={{ fontSize: "clamp(1.75rem, 5vw, 4rem)" }}
             >
               {active.title}
             </h2>
 
-            <p className="mt-7 font-sans text-base leading-relaxed text-slate-500 max-w-md font-light tracking-wide transition-all duration-700">
+            <p className="mt-4 md:mt-7 font-sans text-sm md:text-base leading-relaxed text-slate-500 max-w-md font-light tracking-wide transition-all duration-700">
               {active.description}
             </p>
           </div>
 
-          {/* RIGHT: Visual */}
-          <div className="flex items-center justify-center h-full">
-            <div className="relative w-full max-w-[420px] aspect-square">
+          {/* VISUAL SIDE: Responsive sizing, stacks below text */}
+          <div className="flex items-center justify-center h-[40vh] md:h-full w-full">
+            <div className="relative w-[75%] md:w-full max-w-[320px] md:max-w-[420px] aspect-square">
               {tracks.map((track, idx) => {
                 const isActive = idx === activeIndex;
                 return (
@@ -139,13 +147,27 @@ export default function HackathonTracks() {
                   >
                     <div className="w-full h-full rounded-[2.5rem] border border-[#FFD700]/30 bg-gradient-to-br from-white/60 to-white/10 backdrop-blur-xl shadow-[0_20px_70px_rgba(212,175,55,0.15)] flex items-center justify-center relative overflow-hidden">
                       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,215,0,0.2),transparent_60%)] pointer-events-none" />
-                      <div className="absolute inset-6 rounded-3xl overflow-hidden border border-[#FFD700]/20 flex items-center justify-center bg-white/30 backdrop-blur-md">
-                        <p className="font-sans text-xs tracking-[0.3em] uppercase text-[#B8860B]/70 text-center px-6 leading-loose">
-                          [ Image Slot ]<br />
-                          <span className="text-[9px] mt-3 block opacity-60">
-                            Insert {track.title} image here
-                          </span>
-                        </p>
+                      {/* Premium God Level Energy Border Component */}
+                      <div className="absolute inset-6 rounded-4xl shadow-[0_0_50px_rgba(255,215,0,0.25)] ring-1 ring-[#FFD700]/20">
+                        {/* Outer border container creating the padding for the border line */}
+                        <div className="absolute inset-0 rounded-4xl p-[6px] overflow-hidden flex items-center justify-center">
+                          
+                          {/* Flowing golden energy background */}
+                          <div className="absolute -inset-8 bg-gradient-to-tr from-[#E6B800] via-[#FFF5A0] to-[#E6B800] bg-[size:300%_300%] animate-[borderEnergy_6s_ease-in-out_infinite] blur-[8px] opacity-100" />
+                          
+                          {/* Inner Image Container */}
+                          <div className="relative w-full h-full rounded-[calc(2rem-6px)] overflow-hidden bg-[#0A0F1C] z-10">
+                            <Image 
+                              src={track.image}
+                              alt={track.title}
+                              fill
+                              className="object-cover brightness-105"
+                            />
+                            {/* Soft layered inner glow to match the border */}
+                            <div className="absolute inset-0 shadow-[inset_0_0_30px_rgba(255,215,0,0.3)] mix-blend-screen pointer-events-none z-20" />
+                          </div>
+                          
+                        </div>
                       </div>
                     </div>
                   </div>

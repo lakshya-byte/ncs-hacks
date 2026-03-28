@@ -84,7 +84,7 @@ export default function CallToAction() {
   return (
     <section 
       ref={containerRef} 
-      className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden bg-[#05080f] text-white"
+      className="relative w-full min-h-[50vh] md:h-screen h-auto flex flex-col items-center justify-center py-28 md:py-0 overflow-hidden bg-[#05080f] text-white"
     >
       {/* ── BACKGROUND LAYER ── */}
       {/* Ambient background glow (radial light) */}

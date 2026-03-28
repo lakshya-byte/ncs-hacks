@@ -245,17 +245,18 @@ export default function AboutNibble() {
         {/* Forces vertical gap allowing the golden background temple to breathe, adding depth. */}
         <div className="w-full min-h-[max(25vh,200px)] pointer-events-none" />
 
-        {/* 4. PORTRAITS ROW (SINGLE HORIZONTAL LINE) */}
-        <div className="w-full max-w-6xl px-4 flex flex-col md:flex-row md:flex-nowrap justify-center items-center gap-4 sm:gap-6 lg:gap-8 mb-20 z-20">
+        {/* 4. PORTRAITS ROW (HORIZONTAL SNAP SCROLL ON MOBILE) */}
+        <div className="w-full max-w-6xl px-4 py-4 flex flex-row overflow-x-auto snap-x snap-mandatory md:overflow-visible md:snap-none md:justify-center items-center gap-6 lg:gap-8 mb-20 z-20 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {features.map((feature, i) => (
-            <RoyalFeatureCard 
-              key={feature.id} 
-              icon={feature.icon} 
-              title={feature.title} 
-              subtitle={feature.subtitle} 
-              index={i}
-              ref={(el) => { cardsRef.current[i] = el; }}
-            />
+            <div key={feature.id} className="snap-center shrink-0 w-[80vw] sm:w-[60vw] md:w-auto flex justify-center">
+              <RoyalFeatureCard 
+                icon={feature.icon} 
+                title={feature.title} 
+                subtitle={feature.subtitle} 
+                index={i}
+                ref={(el) => { cardsRef.current[i] = el; }}
+              />
+            </div>
           ))}
         </div>
 

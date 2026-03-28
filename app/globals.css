@@ -67,7 +67,19 @@ body::-webkit-scrollbar { display: none; }
   width: 100%;
   max-width: var(--site-max-width);
   margin-inline: auto;           /* centres the block */
-  padding-inline: var(--site-gutter);
+  padding-inline: 0.75rem;       /* px-3 on mobile */
+}
+
+@media (min-width: 768px) {
+  .site-container {
+    padding-inline: 1rem;        /* px-4 on tablet */
+  }
+}
+
+@media (min-width: 1280px) {
+  .site-container {
+    padding-inline: 1.5rem;      /* px-6 on desktop */
+  }
 }
 
 /* Full-width sections still need overflow protection */
@@ -129,4 +141,10 @@ canvas {
 @keyframes grainScroll {
   0%   { transform: translate(0, 0); }
   100% { transform: translate(-50%, -50%); }
+}
+
+@keyframes borderEnergy {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
 }
