@@ -83,6 +83,7 @@ export default function CallToAction() {
 
   return (
     <section 
+      id="cta"
       ref={containerRef} 
       className="relative w-full min-h-[50vh] md:h-screen h-auto flex flex-col items-center justify-center section-main md:py-0 overflow-hidden bg-[radial-gradient(ellipse_at_top,rgba(255,236,187,0.48)_0%,rgba(252,250,244,0.98)_42%,#f5f1e7_100%)] text-slate-900"
     >
