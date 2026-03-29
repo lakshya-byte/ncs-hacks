@@ -38,6 +38,9 @@ const CallToAction = dynamic(() => import('./components/CTA/CallToAction'), {
 const PrizesSection = dynamic(() => import('./components/prizes/PrizesSection'), {
   ssr: false,
 });
+const FaqSection = dynamic(() => import('./components/faq/FaqSection'), {
+  ssr: false,
+});
 const Mascot = dynamic(() => import('./components/mascot/Mascot'), {
   ssr: false,
 });
@@ -47,22 +50,30 @@ export default function Home() {
     <>
       {/* Scroll container — creates scroll height for GSAP ScrollTrigger */}
       <div id="home">
-        <div
-          id="scroll-container"
-          className="relative h-[900vh] w-full z-[1]"
-        >
-          <div className="sticky top-0 left-0 w-full h-[100dvh] overflow-hidden bg-black">
-            {/* Cinematic canvas + overlay */}
-            <AsgardCanvas />
-            <CinematicOverlay />
-            <ParticleOverlay />
+        <div id="hero">
+          <div
+            id="scroll-container"
+            className="relative h-[900vh] w-full z-[1]"
+          >
+            <div className="sticky top-0 left-0 w-full h-[100dvh] overflow-hidden bg-black">
+              {/* Cinematic canvas + overlay */}
+              <AsgardCanvas />
+              <CinematicOverlay />
+              <ParticleOverlay />
+            </div>
           </div>
         </div>
       </div>
 
       {/* Content below hero */}
       <div className="relative z-20">
-        <section id="about">
+        <section id="announcement">
+          {/* announcement maps to the story/photo reveal panel in this build */}
+          <PhotoStream />
+        </section>
+        <section id="kingdom">
+          {/* keep #about anchor for existing navigation links */}
+          <div id="about" />
           <AboutNibble />
         </section>
         <section id="tracks">
@@ -72,11 +83,17 @@ export default function Home() {
           <TimelineSection />
         </section>
         <section id="sponsors">
-          <PhotoStream />
-          <Sponsors />
-          <PrizesSection />
+          <div id="team">
+            <Sponsors />
+          </div>
+          <div id="community">
+            <PrizesSection />
+          </div>
         </section>
-        <CallToAction />
+        <section id="flow">
+          <CallToAction />
+        </section>
+        <FaqSection />
       </div>
       <Mascot />
     </>

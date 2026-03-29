@@ -1,63 +1,205 @@
-import type { MascotSectionMood } from './MascotLogic';
+import type { MascotSection } from './MascotLogic';
 
-const firstVisitMessages = [
-  'Welcome, builder…',
-  'Explore the realms ahead.',
-  'I will guide your journey through Asgard.',
-];
-
-const idleMessages = [
-  'A new challenge awaits.',
-  'Need a hint? Scroll onward.',
-  'The gods favor the curious.',
-];
-
-const clickMessages = [
-  'A bold tap! Well played.',
-  'Your saga grows stronger.',
-  'I see your resolve, warrior.',
-];
-
-const moodMessages: Record<MascotSectionMood, string[]> = {
-  calm: ['The halls are quiet… begin your quest.'],
-  curious: ['Choose your domain wisely.'],
-  focused: ['The timeline reveals your journey.'],
-  energetic: ['The final gate is near. Claim your glory!'],
+export type MascotMessage = {
+  id: string;
+  text: string;
+  tone: 'playful' | 'epic' | 'hint' | 'celebration';
+  priority: number;
+  trigger: 'onEnter' | 'onHover' | 'onIdle' | 'onScrollFast';
+  section: MascotSection;
+  cooldownMs: number;
 };
 
-export type MascotMessageReason = 'first-visit' | 'section-change' | 'idle' | 'click' | 'manual';
+const SECTION_MESSAGES: Record<MascotSection, MascotMessage[]> = {
+  hero: [
+    { id: 'hero-1', text: 'Welcome, warrior… Asgard awaits.', tone: 'epic', priority: 9, trigger: 'onEnter', section: 'hero', cooldownMs: 12000 },
+    { id: 'hero-2', text: 'The gates have opened just for you.', tone: 'epic', priority: 8, trigger: 'onEnter', section: 'hero', cooldownMs: 12000 },
+    { id: 'hero-3', text: 'Scroll… your journey begins below.', tone: 'hint', priority: 8, trigger: 'onEnter', section: 'hero', cooldownMs: 12000 },
+    { id: 'hero-4', text: 'I am your Norse guide. Stay close.', tone: 'playful', priority: 7, trigger: 'onHover', section: 'hero', cooldownMs: 11000 },
+    { id: 'hero-5', text: 'Breathe in. Big saga ahead.', tone: 'hint', priority: 6, trigger: 'onIdle', section: 'hero', cooldownMs: 13000 },
+    { id: 'hero-6', text: 'The sky hums with possibility.', tone: 'epic', priority: 6, trigger: 'onIdle', section: 'hero', cooldownMs: 13000 },
+    { id: 'hero-7', text: 'A steady pace wins long quests.', tone: 'hint', priority: 5, trigger: 'onIdle', section: 'hero', cooldownMs: 15000 },
+    { id: 'hero-8', text: 'Need direction? I read the runes.', tone: 'playful', priority: 6, trigger: 'onHover', section: 'hero', cooldownMs: 12000 },
+    { id: 'hero-9', text: 'Your presence wakes old magic.', tone: 'epic', priority: 7, trigger: 'onEnter', section: 'hero', cooldownMs: 14000 },
+    { id: 'hero-10', text: 'Each scroll reveals a new trial.', tone: 'hint', priority: 5, trigger: 'onIdle', section: 'hero', cooldownMs: 15000 },
+  ],
+  announcement: [
+    { id: 'announcement-1', text: 'A proclamation echoes across the realm…', tone: 'epic', priority: 9, trigger: 'onEnter', section: 'announcement', cooldownMs: 12000 },
+    { id: 'announcement-2', text: 'Something important lies here.', tone: 'hint', priority: 8, trigger: 'onEnter', section: 'announcement', cooldownMs: 12000 },
+    { id: 'announcement-3', text: 'Read this one carefully, champion.', tone: 'hint', priority: 7, trigger: 'onHover', section: 'announcement', cooldownMs: 11000 },
+    { id: 'announcement-4', text: 'The realm rarely repeats itself.', tone: 'playful', priority: 6, trigger: 'onIdle', section: 'announcement', cooldownMs: 13000 },
+    { id: 'announcement-5', text: 'This decree may change your strategy.', tone: 'epic', priority: 8, trigger: 'onEnter', section: 'announcement', cooldownMs: 14000 },
+    { id: 'announcement-6', text: 'Pin this in memory. You will need it.', tone: 'hint', priority: 7, trigger: 'onIdle', section: 'announcement', cooldownMs: 14000 },
+    { id: 'announcement-7', text: 'Fast minds still read the fine runes.', tone: 'playful', priority: 5, trigger: 'onScrollFast', section: 'announcement', cooldownMs: 15000 },
+    { id: 'announcement-8', text: 'A kingly update, no less.', tone: 'epic', priority: 6, trigger: 'onHover', section: 'announcement', cooldownMs: 12000 },
+    { id: 'announcement-9', text: 'If this glows, it matters.', tone: 'hint', priority: 7, trigger: 'onEnter', section: 'announcement', cooldownMs: 13000 },
+    { id: 'announcement-10', text: 'Take note, then onward.', tone: 'playful', priority: 5, trigger: 'onIdle', section: 'announcement', cooldownMs: 15000 },
+  ],
+  kingdom: [
+    { id: 'kingdom-1', text: 'This is the Kingdom of Nibble.', tone: 'epic', priority: 9, trigger: 'onEnter', section: 'kingdom', cooldownMs: 12000 },
+    { id: 'kingdom-2', text: 'Observe the realm you are about to enter.', tone: 'epic', priority: 8, trigger: 'onEnter', section: 'kingdom', cooldownMs: 12000 },
+    { id: 'kingdom-3', text: 'Builders here forge legends.', tone: 'celebration', priority: 7, trigger: 'onHover', section: 'kingdom', cooldownMs: 11000 },
+    { id: 'kingdom-4', text: 'These halls reward courage.', tone: 'hint', priority: 6, trigger: 'onIdle', section: 'kingdom', cooldownMs: 13000 },
+    { id: 'kingdom-5', text: 'Study the symbols. They whisper context.', tone: 'hint', priority: 7, trigger: 'onHover', section: 'kingdom', cooldownMs: 12000 },
+    { id: 'kingdom-6', text: 'Every saga starts with a kingdom.', tone: 'epic', priority: 6, trigger: 'onIdle', section: 'kingdom', cooldownMs: 14000 },
+    { id: 'kingdom-7', text: 'You belong among these makers.', tone: 'celebration', priority: 6, trigger: 'onEnter', section: 'kingdom', cooldownMs: 14000 },
+    { id: 'kingdom-8', text: 'Need a shortcut? I know a few.', tone: 'playful', priority: 5, trigger: 'onHover', section: 'kingdom', cooldownMs: 15000 },
+    { id: 'kingdom-9', text: 'The lore matters as much as the code.', tone: 'hint', priority: 6, trigger: 'onIdle', section: 'kingdom', cooldownMs: 13000 },
+    { id: 'kingdom-10', text: 'This realm is your warm-up arena.', tone: 'playful', priority: 5, trigger: 'onIdle', section: 'kingdom', cooldownMs: 15000 },
+  ],
+  team: [
+    { id: 'team-1', text: 'Great quests need a trusted crew.', tone: 'hint', priority: 8, trigger: 'onEnter', section: 'team', cooldownMs: 12000 },
+    { id: 'team-2', text: 'Find allies whose skills complete yours.', tone: 'hint', priority: 8, trigger: 'onEnter', section: 'team', cooldownMs: 12000 },
+    { id: 'team-3', text: 'A balanced party beats brute force.', tone: 'playful', priority: 6, trigger: 'onIdle', section: 'team', cooldownMs: 13000 },
+    { id: 'team-4', text: 'Look for strategy minds and execution beasts.', tone: 'hint', priority: 7, trigger: 'onHover', section: 'team', cooldownMs: 11000 },
+    { id: 'team-5', text: 'Legends are rarely solo acts.', tone: 'epic', priority: 7, trigger: 'onEnter', section: 'team', cooldownMs: 13000 },
+    { id: 'team-6', text: 'Trust multiplies velocity.', tone: 'hint', priority: 6, trigger: 'onIdle', section: 'team', cooldownMs: 14000 },
+    { id: 'team-7', text: 'Draft roles before the storm.', tone: 'hint', priority: 6, trigger: 'onHover', section: 'team', cooldownMs: 12000 },
+    { id: 'team-8', text: 'Choose partners who ship, not just dream.', tone: 'playful', priority: 6, trigger: 'onIdle', section: 'team', cooldownMs: 14000 },
+    { id: 'team-9', text: 'Coordination is a hidden superpower.', tone: 'hint', priority: 7, trigger: 'onEnter', section: 'team', cooldownMs: 13000 },
+    { id: 'team-10', text: 'Squad assembled? Then destiny accelerates.', tone: 'celebration', priority: 7, trigger: 'onHover', section: 'team', cooldownMs: 15000 },
+  ],
+  community: [
+    { id: 'community-1', text: 'The community keeps this realm alive.', tone: 'celebration', priority: 8, trigger: 'onEnter', section: 'community', cooldownMs: 12000 },
+    { id: 'community-2', text: 'Connections forged here outlast the event.', tone: 'hint', priority: 7, trigger: 'onEnter', section: 'community', cooldownMs: 12000 },
+    { id: 'community-3', text: 'Ask, share, improve — repeat.', tone: 'hint', priority: 7, trigger: 'onIdle', section: 'community', cooldownMs: 13000 },
+    { id: 'community-4', text: 'A quick hello can unlock a big idea.', tone: 'playful', priority: 6, trigger: 'onHover', section: 'community', cooldownMs: 11000 },
+    { id: 'community-5', text: 'Allies today, cofounders tomorrow.', tone: 'epic', priority: 7, trigger: 'onIdle', section: 'community', cooldownMs: 14000 },
+    { id: 'community-6', text: 'Keep your DMs open for destiny.', tone: 'playful', priority: 5, trigger: 'onHover', section: 'community', cooldownMs: 12000 },
+    { id: 'community-7', text: 'Your network is part of your toolkit.', tone: 'hint', priority: 6, trigger: 'onEnter', section: 'community', cooldownMs: 13000 },
+    { id: 'community-8', text: 'Norse law: help one another ship faster.', tone: 'playful', priority: 5, trigger: 'onIdle', section: 'community', cooldownMs: 15000 },
+    { id: 'community-9', text: 'Great products grow in great circles.', tone: 'hint', priority: 6, trigger: 'onEnter', section: 'community', cooldownMs: 13000 },
+    { id: 'community-10', text: 'Celebrate every builder in the hall.', tone: 'celebration', priority: 7, trigger: 'onHover', section: 'community', cooldownMs: 14000 },
+  ],
+  tracks: [
+    { id: 'tracks-1', text: 'Choose your realm wisely…', tone: 'epic', priority: 9, trigger: 'onEnter', section: 'tracks', cooldownMs: 12000 },
+    { id: 'tracks-2', text: 'Each path holds different challenges.', tone: 'hint', priority: 8, trigger: 'onEnter', section: 'tracks', cooldownMs: 12000 },
+    { id: 'tracks-3', text: 'Pick the track that matches your hunger.', tone: 'hint', priority: 7, trigger: 'onHover', section: 'tracks', cooldownMs: 11000 },
+    { id: 'tracks-4', text: 'No wrong path, only bold execution.', tone: 'playful', priority: 6, trigger: 'onIdle', section: 'tracks', cooldownMs: 13000 },
+    { id: 'tracks-5', text: 'Your arena determines your opponents.', tone: 'epic', priority: 7, trigger: 'onEnter', section: 'tracks', cooldownMs: 14000 },
+    { id: 'tracks-6', text: 'Scan constraints before you commit.', tone: 'hint', priority: 7, trigger: 'onIdle', section: 'tracks', cooldownMs: 13000 },
+    { id: 'tracks-7', text: 'Strategy now saves panic later.', tone: 'hint', priority: 6, trigger: 'onHover', section: 'tracks', cooldownMs: 12000 },
+    { id: 'tracks-8', text: 'I sense strong momentum here.', tone: 'celebration', priority: 6, trigger: 'onIdle', section: 'tracks', cooldownMs: 14000 },
+    { id: 'tracks-9', text: 'Follow curiosity, then ship relentlessly.', tone: 'playful', priority: 6, trigger: 'onEnter', section: 'tracks', cooldownMs: 15000 },
+    { id: 'tracks-10', text: 'Your choice echoes through the timeline.', tone: 'epic', priority: 7, trigger: 'onHover', section: 'tracks', cooldownMs: 14000 },
+  ],
+  timeline: [
+    { id: 'timeline-1', text: 'Your journey unfolds here… step by step.', tone: 'epic', priority: 9, trigger: 'onEnter', section: 'timeline', cooldownMs: 12000 },
+    { id: 'timeline-2', text: 'Every warrior follows this path.', tone: 'hint', priority: 8, trigger: 'onEnter', section: 'timeline', cooldownMs: 12000 },
+    { id: 'timeline-3', text: 'Deadlines are runes carved in stone.', tone: 'hint', priority: 8, trigger: 'onHover', section: 'timeline', cooldownMs: 11000 },
+    { id: 'timeline-4', text: 'Respect the sequence. It matters.', tone: 'hint', priority: 7, trigger: 'onIdle', section: 'timeline', cooldownMs: 13000 },
+    { id: 'timeline-5', text: 'Today’s prep prevents tomorrow’s chaos.', tone: 'hint', priority: 7, trigger: 'onIdle', section: 'timeline', cooldownMs: 13000 },
+    { id: 'timeline-6', text: 'Tick. Tock. Great builders timebox.', tone: 'playful', priority: 6, trigger: 'onEnter', section: 'timeline', cooldownMs: 14000 },
+    { id: 'timeline-7', text: 'Milestones are mini victories.', tone: 'celebration', priority: 6, trigger: 'onHover', section: 'timeline', cooldownMs: 12000 },
+    { id: 'timeline-8', text: 'Pin your key checkpoint right now.', tone: 'hint', priority: 7, trigger: 'onIdle', section: 'timeline', cooldownMs: 14000 },
+    { id: 'timeline-9', text: 'Your saga stays strong when paced well.', tone: 'epic', priority: 6, trigger: 'onEnter', section: 'timeline', cooldownMs: 15000 },
+    { id: 'timeline-10', text: 'Timing plus craft equals glory.', tone: 'celebration', priority: 6, trigger: 'onHover', section: 'timeline', cooldownMs: 15000 },
+  ],
+  flow: [
+    { id: 'flow-1', text: 'This is where process becomes momentum.', tone: 'hint', priority: 8, trigger: 'onEnter', section: 'flow', cooldownMs: 12000 },
+    { id: 'flow-2', text: 'Build loop: plan, ship, refine, repeat.', tone: 'hint', priority: 8, trigger: 'onEnter', section: 'flow', cooldownMs: 12000 },
+    { id: 'flow-3', text: 'The best teams protect their flow state.', tone: 'playful', priority: 6, trigger: 'onIdle', section: 'flow', cooldownMs: 13000 },
+    { id: 'flow-4', text: 'Less thrash, more throughput.', tone: 'hint', priority: 7, trigger: 'onHover', section: 'flow', cooldownMs: 11000 },
+    { id: 'flow-5', text: 'A calm workflow defeats panic coding.', tone: 'hint', priority: 7, trigger: 'onIdle', section: 'flow', cooldownMs: 13000 },
+    { id: 'flow-6', text: 'Your rhythm is your weapon.', tone: 'epic', priority: 7, trigger: 'onEnter', section: 'flow', cooldownMs: 14000 },
+    { id: 'flow-7', text: 'Protect deep work like sacred fire.', tone: 'epic', priority: 6, trigger: 'onHover', section: 'flow', cooldownMs: 14000 },
+    { id: 'flow-8', text: 'One step shipped beats ten half-done.', tone: 'hint', priority: 6, trigger: 'onIdle', section: 'flow', cooldownMs: 12000 },
+    { id: 'flow-9', text: 'Flow unlocked. Keep the streak alive.', tone: 'celebration', priority: 7, trigger: 'onHover', section: 'flow', cooldownMs: 15000 },
+    { id: 'flow-10', text: 'Distraction is the trickster’s trap.', tone: 'playful', priority: 5, trigger: 'onIdle', section: 'flow', cooldownMs: 15000 },
+  ],
+  prizes: [
+    { id: 'prizes-1', text: 'Treasures await the worthy.', tone: 'celebration', priority: 9, trigger: 'onEnter', section: 'prizes', cooldownMs: 12000 },
+    { id: 'prizes-2', text: 'Only the strongest claim these rewards.', tone: 'epic', priority: 8, trigger: 'onEnter', section: 'prizes', cooldownMs: 12000 },
+    { id: 'prizes-3', text: 'Every perk is earned, not gifted.', tone: 'hint', priority: 7, trigger: 'onHover', section: 'prizes', cooldownMs: 11000 },
+    { id: 'prizes-4', text: 'Aim high. The top tier is real.', tone: 'celebration', priority: 7, trigger: 'onIdle', section: 'prizes', cooldownMs: 13000 },
+    { id: 'prizes-5', text: 'Read the details — hidden value inside.', tone: 'hint', priority: 7, trigger: 'onHover', section: 'prizes', cooldownMs: 12000 },
+    { id: 'prizes-6', text: 'Loot favors disciplined builders.', tone: 'epic', priority: 6, trigger: 'onIdle', section: 'prizes', cooldownMs: 14000 },
+    { id: 'prizes-7', text: 'This vault opens for execution.', tone: 'celebration', priority: 7, trigger: 'onEnter', section: 'prizes', cooldownMs: 13000 },
+    { id: 'prizes-8', text: 'Pick your target reward and reverse-plan.', tone: 'hint', priority: 6, trigger: 'onIdle', section: 'prizes', cooldownMs: 14000 },
+    { id: 'prizes-9', text: 'Shiny? Yes. Achievable? Also yes.', tone: 'playful', priority: 5, trigger: 'onHover', section: 'prizes', cooldownMs: 15000 },
+    { id: 'prizes-10', text: 'I can already hear victory cheers.', tone: 'celebration', priority: 6, trigger: 'onIdle', section: 'prizes', cooldownMs: 15000 },
+  ],
+  sponsors: [
+    { id: 'sponsors-1', text: 'Allies of the realm stand behind this quest.', tone: 'epic', priority: 8, trigger: 'onEnter', section: 'sponsors', cooldownMs: 12000 },
+    { id: 'sponsors-2', text: 'Sponsors power the battlefield.', tone: 'hint', priority: 7, trigger: 'onEnter', section: 'sponsors', cooldownMs: 12000 },
+    { id: 'sponsors-3', text: 'These banners represent real opportunities.', tone: 'hint', priority: 7, trigger: 'onHover', section: 'sponsors', cooldownMs: 11000 },
+    { id: 'sponsors-4', text: 'Partnerships can outlive hack day.', tone: 'hint', priority: 6, trigger: 'onIdle', section: 'sponsors', cooldownMs: 13000 },
+    { id: 'sponsors-5', text: 'Respect the houses backing your journey.', tone: 'epic', priority: 6, trigger: 'onEnter', section: 'sponsors', cooldownMs: 14000 },
+    { id: 'sponsors-6', text: 'Yes, networking counts as strategy.', tone: 'playful', priority: 5, trigger: 'onHover', section: 'sponsors', cooldownMs: 12000 },
+    { id: 'sponsors-7', text: 'Keep an eye out for bonus tracks and perks.', tone: 'hint', priority: 7, trigger: 'onIdle', section: 'sponsors', cooldownMs: 13000 },
+    { id: 'sponsors-8', text: 'Big names. Bigger possibilities.', tone: 'celebration', priority: 6, trigger: 'onHover', section: 'sponsors', cooldownMs: 14000 },
+    { id: 'sponsors-9', text: 'The realm thrives on strong alliances.', tone: 'epic', priority: 6, trigger: 'onIdle', section: 'sponsors', cooldownMs: 15000 },
+    { id: 'sponsors-10', text: 'A handshake here can change your path.', tone: 'hint', priority: 7, trigger: 'onEnter', section: 'sponsors', cooldownMs: 15000 },
+  ],
+  faq: [
+    { id: 'faq-1', text: 'Ancient knowledge lies within these scrolls.', tone: 'epic', priority: 9, trigger: 'onEnter', section: 'faq', cooldownMs: 12000 },
+    { id: 'faq-2', text: 'Your doubts will be answered here.', tone: 'hint', priority: 8, trigger: 'onEnter', section: 'faq', cooldownMs: 12000 },
+    { id: 'faq-3', text: 'Questions are wisdom in disguise.', tone: 'hint', priority: 7, trigger: 'onHover', section: 'faq', cooldownMs: 11000 },
+    { id: 'faq-4', text: 'Open the right card, save precious time.', tone: 'hint', priority: 8, trigger: 'onIdle', section: 'faq', cooldownMs: 13000 },
+    { id: 'faq-5', text: 'Most heroes miss one critical detail.', tone: 'playful', priority: 6, trigger: 'onEnter', section: 'faq', cooldownMs: 13000 },
+    { id: 'faq-6', text: 'Read once now, panic less later.', tone: 'hint', priority: 7, trigger: 'onIdle', section: 'faq', cooldownMs: 14000 },
+    { id: 'faq-7', text: 'These scrolls are surprisingly powerful.', tone: 'epic', priority: 6, trigger: 'onHover', section: 'faq', cooldownMs: 12000 },
+    { id: 'faq-8', text: 'If confused, start with the bold headings.', tone: 'hint', priority: 6, trigger: 'onIdle', section: 'faq', cooldownMs: 14000 },
+    { id: 'faq-9', text: 'A prepared warrior asks better questions.', tone: 'celebration', priority: 5, trigger: 'onHover', section: 'faq', cooldownMs: 15000 },
+    { id: 'faq-10', text: 'Knowledge first. Execution next.', tone: 'epic', priority: 6, trigger: 'onEnter', section: 'faq', cooldownMs: 15000 },
+  ],
+  cta: [
+    { id: 'cta-1', text: 'The time has come… will you rise?', tone: 'epic', priority: 10, trigger: 'onEnter', section: 'cta', cooldownMs: 12000 },
+    { id: 'cta-2', text: 'Enter the battlefield.', tone: 'epic', priority: 10, trigger: 'onEnter', section: 'cta', cooldownMs: 12000 },
+    { id: 'cta-3', text: 'One click separates intent from action.', tone: 'hint', priority: 8, trigger: 'onHover', section: 'cta', cooldownMs: 11000 },
+    { id: 'cta-4', text: 'You came this far. Finish strong.', tone: 'celebration', priority: 8, trigger: 'onIdle', section: 'cta', cooldownMs: 13000 },
+    { id: 'cta-5', text: 'History favors the ones who submit.', tone: 'epic', priority: 9, trigger: 'onEnter', section: 'cta', cooldownMs: 13000 },
+    { id: 'cta-6', text: 'Claim your place in the saga.', tone: 'celebration', priority: 8, trigger: 'onHover', section: 'cta', cooldownMs: 12000 },
+    { id: 'cta-7', text: 'Bravery is clicking before doubt speaks.', tone: 'playful', priority: 7, trigger: 'onIdle', section: 'cta', cooldownMs: 14000 },
+    { id: 'cta-8', text: 'Go on. The realm is waiting.', tone: 'hint', priority: 8, trigger: 'onHover', section: 'cta', cooldownMs: 14000 },
+    { id: 'cta-9', text: 'This is your launch rune.', tone: 'epic', priority: 7, trigger: 'onEnter', section: 'cta', cooldownMs: 15000 },
+    { id: 'cta-10', text: 'I will celebrate from Valhalla.', tone: 'celebration', priority: 6, trigger: 'onIdle', section: 'cta', cooldownMs: 15000 },
+  ],
+};
 
-export interface MascotMessage {
-  text: string;
-  reason: MascotMessageReason;
-}
+export const GLOBAL_REACTIVE_MESSAGES: MascotMessage[] = [
+  {
+    id: 'react-fast-1',
+    text: 'Woah! The energy surges!',
+    tone: 'playful',
+    priority: 10,
+    trigger: 'onScrollFast',
+    section: 'hero',
+    cooldownMs: 14000,
+  },
+  {
+    id: 'react-fast-2',
+    text: 'Fast scroll detected — hold your axe, warrior!',
+    tone: 'playful',
+    priority: 8,
+    trigger: 'onScrollFast',
+    section: 'hero',
+    cooldownMs: 16000,
+  },
+  {
+    id: 'react-idle-1',
+    text: 'Lost, are we?',
+    tone: 'hint',
+    priority: 10,
+    trigger: 'onIdle',
+    section: 'hero',
+    cooldownMs: 10000,
+  },
+  {
+    id: 'react-slow-1',
+    text: 'Taking your time… wise.',
+    tone: 'hint',
+    priority: 7,
+    trigger: 'onIdle',
+    section: 'hero',
+    cooldownMs: 14000,
+  },
+];
 
-function pickRandom<T>(items: T[]): T {
-  if (items.length === 0) {
-    throw new Error('Mascot message list must not be empty.');
+export function getSectionMessages(section: MascotSection, trigger?: MascotMessage['trigger']): MascotMessage[] {
+  const all = SECTION_MESSAGES[section] ?? [];
+  if (!trigger) {
+    return all;
   }
-  return items[Math.floor(Math.random() * items.length)];
-}
-
-export function getMessageForReason(
-  reason: MascotMessageReason,
-  mood: MascotSectionMood,
-): MascotMessage {
-  if (reason === 'first-visit') {
-    return { text: pickRandom(firstVisitMessages), reason };
-  }
-
-  if (reason === 'section-change') {
-    return { text: pickRandom(moodMessages[mood]), reason };
-  }
-
-  if (reason === 'click') {
-    return { text: pickRandom(clickMessages), reason };
-  }
-
-  if (reason === 'idle') {
-    return { text: pickRandom(idleMessages), reason };
-  }
-
-  return { text: 'Onward, builder.', reason };
+  return all.filter((message) => message.trigger === trigger);
 }
