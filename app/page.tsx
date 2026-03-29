@@ -38,7 +38,7 @@ const CallToAction = dynamic(() => import('./components/CTA/CallToAction'), {
 const PrizesSection = dynamic(() => import('./components/prizes/PrizesSection'), {
   ssr: false,
 });
-const FaqSection = dynamic(() => import('./components/faq/FaqSection'), {
+const ArchivesFAQ = dynamic(() => import('./components/faq/ArchivesFAQ'), {
   ssr: false,
 });
 const Mascot = dynamic(() => import('./components/mascot/Mascot'), {
@@ -93,7 +93,8 @@ export default function Home() {
         <section id="flow">
           <CallToAction />
         </section>
-        <FaqSection />
+        <ArchivesFAQ />
+        <CallToAction />
       </div>
       <Mascot />
     </>
