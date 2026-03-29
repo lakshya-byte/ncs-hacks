@@ -12,6 +12,7 @@ export interface MascotRenderModel {
   bubbleVisible: boolean;
   message: MascotMessage;
   sizeClass: string;
+  sizePx: number;
 }
 
 export interface MascotControllerBindings {
@@ -31,6 +32,7 @@ const DEFAULT_MESSAGE: MascotMessage = {
   section: 'hero',
   cooldownMs: 10000,
 };
+const IMPORTANT_ELEMENT_SELECTOR = '[data-mascot-context="important"], .card-wrapper, .timeline-card, .faq-card';
 
 export function useMascot(): MascotControllerBindings {
   const mascotRef = useRef<HTMLDivElement>(null);
@@ -47,6 +49,7 @@ export function useMascot(): MascotControllerBindings {
     bubbleVisible: false,
     message: DEFAULT_MESSAGE,
     sizeClass: 'w-32',
+    sizePx: 128,
   });
 
   const syncFromBrain = useCallback((snapshot: BrainSnapshot) => {
@@ -113,7 +116,8 @@ export function useMascot(): MascotControllerBindings {
         previous.visible === snapshot.visible &&
         previous.bubbleVisible === snapshot.bubbleVisible &&
         previous.message.id === snapshot.message.id &&
-        previous.sizeClass === snapshot.sizeClass
+        previous.sizeClass === snapshot.sizeClass &&
+        previous.sizePx === snapshot.sizePx
       ) {
         return previous;
       }
@@ -124,6 +128,7 @@ export function useMascot(): MascotControllerBindings {
         bubbleVisible: snapshot.bubbleVisible,
         message: snapshot.message,
         sizeClass: snapshot.sizeClass,
+        sizePx: snapshot.sizePx,
       };
     });
   }, []);
@@ -185,7 +190,7 @@ export function useMascot(): MascotControllerBindings {
         return;
       }
 
-      if (target.closest('[data-mascot-context="important"], .card-wrapper, .timeline-card, .faq-card')) {
+      if (target.closest(IMPORTANT_ELEMENT_SELECTOR)) {
         controller.onHoverImportant(performance.now());
       }
     };
@@ -218,8 +223,13 @@ export function useMascot(): MascotControllerBindings {
         window.clearTimeout(hideBubbleTimerRef.current);
       }
 
-      gsap.killTweensOf(mascotElement);
-      gsap.killTweensOf(bubbleElement);
+      if (mascotElement) {
+        gsap.killTweensOf(mascotElement);
+      }
+
+      if (bubbleElement) {
+        gsap.killTweensOf(bubbleElement);
+      }
     };
   }, [syncFromBrain]);
 

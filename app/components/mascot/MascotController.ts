@@ -15,6 +15,10 @@ import {
 } from './MascotLogic';
 
 const MESSAGE_TRIGGER_DEBOUNCE = 900;
+const INACTIVE_THRESHOLD_MS = 4000;
+const SECTION_HINT_THRESHOLD_MS = 5000;
+const SECTION_DEEP_HINT_THRESHOLD_MS = 10000;
+const MAX_HISTORY_LENGTH = 50;
 
 interface Metrics {
   scrollVelocity: number;
@@ -23,7 +27,7 @@ interface Metrics {
   timeInSection: number;
 }
 
-interface BrainSnapshot {
+export interface BrainSnapshot {
   state: MascotBehaviorState;
   currentSection: MascotSection;
   previousSection: MascotSection | null;
@@ -67,8 +71,8 @@ export class MascotController {
   private seenMessages = new Set<string>();
   private cooldownUntil = new Map<string, number>();
   private lastTriggerAt = new Map<string, number>();
-  private longHint5Shown = new Set<MascotSection>();
-  private longHint10Shown = new Set<MascotSection>();
+  private sectionsWithHintShown = new Set<MascotSection>();
+  private sectionsWithDeepHintShown = new Set<MascotSection>();
 
   constructor(private readonly getViewport: () => ViewportInfo) {}
 
@@ -138,7 +142,7 @@ export class MascotController {
     const timeInSection = now - this.sectionEnteredAt;
     const userInactiveMs = now - this.lastMouseMoveAt;
 
-    if (userInactiveMs > 4000) {
+    if (userInactiveMs > INACTIVE_THRESHOLD_MS) {
       this.state = 'INTERRUPTING';
       this.currentPosition = 'near-cursor';
       this.pickReactiveMessage('onIdle', now);
@@ -146,13 +150,13 @@ export class MascotController {
       this.state = 'GUIDING';
     }
 
-    if (timeInSection > 5000 && !this.longHint5Shown.has(this.currentSection)) {
-      this.longHint5Shown.add(this.currentSection);
+    if (timeInSection > SECTION_HINT_THRESHOLD_MS && !this.sectionsWithHintShown.has(this.currentSection)) {
+      this.sectionsWithHintShown.add(this.currentSection);
       this.pickAndApplyMessage('onIdle', now);
     }
 
-    if (timeInSection > 10000 && !this.longHint10Shown.has(this.currentSection)) {
-      this.longHint10Shown.add(this.currentSection);
+    if (timeInSection > SECTION_DEEP_HINT_THRESHOLD_MS && !this.sectionsWithDeepHintShown.has(this.currentSection)) {
+      this.sectionsWithDeepHintShown.add(this.currentSection);
       this.pickAndApplyMessage('onIdle', now);
     }
 
@@ -273,8 +277,8 @@ export class MascotController {
 
   private logHistory(entry: string): void {
     this.interactionHistory.push(entry);
-    if (this.interactionHistory.length > 50) {
-      this.interactionHistory = this.interactionHistory.slice(-50);
+    if (this.interactionHistory.length > MAX_HISTORY_LENGTH) {
+      this.interactionHistory = this.interactionHistory.slice(-MAX_HISTORY_LENGTH);
     }
   }
 
@@ -309,4 +313,4 @@ export class MascotController {
   }
 }
 
-export type { BrainSnapshot, Metrics };
+export type { Metrics };

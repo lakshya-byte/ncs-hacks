@@ -41,9 +41,9 @@ export default function MascotView({
           <Image
             src="/mascot/mascot.png"
             alt="Norse mascot guide"
-            width={160}
-            height={160}
-            sizes="(max-width: 768px) 96px, 160px"
+            width={model.sizePx}
+            height={model.sizePx}
+            sizes="(max-width: 768px) 80px, 160px"
             draggable={false}
             priority={false}
             unoptimized={true}

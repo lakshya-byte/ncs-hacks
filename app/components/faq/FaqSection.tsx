@@ -61,8 +61,10 @@ export default function FaqSection() {
           </p>
 
           <div className="mt-10 space-y-3">
-            {ITEMS.map((item, index) => {
+            {ITEMS.map((item) => {
               const active = item.id === activeId;
+              const buttonId = `faq-question-${item.id}`;
+              const panelId = `faq-answer-${item.id}`;
               return (
                 <article
                   key={item.id}
@@ -75,9 +77,11 @@ export default function FaqSection() {
                   data-mascot-context="important"
                 >
                   <button
+                    id={buttonId}
                     type="button"
                     className="flex w-full items-center justify-between gap-4 text-left"
                     aria-expanded={active}
+                    aria-controls={panelId}
                     onClick={() => setActiveId(item.id)}
                   >
                     <span className="font-heading text-base tracking-[0.08em] text-[#4a2d09] md:text-lg">
@@ -87,8 +91,11 @@ export default function FaqSection() {
                   </button>
 
                   <div
+                    id={panelId}
+                    role="region"
+                    aria-labelledby={buttonId}
                     className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ${
-                      active ? 'mt-3 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-70'
+                      active ? 'mt-3 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
                     }`}
                   >
                     <p className="overflow-hidden text-sm leading-relaxed text-[#5a3b12] md:text-base">
@@ -99,7 +106,6 @@ export default function FaqSection() {
                   {active && (
                     <div className="mt-3 h-1 w-full rounded-full bg-gradient-to-r from-amber-300/70 via-yellow-200/80 to-amber-300/40" />
                   )}
-                  <span className="sr-only">FAQ item {index + 1}</span>
                 </article>
               );
             })}
@@ -108,7 +114,10 @@ export default function FaqSection() {
           <p className="mt-6 text-center text-xs uppercase tracking-[0.2em] text-[#7d5820] md:text-sm">
             Your doubts will be answered here.
           </p>
-          <p className="mt-1 text-center text-xs uppercase tracking-[0.2em] text-[#7d5820] md:text-sm">
+          <p
+            className="mt-1 text-center text-xs uppercase tracking-[0.2em] text-[#7d5820] md:text-sm"
+            aria-live="polite"
+          >
             Active question: {activeIndex + 1}/{ITEMS.length}
           </p>
         </div>

@@ -49,16 +49,18 @@ export default function Home() {
   return (
     <>
       {/* Scroll container — creates scroll height for GSAP ScrollTrigger */}
-      <div id="hero">
-        <div
-          id="scroll-container"
-          className="relative h-[900vh] w-full z-[1]"
-        >
-          <div className="sticky top-0 left-0 w-full h-[100dvh] overflow-hidden bg-black">
-            {/* Cinematic canvas + overlay */}
-            <AsgardCanvas />
-            <CinematicOverlay />
-            <ParticleOverlay />
+      <div id="home">
+        <div id="hero">
+          <div
+            id="scroll-container"
+            className="relative h-[900vh] w-full z-[1]"
+          >
+            <div className="sticky top-0 left-0 w-full h-[100dvh] overflow-hidden bg-black">
+              {/* Cinematic canvas + overlay */}
+              <AsgardCanvas />
+              <CinematicOverlay />
+              <ParticleOverlay />
+            </div>
           </div>
         </div>
       </div>
@@ -66,16 +68,13 @@ export default function Home() {
       {/* Content below hero */}
       <div className="relative z-20">
         <section id="announcement">
+          {/* announcement maps to the story/photo reveal panel in this build */}
           <PhotoStream />
         </section>
         <section id="kingdom">
+          {/* keep #about anchor for existing navigation links */}
+          <div id="about" />
           <AboutNibble />
-        </section>
-        <section id="team">
-          <Sponsors />
-        </section>
-        <section id="community">
-          <PrizesSection />
         </section>
         <section id="tracks">
           <HackathonTracks />
@@ -83,13 +82,18 @@ export default function Home() {
         <section id="timeline">
           <TimelineSection />
         </section>
+        <section id="sponsors">
+          <div id="team">
+            <Sponsors />
+          </div>
+          <div id="community">
+            <PrizesSection />
+          </div>
+        </section>
         <section id="flow">
           <CallToAction />
         </section>
         <FaqSection />
-        <section id="sponsors">
-          <PhotoStream />
-        </section>
       </div>
       <Mascot />
     </>
