@@ -1,199 +1,153 @@
-export type MascotState =
-  | 'idle'
-  | 'entering'
-  | 'active'
-  | 'interacting'
-  | 'exiting'
-  | 'hidden';
+export const sections = [
+  'hero',
+  'announcement',
+  'kingdom',
+  'team',
+  'community',
+  'tracks',
+  'timeline',
+  'flow',
+  'prizes',
+  'sponsors',
+  'faq',
+  'cta',
+] as const;
 
-export type MascotAnchor = 'bottom-left' | 'bottom-right' | 'top-right' | 'mid-left';
+export type MascotSection = (typeof sections)[number];
 
-export type MascotSectionMood = 'calm' | 'curious' | 'focused' | 'energetic';
+export type MascotBehaviorState =
+  | 'IDLE'
+  | 'CURIOUS'
+  | 'GUIDING'
+  | 'EXCITED'
+  | 'HIDDEN'
+  | 'REACTING'
+  | 'INTERRUPTING';
 
-export interface MascotMotionProfile {
-  followStrength: number;
-  floatAmplitude: number;
-  floatSpeed: number;
-  idleBounceInterval: number;
-}
-
-export const MASCOT_ANCHORS: MascotAnchor[] = [
+export const positions = [
+  'top-left',
+  'top-right',
   'bottom-left',
   'bottom-right',
-  'top-right',
-  'mid-left',
-];
+  'near-cursor',
+  'near-element',
+  'center-floating',
+] as const;
 
-export const MASCOT_SECTION_IDS = ['home', 'about', 'tracks', 'timeline', 'sponsors', 'cta'] as const;
+export type MascotPosition = (typeof positions)[number];
 
-const EDGE_MARGIN = 30;
-const MOBILE_EDGE_MARGIN = 18;
+export const sizeMap = {
+  hero: { className: 'w-40', px: 160 },
+  timeline: { className: 'w-28', px: 112 },
+  faq: { className: 'w-24', px: 96 },
+  idle: { className: 'w-20', px: 80 },
+  default: { className: 'w-32', px: 128 },
+} as const;
 
-export function randomBetween(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+export interface ContextSnapshot {
+  currentSection: MascotSection;
+  previousSection: MascotSection | null;
+  timeInSection: number;
+  scrollVelocity: number;
+  cursorMovement: number;
+  userInactiveMs: number;
+  interactionHistory: string[];
 }
 
-export function getCooldownMs(): number {
-  return randomBetween(8000, 15000);
+export interface ViewportInfo {
+  width: number;
+  height: number;
 }
 
-export function getVisibleDurationMs(isMobile: boolean): number {
-  return isMobile ? randomBetween(6500, 9000) : randomBetween(8000, 12000);
+export interface Point {
+  x: number;
+  y: number;
 }
 
-export function getAnchorScreenPosition(
-  anchor: MascotAnchor,
-  viewportWidth: number,
-  viewportHeight: number,
-  mascotSize: number,
-  isMobile: boolean,
-): { x: number; y: number } {
-  const margin = isMobile ? MOBILE_EDGE_MARGIN : EDGE_MARGIN;
-  const maxX = viewportWidth - mascotSize - margin;
-  const maxY = viewportHeight - mascotSize - margin;
-
-  switch (anchor) {
-    case 'bottom-left':
-      return { x: margin, y: maxY };
-    case 'bottom-right':
-      return { x: maxX, y: maxY };
-    case 'top-right':
-      return { x: maxX, y: margin };
-    case 'mid-left':
-      return { x: margin, y: Math.max(margin, Math.min(maxY, viewportHeight * 0.45)) };
-    default:
-      return { x: maxX, y: maxY };
-  }
+export function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
 }
 
-export function getAnchorOffscreenPosition(
-  anchor: MascotAnchor,
-  viewportWidth: number,
-  viewportHeight: number,
-  mascotSize: number,
-): { x: number; y: number } {
-  switch (anchor) {
-    case 'bottom-left':
-      return { x: -mascotSize - 24, y: viewportHeight + mascotSize * 0.2 };
-    case 'bottom-right':
-      return { x: viewportWidth + mascotSize * 0.25, y: viewportHeight + mascotSize * 0.2 };
-    case 'top-right':
-      return { x: viewportWidth + mascotSize * 0.25, y: -mascotSize - 24 };
-    case 'mid-left':
-      return { x: -mascotSize - 24, y: viewportHeight * 0.45 };
-    default:
-      return { x: viewportWidth + mascotSize * 0.25, y: viewportHeight + mascotSize * 0.2 };
-  }
+export function isMascotSection(value: string): value is MascotSection {
+  return (sections as readonly string[]).includes(value);
 }
 
-export function pickNextAnchor(
-  previousAnchor: MascotAnchor,
-  isMobile: boolean,
-): MascotAnchor {
-  if (isMobile) {
-    return 'bottom-right';
+export function getNextCorner(index: number): MascotPosition {
+  const corners: MascotPosition[] = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
+  return corners[index % corners.length];
+}
+
+export function getSizeForSection(section: MascotSection, isIdle: boolean): { className: string; px: number } {
+  if (isIdle) {
+    return sizeMap.idle;
   }
 
-  const options = MASCOT_ANCHORS.filter((anchor) => anchor !== previousAnchor);
-  // MASCOT_ANCHORS always contains 4 unique anchors, so options is always non-empty here.
-  return options[Math.floor(Math.random() * options.length)];
-}
-
-export function getMoodFromSection(sectionId: string): MascotSectionMood {
-  switch (sectionId) {
-    case 'tracks':
-      return 'curious';
-    case 'timeline':
-      return 'focused';
-    case 'cta':
-      return 'energetic';
-    case 'home':
-    default:
-      return 'calm';
+  if (section === 'hero') {
+    return sizeMap.hero;
   }
+
+  if (section === 'timeline') {
+    return sizeMap.timeline;
+  }
+
+  if (section === 'faq') {
+    return sizeMap.faq;
+  }
+
+  return sizeMap.default;
 }
 
-export function getMotionProfile(mood: MascotSectionMood, isMobile: boolean): MascotMotionProfile {
-  if (isMobile) {
+export function resolveSectionPosition(section: MascotSection, defaultCorner: MascotPosition): MascotPosition {
+  if (section === 'hero') {
+    return 'center-floating';
+  }
+
+  if (section === 'timeline' || section === 'faq' || section === 'prizes') {
+    return 'near-element';
+  }
+
+  return defaultCorner;
+}
+
+export function getPositionCoordinates(
+  position: MascotPosition,
+  viewport: ViewportInfo,
+  size: number,
+  cursor: Point,
+  nearElementRect?: DOMRect | null,
+): Point {
+  const margin = 24;
+  const maxX = viewport.width - size - margin;
+  const maxY = viewport.height - size - margin;
+
+  if (position === 'near-element' && nearElementRect) {
+    const x = clamp(nearElementRect.left + nearElementRect.width + 16, margin, maxX);
+    const y = clamp(nearElementRect.top - size * 0.15, margin, maxY);
+    return { x, y };
+  }
+
+  if (position === 'near-cursor') {
+    const x = clamp(cursor.x + 18, margin, maxX);
+    const y = clamp(cursor.y + 10, margin, maxY);
+    return { x, y };
+  }
+
+  if (position === 'center-floating') {
     return {
-      followStrength: 8,
-      floatAmplitude: 3,
-      floatSpeed: 0.0015,
-      idleBounceInterval: 5600,
+      x: clamp(viewport.width * 0.5 - size / 2, margin, maxX),
+      y: clamp(viewport.height * 0.22, margin, maxY),
     };
   }
 
-  switch (mood) {
-    case 'curious':
-      return {
-        followStrength: 18,
-        floatAmplitude: 7,
-        floatSpeed: 0.002,
-        idleBounceInterval: 4200,
-      };
-    case 'focused':
-      return {
-        followStrength: 12,
-        floatAmplitude: 5,
-        floatSpeed: 0.0017,
-        idleBounceInterval: 5200,
-      };
-    case 'energetic':
-      return {
-        followStrength: 20,
-        floatAmplitude: 9,
-        floatSpeed: 0.0024,
-        idleBounceInterval: 3600,
-      };
-    case 'calm':
+  switch (position) {
+    case 'top-left':
+      return { x: margin, y: margin };
+    case 'top-right':
+      return { x: maxX, y: margin };
+    case 'bottom-left':
+      return { x: margin, y: maxY };
+    case 'bottom-right':
     default:
-      return {
-        followStrength: 10,
-        floatAmplitude: 4,
-        floatSpeed: 0.0014,
-        idleBounceInterval: 6200,
-      };
+      return { x: maxX, y: maxY };
   }
-}
-
-function intersects(
-  a: { left: number; right: number; top: number; bottom: number },
-  b: { left: number; right: number; top: number; bottom: number },
-): boolean {
-  return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
-}
-
-export function overlapsInteractiveElement(
-  mascotRect: { left: number; top: number; right: number; bottom: number },
-): boolean {
-  const interactiveElements = document.querySelectorAll<HTMLElement>(
-    'a, button, input, textarea, select, summary, [role="button"], [data-mascot-safe="false"]',
-  );
-
-  const viewportWidth = window.innerWidth;
-  const viewportHeight = window.innerHeight;
-
-  for (const element of interactiveElements) {
-    if (element.closest('[data-mascot-ignore="true"]')) {
-      continue;
-    }
-
-    const rect = element.getBoundingClientRect();
-    if (
-      rect.width < 1 ||
-      rect.height < 1 ||
-      rect.bottom < 0 ||
-      rect.right < 0 ||
-      rect.left > viewportWidth ||
-      rect.top > viewportHeight
-    ) {
-      continue;
-    }
-
-    if (intersects(mascotRect, rect)) {
-      return true;
-    }
-  }
-
-  return false;
 }

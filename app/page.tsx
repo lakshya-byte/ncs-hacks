@@ -38,6 +38,9 @@ const CallToAction = dynamic(() => import('./components/CTA/CallToAction'), {
 const PrizesSection = dynamic(() => import('./components/prizes/PrizesSection'), {
   ssr: false,
 });
+const FaqSection = dynamic(() => import('./components/faq/FaqSection'), {
+  ssr: false,
+});
 const Mascot = dynamic(() => import('./components/mascot/Mascot'), {
   ssr: false,
 });
@@ -46,7 +49,7 @@ export default function Home() {
   return (
     <>
       {/* Scroll container — creates scroll height for GSAP ScrollTrigger */}
-      <div id="home">
+      <div id="hero">
         <div
           id="scroll-container"
           className="relative h-[900vh] w-full z-[1]"
@@ -62,8 +65,17 @@ export default function Home() {
 
       {/* Content below hero */}
       <div className="relative z-20">
-        <section id="about">
+        <section id="announcement">
+          <PhotoStream />
+        </section>
+        <section id="kingdom">
           <AboutNibble />
+        </section>
+        <section id="team">
+          <Sponsors />
+        </section>
+        <section id="community">
+          <PrizesSection />
         </section>
         <section id="tracks">
           <HackathonTracks />
@@ -71,12 +83,13 @@ export default function Home() {
         <section id="timeline">
           <TimelineSection />
         </section>
+        <section id="flow">
+          <CallToAction />
+        </section>
+        <FaqSection />
         <section id="sponsors">
           <PhotoStream />
-          <Sponsors />
-          <PrizesSection />
         </section>
-        <CallToAction />
       </div>
       <Mascot />
     </>

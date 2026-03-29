@@ -1,449 +1,276 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import {
-  getAnchorOffscreenPosition,
-  getAnchorScreenPosition,
-  getCooldownMs,
-  getMotionProfile,
-  getMoodFromSection,
-  MASCOT_SECTION_IDS,
-  getVisibleDurationMs,
-  overlapsInteractiveElement,
-  pickNextAnchor,
-  type MascotAnchor,
-  type MascotSectionMood,
-  type MascotState,
-} from './MascotLogic';
-import { getMessageForReason, type MascotMessage, type MascotMessageReason } from './MascotMessages';
-
-interface Point {
-  x: number;
-  y: number;
-}
+import { gsap } from 'gsap';
+import { MascotController, type BrainSnapshot } from './MascotController';
+import type { MascotBehaviorState } from './MascotLogic';
+import type { MascotMessage } from './MascotMessages';
 
 export interface MascotRenderModel {
-  state: MascotState;
-  anchor: MascotAnchor;
-  mood: MascotSectionMood;
+  state: MascotBehaviorState;
   visible: boolean;
-  hovered: boolean;
-  clicked: boolean;
   bubbleVisible: boolean;
   message: MascotMessage;
-  pulse: number;
-  mascotSize: number;
+  sizeClass: string;
 }
 
-export interface MascotController {
+export interface MascotControllerBindings {
   model: MascotRenderModel;
   mascotRef: React.RefObject<HTMLDivElement | null>;
+  bubbleRef: React.RefObject<HTMLDivElement | null>;
   onHoverChange: (hovered: boolean) => void;
   onClickMascot: () => void;
 }
 
-const BASE_SIZE_DESKTOP = 104;
-const BASE_SIZE_MOBILE = 78;
-const MESSAGE_HIDE_DELAY = 3600;
-const IDLE_HINT_DELAY = 12500;
-const ENTER_DURATION = 620;
-const EXIT_DURATION = 360;
+const DEFAULT_MESSAGE: MascotMessage = {
+  id: 'boot',
+  text: 'Welcome, warrior… Asgard awaits.',
+  tone: 'epic',
+  priority: 1,
+  trigger: 'onEnter',
+  section: 'hero',
+  cooldownMs: 10000,
+};
 
-export function useMascot(): MascotController {
-  const [state, setState] = useState<MascotState>('hidden');
-  const [anchor, setAnchor] = useState<MascotAnchor>('bottom-right');
-  const [mood, setMood] = useState<MascotSectionMood>('calm');
-  const [visible, setVisible] = useState(false);
-  const [hovered, setHovered] = useState(false);
-  const [clicked, setClicked] = useState(false);
-  const [bubbleVisible, setBubbleVisible] = useState(false);
-  const [message, setMessage] = useState<MascotMessage>(() => getMessageForReason('first-visit', 'calm'));
-  const [pulse, setPulse] = useState(0);
-  const [mascotSize, setMascotSize] = useState(() =>
-    typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
-      ? BASE_SIZE_MOBILE
-      : BASE_SIZE_DESKTOP,
-  );
-
+export function useMascot(): MascotControllerBindings {
   const mascotRef = useRef<HTMLDivElement>(null);
-
-  const isMobileRef = useRef(false);
-  const currentPositionRef = useRef<Point>({ x: 0, y: 0 });
-  const basePositionRef = useRef<Point>({ x: 0, y: 0 });
-  const offscreenPositionRef = useRef<Point>({ x: 0, y: 0 });
-  const cursorRef = useRef<Point>({ x: 0.5, y: 0.5 });
-
-  const stateRef = useRef<MascotState>('hidden');
-  const anchorRef = useRef<MascotAnchor>('bottom-right');
-  const moodRef = useRef<MascotSectionMood>('calm');
-  const lastSectionRef = useRef('home');
-
+  const bubbleRef = useRef<HTMLDivElement>(null);
+  const controllerRef = useRef<MascotController | null>(null);
   const rafRef = useRef<number | null>(null);
-  const mouseRafRef = useRef<number | null>(null);
-  const scrollRafRef = useRef<number | null>(null);
+  const scrollRef = useRef({ y: 0, at: 0 });
+  const hideBubbleTimerRef = useRef<number | null>(null);
+  const lastStateRef = useRef<MascotBehaviorState>('IDLE');
 
-  const cooldownTimerRef = useRef<number | null>(null);
-  const visibleTimerRef = useRef<number | null>(null);
-  const bounceTimerRef = useRef<number | null>(null);
-  const messageTimerRef = useRef<number | null>(null);
-  const idleTimerRef = useRef<number | null>(null);
-  const clickTimerRef = useRef<number | null>(null);
+  const [model, setModel] = useState<MascotRenderModel>({
+    state: 'IDLE',
+    visible: true,
+    bubbleVisible: false,
+    message: DEFAULT_MESSAGE,
+    sizeClass: 'w-32',
+  });
 
-  const shouldFollowCursorRef = useRef(true);
-  const pulseRef = useRef(0);
-
-  const clearTimer = useCallback((timerRef: React.MutableRefObject<number | null>) => {
-    if (timerRef.current !== null) {
-      window.clearTimeout(timerRef.current);
-      timerRef.current = null;
+  const syncFromBrain = useCallback((snapshot: BrainSnapshot) => {
+    const mascot = mascotRef.current;
+    if (mascot) {
+      gsap.to(mascot, {
+        x: snapshot.point.x,
+        y: snapshot.point.y,
+        duration: 0.45,
+        ease: 'power2.out',
+        overwrite: 'auto',
+      });
     }
-  }, []);
 
-  const transitionTo = useCallback((nextState: MascotState) => {
-    stateRef.current = nextState;
-    setState(nextState);
-  }, []);
-
-  const showMessage = useCallback(
-    (reason: MascotMessageReason, customMood?: MascotSectionMood) => {
-      const nextMood = customMood ?? moodRef.current;
-      setMessage(getMessageForReason(reason, nextMood));
-      setBubbleVisible(true);
-      clearTimer(messageTimerRef);
-      messageTimerRef.current = window.setTimeout(() => {
-        setBubbleVisible(false);
-      }, MESSAGE_HIDE_DELAY);
-    },
-    [clearTimer],
-  );
-
-  const onHoverChange = useCallback(
-    (nextHovered: boolean) => {
-      setHovered(nextHovered);
-      if (nextHovered && (stateRef.current === 'active' || stateRef.current === 'interacting')) {
-        transitionTo('interacting');
-        showMessage('manual');
-      } else if (!nextHovered && stateRef.current === 'interacting') {
-        transitionTo('active');
+    if (lastStateRef.current !== snapshot.state && mascot) {
+      if (snapshot.state === 'GUIDING' || snapshot.state === 'EXCITED') {
+        gsap.fromTo(
+          mascot,
+          { rotate: -8, scale: 0.8, yPercent: 8 },
+          {
+            rotate: 0,
+            scale: 1,
+            yPercent: 0,
+            duration: 0.82,
+            ease: 'bounce.out',
+            overwrite: 'auto',
+          },
+        );
       }
-    },
-    [showMessage, transitionTo],
-  );
 
-  const onClickMascot = useCallback(() => {
-    setClicked(true);
-    if (clickTimerRef.current !== null) {
-      window.clearTimeout(clickTimerRef.current);
+      if (snapshot.state === 'IDLE') {
+        gsap.to(mascot, {
+          y: '+=8',
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+          duration: 1.8,
+          overwrite: false,
+        });
+      } else {
+        gsap.killTweensOf(mascot, 'y');
+      }
+
+      lastStateRef.current = snapshot.state;
     }
-    clickTimerRef.current = window.setTimeout(() => setClicked(false), 240);
 
-    pulseRef.current = 1;
-    setPulse(1);
-    window.setTimeout(() => {
-      pulseRef.current = 0;
-      setPulse(0);
-    }, 420);
+    if (snapshot.bubbleVisible && bubbleRef.current) {
+      gsap.fromTo(
+        bubbleRef.current,
+        { opacity: 0, y: 8, filter: 'blur(8px)' },
+        {
+          opacity: 1,
+          y: 0,
+          filter: 'blur(0px)',
+          duration: 0.32,
+          ease: 'power2.out',
+        },
+      );
+    }
 
-    showMessage('click');
-  }, [showMessage]);
+    setModel((previous) => {
+      if (
+        previous.state === snapshot.state &&
+        previous.visible === snapshot.visible &&
+        previous.bubbleVisible === snapshot.bubbleVisible &&
+        previous.message.id === snapshot.message.id &&
+        previous.sizeClass === snapshot.sizeClass
+      ) {
+        return previous;
+      }
+
+      return {
+        state: snapshot.state,
+        visible: snapshot.visible,
+        bubbleVisible: snapshot.bubbleVisible,
+        message: snapshot.message,
+        sizeClass: snapshot.sizeClass,
+      };
+    });
+  }, []);
 
   useEffect(() => {
-    const applyPositionStyle = (point: Point) => {
-      const element = mascotRef.current;
-      if (!element) {
-        return;
-      }
-      element.style.transform = `translate3d(${point.x.toFixed(2)}px, ${point.y.toFixed(2)}px, 0)`;
-    };
+    const controller = new MascotController(() => ({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    }));
+    controllerRef.current = controller;
 
-    const computeSafeAnchorPosition = (
-      nextAnchor: MascotAnchor,
-    ): { anchor: MascotAnchor; base: Point; offscreen: Point } => {
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      const size = isMobileRef.current ? BASE_SIZE_MOBILE : BASE_SIZE_DESKTOP;
+    const sectionIds = controller.getSectionIds();
 
-      const order: MascotAnchor[] = [
-        nextAnchor,
-        ...(['bottom-right', 'bottom-left', 'top-right', 'mid-left'] as MascotAnchor[]).filter((a) => a !== nextAnchor),
-      ];
-
-      for (const candidate of order) {
-        const base = getAnchorScreenPosition(candidate, viewportWidth, viewportHeight, size, isMobileRef.current);
-        const rect = {
-          left: base.x,
-          top: base.y,
-          right: base.x + size,
-          bottom: base.y + size,
-        };
-
-        if (!overlapsInteractiveElement(rect)) {
-          const offscreen = getAnchorOffscreenPosition(candidate, viewportWidth, viewportHeight, size);
-          return { anchor: candidate, base, offscreen };
-        }
-      }
-
-      const fallback = getAnchorScreenPosition(nextAnchor, viewportWidth, viewportHeight, size, isMobileRef.current);
-      return {
-        anchor: nextAnchor,
-        base: fallback,
-        offscreen: getAnchorOffscreenPosition(nextAnchor, viewportWidth, viewportHeight, size),
-      };
-    };
-
-    const scheduleIdleHint = () => {
-      clearTimer(idleTimerRef);
-      idleTimerRef.current = window.setTimeout(() => {
-        if (stateRef.current === 'active' || stateRef.current === 'interacting') {
-          showMessage('idle');
-        }
-      }, IDLE_HINT_DELAY);
-    };
-
-    const scheduleRandomBounce = () => {
-      clearTimer(bounceTimerRef);
-      const profile = getMotionProfile(moodRef.current, isMobileRef.current);
-      bounceTimerRef.current = window.setTimeout(() => {
-        if (stateRef.current === 'active') {
-          pulseRef.current = 1;
-          setPulse(1);
-          window.setTimeout(() => {
-            pulseRef.current = 0;
-            setPulse(0);
-          }, 420);
-          scheduleRandomBounce();
-        }
-      }, profile.idleBounceInterval + Math.floor(Math.random() * 1200));
-    };
-
-    const scheduleNextAppearance = () => {
-      clearTimer(cooldownTimerRef);
-      cooldownTimerRef.current = window.setTimeout(() => {
-        const pickedAnchor = pickNextAnchor(anchorRef.current, isMobileRef.current);
-        const { anchor: safeAnchor, base, offscreen } = computeSafeAnchorPosition(pickedAnchor);
-
-        anchorRef.current = safeAnchor;
-        setAnchor(safeAnchor);
-        basePositionRef.current = base;
-        offscreenPositionRef.current = offscreen;
-        currentPositionRef.current = offscreen;
-        applyPositionStyle(offscreen);
-
-        setVisible(true);
-        shouldFollowCursorRef.current = true;
-        transitionTo('entering');
-
-        window.setTimeout(() => {
-          transitionTo('active');
-          scheduleIdleHint();
-          scheduleRandomBounce();
-        }, ENTER_DURATION);
-
-        clearTimer(visibleTimerRef);
-        visibleTimerRef.current = window.setTimeout(() => {
-          transitionTo('exiting');
-          shouldFollowCursorRef.current = false;
-
-          window.setTimeout(() => {
-            transitionTo('hidden');
-            setVisible(false);
-            scheduleNextAppearance();
-          }, EXIT_DURATION);
-        }, getVisibleDurationMs(isMobileRef.current));
-      }, getCooldownMs());
-    };
-
-    const updateSectionMood = (sectionId: string) => {
-      if (sectionId === lastSectionRef.current) {
-        return;
-      }
-
-      lastSectionRef.current = sectionId;
-      const nextMood = getMoodFromSection(sectionId);
-      moodRef.current = nextMood;
-      setMood(nextMood);
-
-      if (stateRef.current === 'active' || stateRef.current === 'interacting') {
-        showMessage('section-change', nextMood);
-      }
-    };
-
-    isMobileRef.current = window.matchMedia('(max-width: 768px)').matches;
-    const initialAnchor = isMobileRef.current ? 'bottom-right' : 'bottom-left';
-    const { anchor: safeAnchor, base, offscreen } = computeSafeAnchorPosition(initialAnchor);
-
-    anchorRef.current = safeAnchor;
-    setAnchor(safeAnchor);
-    basePositionRef.current = base;
-    offscreenPositionRef.current = offscreen;
-    currentPositionRef.current = offscreen;
-    applyPositionStyle(offscreen);
-    transitionTo('idle');
-
-    window.setTimeout(() => {
-      setVisible(true);
-      shouldFollowCursorRef.current = true;
-      transitionTo('entering');
-      showMessage('first-visit');
-
-      window.setTimeout(() => {
-        transitionTo('active');
-        scheduleIdleHint();
-        scheduleRandomBounce();
-      }, ENTER_DURATION);
-
-      clearTimer(visibleTimerRef);
-      visibleTimerRef.current = window.setTimeout(() => {
-        transitionTo('exiting');
-        shouldFollowCursorRef.current = false;
-
-        window.setTimeout(() => {
-          transitionTo('hidden');
-          setVisible(false);
-          scheduleNextAppearance();
-        }, EXIT_DURATION);
-      }, getVisibleDurationMs(isMobileRef.current));
-    }, 800);
-
-    const mediaQuery = window.matchMedia('(max-width: 768px)');
-    const onMediaChange = (event: MediaQueryListEvent) => {
-      isMobileRef.current = event.matches;
-      setMascotSize(event.matches ? BASE_SIZE_MOBILE : BASE_SIZE_DESKTOP);
-      const pinnedAnchor = event.matches ? 'bottom-right' : anchorRef.current;
-      const { anchor: updatedAnchor, base: updatedBase, offscreen: updatedOffscreen } = computeSafeAnchorPosition(pinnedAnchor);
-      anchorRef.current = updatedAnchor;
-      setAnchor(updatedAnchor);
-      basePositionRef.current = updatedBase;
-      offscreenPositionRef.current = updatedOffscreen;
-      if (stateRef.current === 'hidden' || stateRef.current === 'exiting') {
-        currentPositionRef.current = updatedOffscreen;
-        applyPositionStyle(updatedOffscreen);
-      }
-    };
-
-    mediaQuery.addEventListener('change', onMediaChange);
-
-    const handleMouseMove = (event: MouseEvent) => {
-      if (mouseRafRef.current !== null) {
-        return;
-      }
-      mouseRafRef.current = window.requestAnimationFrame(() => {
-        cursorRef.current = {
-          x: event.clientX / window.innerWidth,
-          y: event.clientY / window.innerHeight,
-        };
-        mouseRafRef.current = null;
-      });
-    };
-
-    const handleScroll = () => {
-      if (scrollRafRef.current !== null) {
-        return;
-      }
-      scrollRafRef.current = window.requestAnimationFrame(() => {
-        for (const id of MASCOT_SECTION_IDS) {
-          const element = document.getElementById(id);
-          if (!element) {
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        let winner: IntersectionObserverEntry | null = null;
+        for (const entry of entries) {
+          if (!entry.isIntersecting) {
             continue;
           }
-          const rect = element.getBoundingClientRect();
-          const midpoint = window.innerHeight * 0.5;
-          if (rect.top <= midpoint && rect.bottom >= midpoint) {
-            updateSectionMood(id);
-            break;
+          if (!winner || entry.intersectionRatio > winner.intersectionRatio) {
+            winner = entry;
           }
         }
-        scrollRafRef.current = null;
-      });
+
+        if (winner && winner.target.id) {
+          controller.onSectionObserved(winner.target.id, performance.now());
+        }
+      },
+      { threshold: [0.25, 0.5, 0.7], rootMargin: '-20% 0px -20% 0px' },
+    );
+
+    for (const sectionId of sectionIds) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        sectionObserver.observe(element);
+      }
+    }
+
+    const now = performance.now();
+    scrollRef.current = { y: window.scrollY, at: now };
+    controller.setInitialSection('hero');
+
+    const onMouseMove = (event: MouseEvent) => {
+      controller.onCursorMove(event.clientX, event.clientY, performance.now());
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    const onScroll = () => {
+      const current = performance.now();
+      const deltaY = window.scrollY - scrollRef.current.y;
+      const deltaMs = current - scrollRef.current.at;
+      scrollRef.current = { y: window.scrollY, at: current };
+      controller.onScroll(deltaY, deltaMs, current);
+    };
 
-    let lastTick = 0;
-    const tick = (timestamp: number) => {
-      if (!lastTick) {
-        lastTick = timestamp;
+    const onMouseOver = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (!target) {
+        return;
       }
-      const dt = Math.min(32, timestamp - lastTick);
-      lastTick = timestamp;
 
-      const profile = getMotionProfile(moodRef.current, isMobileRef.current);
-      const basePoint = basePositionRef.current;
-      const cursor = cursorRef.current;
+      if (target.closest('[data-mascot-context="important"], .card-wrapper, .timeline-card, .faq-card')) {
+        controller.onHoverImportant(performance.now());
+      }
+    };
 
-      const offsetX = shouldFollowCursorRef.current ? (cursor.x - 0.5) * profile.followStrength : 0;
-      const offsetY = shouldFollowCursorRef.current ? (cursor.y - 0.5) * profile.followStrength : 0;
-      const floatY = Math.sin(timestamp * profile.floatSpeed) * profile.floatAmplitude;
-      const pulseOffset = pulseRef.current * -6;
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('mouseover', onMouseOver, { passive: true });
 
-      const targetPoint =
-        stateRef.current === 'entering'
-          ? basePoint
-          : stateRef.current === 'hidden' || stateRef.current === 'exiting'
-            ? offscreenPositionRef.current
-            : {
-                x: basePoint.x + offsetX,
-                y: basePoint.y + floatY + offsetY + pulseOffset,
-              };
-
-      // 16.67ms = one 60fps frame; this computes an exponentially-weighted interpolation factor.
-      const lerp = 1 - Math.pow(0.0001, dt / 16.67);
-      currentPositionRef.current = {
-        x: currentPositionRef.current.x + (targetPoint.x - currentPositionRef.current.x) * lerp,
-        y: currentPositionRef.current.y + (targetPoint.y - currentPositionRef.current.y) * lerp,
-      };
-
-      applyPositionStyle(currentPositionRef.current);
+    const tick = () => {
+      const snapshot = controller.tick(performance.now());
+      syncFromBrain(snapshot);
       rafRef.current = window.requestAnimationFrame(tick);
     };
 
     rafRef.current = window.requestAnimationFrame(tick);
+    const mascotElement = mascotRef.current;
+    const bubbleElement = bubbleRef.current;
 
     return () => {
-      mediaQuery.removeEventListener('change', onMediaChange);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('scroll', handleScroll);
+      sectionObserver.disconnect();
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('mouseover', onMouseOver);
 
       if (rafRef.current !== null) {
         window.cancelAnimationFrame(rafRef.current);
       }
-      if (mouseRafRef.current !== null) {
-        window.cancelAnimationFrame(mouseRafRef.current);
-      }
-      if (scrollRafRef.current !== null) {
-        window.cancelAnimationFrame(scrollRafRef.current);
+
+      if (hideBubbleTimerRef.current !== null) {
+        window.clearTimeout(hideBubbleTimerRef.current);
       }
 
-      clearTimer(cooldownTimerRef);
-      clearTimer(visibleTimerRef);
-      clearTimer(bounceTimerRef);
-      clearTimer(messageTimerRef);
-      clearTimer(idleTimerRef);
-      clearTimer(clickTimerRef);
+      gsap.killTweensOf(mascotElement);
+      gsap.killTweensOf(bubbleElement);
     };
-  }, [clearTimer, showMessage, transitionTo]);
+  }, [syncFromBrain]);
 
-  const model = useMemo<MascotRenderModel>(
+  useEffect(() => {
+    if (hideBubbleTimerRef.current !== null) {
+      window.clearTimeout(hideBubbleTimerRef.current);
+    }
+
+    if (!model.bubbleVisible) {
+      return;
+    }
+
+    hideBubbleTimerRef.current = window.setTimeout(() => {
+      controllerRef.current?.hideBubble();
+    }, 3800);
+  }, [model.bubbleVisible, model.message.id]);
+
+  const onHoverChange = useCallback((hovered: boolean) => {
+    if (hovered) {
+      controllerRef.current?.onHoverImportant(performance.now());
+    }
+  }, []);
+
+  const onClickMascot = useCallback(() => {
+    const mascot = mascotRef.current;
+    if (!mascot) {
+      return;
+    }
+
+    controllerRef.current?.onHoverImportant(performance.now());
+
+    gsap.fromTo(
+      mascot,
+      { scale: 0.8 },
+      {
+        scale: 1.1,
+        keyframes: [{ scale: 0.8 }, { scale: 1.1 }, { scale: 1 }],
+        duration: 0.48,
+        ease: 'power2.out',
+      },
+    );
+  }, []);
+
+  return useMemo(
     () => ({
-      state,
-      anchor,
-      mood,
-      visible,
-      hovered,
-      clicked,
-      bubbleVisible,
-      message,
-      pulse,
-      mascotSize,
+      model,
+      mascotRef,
+      bubbleRef,
+      onHoverChange,
+      onClickMascot,
     }),
-    [state, anchor, mood, visible, hovered, clicked, bubbleVisible, message, pulse, mascotSize],
+    [model, onClickMascot, onHoverChange],
   );
-
-  return {
-    model,
-    mascotRef,
-    onHoverChange,
-    onClickMascot,
-  };
 }

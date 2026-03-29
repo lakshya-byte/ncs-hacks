@@ -141,7 +141,8 @@ export default function PrizesSection() {
   }, []);
 
   return (
-    <section 
+    <section
+      id="prizes"
       ref={sectionRef} 
       // Height is 400vh to give the user plenty of scroll distance to read all 4 cards
       className="relative w-full h-[400vh] bg-[#FAF9F6] font-body selection:bg-[#FFD700]/30"
