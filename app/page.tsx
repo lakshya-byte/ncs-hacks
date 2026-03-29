@@ -38,6 +38,9 @@ const CallToAction = dynamic(() => import('./components/CTA/CallToAction'), {
 const PrizesSection = dynamic(() => import('./components/prizes/PrizesSection'), {
   ssr: false,
 });
+const ArchivesFAQ = dynamic(() => import('./components/faq/ArchivesFAQ'), {
+  ssr: false,
+});
 const Mascot = dynamic(() => import('./components/mascot/Mascot'), {
   ssr: false,
 });
@@ -76,6 +79,7 @@ export default function Home() {
           <Sponsors />
           <PrizesSection />
         </section>
+        <ArchivesFAQ />
         <CallToAction />
       </div>
       <Mascot />
