@@ -5,7 +5,7 @@ import { LavaSpine } from './spine/LavaSpine';
 
 type TimelineSpineProps = React.HTMLAttributes<HTMLDivElement>;
 
-const TimelineSpine = forwardRef<HTMLDivElement, TimelineSpineProps>((_props, ref) => {
+const TimelineSpine = forwardRef<HTMLDivElement, TimelineSpineProps>(({}, ref) => {
   return (
     <div
       className="pointer-events-none absolute -bottom-[120px] -top-[120px] left-[40px] z-[0] w-[24px] -translate-x-1/2 md:left-1/2"

@@ -10,7 +10,7 @@ export const LavaSpine = () => {
   return (
     <canvas
       ref={canvasRef}
-      aria-hidden
+      aria-hidden={true}
       className="absolute inset-0 h-full w-full"
     />
   );

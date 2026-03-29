@@ -8,6 +8,18 @@ export type LavaStreak = {
   noiseSeed: number;
 };
 
+const STREAK_PHASE_STEP = 0.62;
+const STREAK_BASE_AMPLITUDE = 3;
+const STREAK_AMPLITUDE_VARIANCE = 0.9;
+const STREAK_BASE_WIDTH = 1.4;
+const STREAK_WIDTH_VARIANCE = 0.45;
+const STREAK_BASE_SPEED = 0.65;
+const STREAK_SPEED_VARIANCE = 0.18;
+const STREAK_NOISE_SEED_STEP = 13.7;
+const LAVA_TRACK_WIDTH = 14;
+const LAVA_SEGMENT_LENGTH = 140;
+const LAVA_SEGMENT_SPACING = 56;
+
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 const hash = (x: number, y: number) => {
@@ -34,11 +46,11 @@ const valueNoise = (x: number, y: number) => {
 
 export const createLavaStreaks = (count: number): LavaStreak[] =>
   Array.from({ length: count }, (_, index) => ({
-    phase: index * 0.62,
-    amplitude: 3 + ((index % 6) + 1) * 0.9,
-    width: 1.4 + (index % 4) * 0.45,
-    speed: 0.65 + (index % 5) * 0.18,
-    noiseSeed: index * 13.7,
+    phase: index * STREAK_PHASE_STEP,
+    amplitude: STREAK_BASE_AMPLITUDE + ((index % 6) + 1) * STREAK_AMPLITUDE_VARIANCE,
+    width: STREAK_BASE_WIDTH + (index % 4) * STREAK_WIDTH_VARIANCE,
+    speed: STREAK_BASE_SPEED + (index % 5) * STREAK_SPEED_VARIANCE,
+    noiseSeed: index * STREAK_NOISE_SEED_STEP,
   }));
 
 export const renderLava = (
@@ -52,7 +64,6 @@ export const renderLava = (
 ) => {
   const centerX = width / 2;
   const speedStrength = Math.min(1.6, Math.abs(speed) * 0.45);
-  const trackWidth = 14;
 
   ctx.clearRect(0, 0, width, height);
 
@@ -62,7 +73,7 @@ export const renderLava = (
   coreGradient.addColorStop(0.7, 'rgba(226, 142, 38, 0.34)');
   coreGradient.addColorStop(1, 'rgba(119, 71, 20, 0.28)');
   ctx.fillStyle = coreGradient;
-  ctx.fillRect(centerX - trackWidth / 2, 0, trackWidth, height);
+  ctx.fillRect(centerX - LAVA_TRACK_WIDTH / 2, 0, LAVA_TRACK_WIDTH, height);
 
   ctx.globalAlpha = 0.95;
   for (let i = 0; i < streaks.length; i += 1) {
@@ -72,18 +83,17 @@ export const renderLava = (
       (valueNoise(streak.noiseSeed, time * 0.26) - 0.5) * 10 +
       (valueNoise(time * 0.18, streak.noiseSeed * 0.07) - 0.5) * 14;
     const x = centerX + wave + organicNoise;
-    const segmentLength = 140;
-    const spacing = 56;
     const travel = flowOffset * streak.speed + i * 33;
 
-    for (let y = -segmentLength; y < height + segmentLength; y += spacing) {
-      const yPos = ((y + travel) % (height + segmentLength * 2)) - segmentLength;
+    for (let y = -LAVA_SEGMENT_LENGTH; y < height + LAVA_SEGMENT_LENGTH; y += LAVA_SEGMENT_SPACING) {
+      const yPos =
+        ((y + travel) % (height + LAVA_SEGMENT_LENGTH * 2)) - LAVA_SEGMENT_LENGTH;
 
-      if (yPos > height + segmentLength || yPos < -segmentLength) {
+      if (yPos > height + LAVA_SEGMENT_LENGTH || yPos < -LAVA_SEGMENT_LENGTH) {
         continue;
       }
 
-      const gradient = ctx.createLinearGradient(x, yPos, x, yPos + segmentLength);
+      const gradient = ctx.createLinearGradient(x, yPos, x, yPos + LAVA_SEGMENT_LENGTH);
       gradient.addColorStop(0, 'rgba(255, 215, 89, 0)');
       gradient.addColorStop(0.2, 'rgba(255, 229, 155, 0.92)');
       gradient.addColorStop(0.62, 'rgba(255, 140, 0, 0.88)');
@@ -94,7 +104,12 @@ export const renderLava = (
       ctx.lineWidth = streak.width + Math.sin(time + i * 0.5) * 0.45;
       ctx.beginPath();
       ctx.moveTo(x, yPos);
-      ctx.quadraticCurveTo(x + wobble, yPos + segmentLength * 0.55, x, yPos + segmentLength);
+      ctx.quadraticCurveTo(
+        x + wobble,
+        yPos + LAVA_SEGMENT_LENGTH * 0.55,
+        x,
+        yPos + LAVA_SEGMENT_LENGTH,
+      );
       ctx.stroke();
     }
   }
