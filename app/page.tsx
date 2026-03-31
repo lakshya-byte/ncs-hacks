@@ -1,47 +1,62 @@
-'use client';
+"use client";
 
-import dynamic from 'next/dynamic';
-import LoadingScreen from './components/ui/LoadingScreen';
+import dynamic from "next/dynamic";
+import LoadingScreen from "./components/ui/LoadingScreen";
 
 // Dynamic import with no SSR — canvas + GSAP are client-only
-const AsgardCanvas = dynamic(() => import('./components/Hero/AsgardCanvas'), {
+const AsgardCanvas = dynamic(() => import("./components/Hero/AsgardCanvas"), {
   ssr: false,
   loading: () => <LoadingScreen />,
 });
-const CinematicOverlay = dynamic(() => import('./components/Hero/CinematicOverlay'), {
-  ssr: false,
-  loading: () => <LoadingScreen />,
-});
-const ParticleOverlay = dynamic(() => import('./components/Hero/ParticleOverlay'), {
-  ssr: false,
-  loading: () => <LoadingScreen />,
-});
-const AboutNibble = dynamic(() => import('./components/aboutNibble/AboutNibble'), {
-  ssr: false,
-  loading: () => <LoadingScreen />,
-});
-const HackathonTracks = dynamic(() => import('./components/tracks/Tracks'), {
-  ssr: false,
-});
-const TimelineSection = dynamic(() => import('./components/timeline/TimelineSection'), {
-  ssr: false,
-});
-const PhotoStream = dynamic(() => import('./components/previous/PhotoStream'), {
-  ssr: false,
-});
-const Sponsors = dynamic(() => import('./components/sponsors/Sponsors'), {
-  ssr: false,
-});
-const CallToAction = dynamic(() => import('./components/CTA/CallToAction'), {
+const CinematicOverlay = dynamic(
+  () => import("./components/Hero/CinematicOverlay"),
+  {
+    ssr: false,
+    loading: () => <LoadingScreen />,
+  },
+);
+const ParticleOverlay = dynamic(
+  () => import("./components/Hero/ParticleOverlay"),
+  {
+    ssr: false,
+    loading: () => <LoadingScreen />,
+  },
+);
+const AboutNibble = dynamic(
+  () => import("./components/aboutNibble/AboutNibble"),
+  {
+    ssr: false,
+    loading: () => <LoadingScreen />,
+  },
+);
+const HackathonTracks = dynamic(() => import("./components/tracks/Tracks"), {
   ssr: false,
 });
-const PrizesSection = dynamic(() => import('./components/prizes/PrizesSection'), {
+const TimelineSection = dynamic(
+  () => import("./components/timeline/TimelineSection"),
+  {
+    ssr: false,
+  },
+);
+const PhotoStream = dynamic(() => import("./components/previous/PhotoStream"), {
   ssr: false,
 });
-const ArchivesFAQ = dynamic(() => import('./components/faq/ArchivesFAQ'), {
+const Sponsors = dynamic(() => import("./components/sponsors/Sponsors"), {
   ssr: false,
 });
-const Mascot = dynamic(() => import('./components/mascot/Mascot'), {
+const CallToAction = dynamic(() => import("./components/CTA/CallToAction"), {
+  ssr: false,
+});
+const PrizesSection = dynamic(
+  () => import("./components/prizes/PrizesSection"),
+  {
+    ssr: false,
+  },
+);
+const FAQSection = dynamic(() => import("./components/faq/FaqSection"), {
+  ssr: false,
+});
+const Mascot = dynamic(() => import("./components/mascot/Mascot"), {
   ssr: false,
 });
 
@@ -90,13 +105,17 @@ export default function Home() {
             <PrizesSection />
           </div>
         </section>
+        <section id="faq" className="w-full">
+          <FAQSection />
+        </section>
         <section id="flow">
           <CallToAction />
         </section>
-        <ArchivesFAQ />
-        <CallToAction />
+      
+       
       </div>
-      <Mascot />
+      
+      {/* <Mascot /> */}
     </>
   );
 }

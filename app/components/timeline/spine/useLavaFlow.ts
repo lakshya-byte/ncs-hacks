@@ -1,7 +1,10 @@
 'use client';
 
 import { RefObject, useEffect } from 'react';
+import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 import { createLavaStreaks, renderLava } from './lavaShader';
 
 const LAVA_STREAK_COUNT = 18;
@@ -51,6 +54,7 @@ export const useLavaFlow = (canvasRef: RefObject<HTMLCanvasElement | null>) => {
       const delta = Math.min(MAX_FRAME_DELTA, (timestamp - previousTimestamp) / 1000);
       previousTimestamp = timestamp;
 
+      // @ts-expect-error - ScrollTrigger.getVelocity() is a valid static method but types may be missing it
       const rawVelocity = ScrollTrigger.getVelocity();
       const speed = Math.max(
         MIN_SCROLL_SPEED,
