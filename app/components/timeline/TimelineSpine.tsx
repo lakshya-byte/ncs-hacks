@@ -21,8 +21,8 @@ const TimelineSpine = forwardRef<HTMLDivElement, TimelineSpineProps>(({}, ref) =
       {/* 2. The Lava Fill (animated by GSAP + canvas flow) */}
       <div
         ref={ref}
-        className="absolute bottom-0 left-1/2 top-0 w-[14px] -translate-x-1/2 origin-top overflow-hidden rounded-full"
-        style={{ transform: 'scaleY(0)' }}
+        className="absolute bottom-0 left-1/2 top-0 w-[14px] -translate-x-1/2 overflow-hidden rounded-full"
+        style={{ transform: 'scaleY(0)', transformOrigin: 'top' }}
       >
         <LavaSpine />
       </div>

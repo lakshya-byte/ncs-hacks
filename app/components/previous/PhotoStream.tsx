@@ -1,128 +1,413 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
+import Image from 'next/image';
 
-// Sample placeholder data. Use 4-5 images per column so there's enough height to loop.
-const IMAGES_COL_1 = [1, 2, 3, 4, 5];
-const IMAGES_COL_2 = [6, 7, 8, 9, 10];
-const IMAGES_COL_3 = [11, 12, 13, 14, 15];
-const IMAGES_COL_4 = [16, 17, 18, 19, 20];
-const IMAGES_COL_5 = [21, 22, 23, 24, 25];
+// ─────────────────────────────────────────────────────────────────────────────
+// PHOTO REGISTRY
+// Add more photos here as they become available.
+// Each entry: { src, alt, aspect }
+// aspect: 'square' | 'portrait' | 'landscape'
+// ─────────────────────────────────────────────────────────────────────────────
+const ALL_PHOTOS = [
+  { src: '/event_photos/image.png', alt: 'Memories of Asgard', aspect: 'landscape' as const },
+  // → add more here, e.g.:
+  // { src: '/event_photos/photo2.jpg', alt: 'NCS Hackathon 2024', aspect: 'portrait' },
+];
 
-export default function PhotoStream() {
+// Deterministic distribution across 4 columns.
+// When there's only one photo we tile it so each column has enough height.
+function buildColumn(colIndex: number, count = 7): typeof ALL_PHOTOS {
+  const pool = [...ALL_PHOTOS];
+  const result: typeof ALL_PHOTOS = [];
+  for (let i = 0; i < count; i++) {
+    result.push(pool[(colIndex * 3 + i) % pool.length]);
+  }
+  return result;
+}
+
+// Column config — direction, speed, slight tilt for visual depth
+const COLUMNS = [
+  { direction: 'up',   duration: 36, nudge: -1 },
+  { direction: 'down', duration: 48, nudge:  1 },
+  { direction: 'up',   duration: 40, nudge: -0.5 },
+  { direction: 'down', duration: 30, nudge:  0.5 },
+] as const;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SINGLE PHOTO CARD
+// ─────────────────────────────────────────────────────────────────────────────
+function PhotoCard({
+  photo,
+  index,
+}: {
+  photo: (typeof ALL_PHOTOS)[0];
+  index: number;
+}) {
+  // Alternate aspect ratios based on position for organic feel
+  const aspectRatios = ['4/5', '1/1', '4/3', '3/4', '1/1', '4/5', '4/3'];
+  const ratio = aspectRatios[index % aspectRatios.length];
+
   return (
-    <section className="relative w-full h-[120vh] bg-[#FAFAF8] overflow-hidden flex items-center justify-center">
-      
-      {/* Dynamic Inline CSS for Infinite Scroll & Hover Pausing */}
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes scrollUp {
-          0% { transform: translateY(0); }
-          100% { transform: translateY(-50%); }
-        }
-        @keyframes scrollDown {
-          0% { transform: translateY(-50%); }
-          100% { transform: translateY(0); }
-        }
-        .anim-scroll-up {
-          animation: scrollUp linear infinite;
-        }
-        .anim-scroll-down {
-          animation: scrollDown linear infinite;
-        }
-        .scroll-group:hover .anim-scroll-up,
-        .scroll-group:hover .anim-scroll-down {
-          animation-play-state: paused;
-        }
-      `}} />
+    <div
+      className="memories-card group relative w-full shrink-0 overflow-hidden"
+      style={{
+        aspectRatio: ratio,
+        borderRadius: '16px',
+        border: '1px solid rgba(212,175,55,0.2)',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+        cursor: 'pointer',
+        willChange: 'transform',
+        transition: 'transform 0.5s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease, border-color 0.4s ease',
+        background: 'linear-gradient(135deg, #fdf8f0, #f5efd6)',
+      }}
+    >
+      <Image
+        src={photo.src}
+        alt={photo.alt}
+        fill
+        sizes="(max-width: 640px) 45vw, (max-width: 1024px) 22vw, 20vw"
+        className="object-cover object-center transition-all duration-700 group-hover:scale-[1.06] group-hover:brightness-110"
+        quality={80}
+      />
 
-      {/* Background Atmosphere */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(212,175,55,0.06)_0%,transparent_70%)] pointer-events-none" />
+      {/* Hover gold shimmer overlay */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{
+          background:
+            'linear-gradient(135deg, transparent 40%, rgba(212,175,55,0.12) 60%, transparent 80%)',
+        }}
+      />
 
-      {/* Grid Container */}
-      <div className="container-main relative h-[150%] w-full grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-6 md:gap-8 py-10 rotate-[-2deg] scale-105">
-        
-        {/* Column 1 - UP */}
-        <div className="relative h-full overflow-hidden scroll-group col-span-2 md:col-span-2 lg:col-span-2">
-          <div className="flex flex-col gap-4 sm:gap-6 anim-scroll-up" style={{ animationDuration: '32s' }}>
-            {/* Original Set */}
-            {IMAGES_COL_1.map((id) => <PhotoCard key={`c1-a-${id}`} id={id} />)}
-            {/* Duplicated Set for Loop Seamlessness */}
-            {IMAGES_COL_1.map((id) => <PhotoCard key={`c1-b-${id}`} id={id} />)}
-          </div>
-        </div>
-
-        {/* Column 2 - DOWN */}
-        <div className="relative h-full overflow-hidden scroll-group col-span-2 md:col-span-2 lg:col-span-2">
-          <div className="flex flex-col gap-4 sm:gap-6 anim-scroll-down" style={{ animationDuration: '45s' }}>
-            {IMAGES_COL_2.map((id) => <PhotoCard key={`c2-a-${id}`} id={id} />)}
-            {IMAGES_COL_2.map((id) => <PhotoCard key={`c2-b-${id}`} id={id} />)}
-          </div>
-        </div>
-
-        {/* Column 3 - UP (Hidden on Mobile) */}
-        <div className="relative h-full overflow-hidden scroll-group hidden md:block md:col-span-4 lg:col-span-2">
-          <div className="flex flex-col gap-4 sm:gap-6 anim-scroll-up" style={{ animationDuration: '38s' }}>
-            {IMAGES_COL_3.map((id) => <PhotoCard key={`c3-a-${id}`} id={id} />)}
-            {IMAGES_COL_3.map((id) => <PhotoCard key={`c3-b-${id}`} id={id} />)}
-          </div>
-        </div>
-
-        {/* Column 4 - DOWN (Hidden on Tablet) */}
-        <div className="relative h-full overflow-hidden scroll-group hidden lg:block lg:col-span-3">
-          <div className="flex flex-col gap-4 sm:gap-6 anim-scroll-down" style={{ animationDuration: '50s' }}>
-            {IMAGES_COL_4.map((id) => <PhotoCard key={`c4-a-${id}`} id={id} />)}
-            {IMAGES_COL_4.map((id) => <PhotoCard key={`c4-b-${id}`} id={id} />)}
-          </div>
-        </div>
-
-        {/* Column 5 - UP (Hidden on Tablet) */}
-        <div className="relative h-full overflow-hidden scroll-group hidden lg:block lg:col-span-3">
-          <div className="flex flex-col gap-4 sm:gap-6 anim-scroll-up" style={{ animationDuration: '28s' }}>
-            {IMAGES_COL_5.map((id) => <PhotoCard key={`c5-a-${id}`} id={id} />)}
-            {IMAGES_COL_5.map((id) => <PhotoCard key={`c5-b-${id}`} id={id} />)}
-          </div>
-        </div>
-
-      </div>
-
-      {/* Top & Bottom Fade Masks - Creating the infinite stream illusion over the page edge */}
-      <div className="absolute top-0 left-0 w-full h-[25vh] bg-gradient-to-b from-[#FAFAF8] via-[#FAFAF8]/80 to-transparent pointer-events-none z-10" />
-      <div className="absolute bottom-0 left-0 w-full h-[25vh] bg-gradient-to-t from-[#FAFAF8] via-[#FAFAF8]/80 to-transparent pointer-events-none z-10" />
-
-      {/* Forefront Text Overlay */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none w-full text-center">
-        <h2 
-          className="font-heading text-[#B8860B] tracking-wide leading-[1.1] drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]"
-          style={{ fontSize: 'clamp(3rem, 6vw, 6rem)' }}
-        >
-          Memories of Asgard
-        </h2>
-        <p className="mt-4 font-body text-xs tracking-[0.3em] uppercase text-[#B8860B]/80 font-medium bg-white/40 inline-block px-6 py-2 rounded-full backdrop-blur-md border border-[#D4AF37]/20 shadow-sm">
-          A Legacy Forged in Code
-        </p>
-      </div>
-
-    </section>
+      {/* Hover border glow */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
+        style={{
+          borderRadius: '16px',
+          boxShadow: 'inset 0 0 0 1.5px rgba(212,175,55,0.5)',
+        }}
+      />
+    </div>
   );
 }
 
-// Sub-component for individual Image Placeholders
-function PhotoCard({ id }: { id: number }) {
-  // Vary aspect ratios pseudo-randomly for masonry-like organic flow
-  const isTall = id % 3 === 0;
+// ─────────────────────────────────────────────────────────────────────────────
+// SINGLE COLUMN — infinite scroll via CSS animation
+// ─────────────────────────────────────────────────────────────────────────────
+function ScrollColumn({
+  colIndex,
+  direction,
+  duration,
+  nudge,
+}: {
+  colIndex: number;
+  direction: 'up' | 'down';
+  duration: number;
+  nudge: number;
+}) {
+  const photos = buildColumn(colIndex, 8);
+  const stripRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseEnter = () => {
+    if (stripRef.current) stripRef.current.style.animationPlayState = 'paused';
+  };
+  const handleMouseLeave = () => {
+    if (stripRef.current) stripRef.current.style.animationPlayState = 'running';
+  };
 
   return (
-    <div 
-      className={`relative w-full ${isTall ? 'aspect-[3/4]' : 'aspect-square'} rounded-3xl border border-[#D4AF37]/20 bg-gradient-to-br from-white/60 to-white/10 backdrop-blur-md shadow-[0_10px_30px_rgba(212,175,55,0.05)] overflow-hidden transition-all duration-700 ease-out hover:scale-[1.04] hover:shadow-[0_20px_40px_rgba(212,175,55,0.25)] hover:border-[#D4AF37]/50 group mx-auto cursor-pointer`}
+    <div
+      className="relative overflow-hidden flex-1 min-w-0"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform: `rotate(${nudge}deg) scale(1.04)`,
+        transformOrigin: 'center center',
+        cursor: 'default',
+      }}
     >
-      <div className="absolute inset-4 rounded-xl overflow-hidden border border-[#FFD700]/10 flex items-center justify-center bg-white/20">
-        <p className="font-body text-[10px] sm:text-xs tracking-[0.2em] uppercase text-[#B8860B]/60 text-center px-4 leading-relaxed group-hover:text-[#B8860B] transition-colors duration-500">
-          Photo Slot <br/><span className="text-[8px] opacity-70">Memories</span>
-        </p>
-        
-        {/* Subtle hover overlay shimmer */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+      {/* The scroll strip — duplicated for seamless loop */}
+      <div
+        ref={stripRef}
+        className={direction === 'up' ? 'memories-scroll-up' : 'memories-scroll-down'}
+        style={{ animationDuration: `${duration}s` }}
+      >
+        {/* Original set */}
+        <div className="flex flex-col gap-3 px-1.5 pb-3">
+          {photos.map((photo, i) => (
+            <PhotoCard key={`col${colIndex}-a-${i}`} photo={photo} index={i} />
+          ))}
+        </div>
+        {/* Duplicate for seamless loop */}
+        <div className="flex flex-col gap-3 px-1.5 pb-3" aria-hidden="true">
+          {photos.map((photo, i) => (
+            <PhotoCard key={`col${colIndex}-b-${i}`} photo={photo} index={i} />
+          ))}
+        </div>
       </div>
     </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MAIN SECTION
+// ─────────────────────────────────────────────────────────────────────────────
+export default function PhotoStream() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="memories"
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: 'clamp(700px, 130vh, 1100px)',
+        overflow: 'hidden',
+        background: 'linear-gradient(180deg, #FFFDF6 0%, #FAF5E4 50%, #FFFDF6 100%)',
+      }}
+    >
+      {/* ── Keyframe definitions ── */}
+      <style>{`
+        @keyframes memories-up {
+          0%   { transform: translateY(0); }
+          100% { transform: translateY(-50%); }
+        }
+        @keyframes memories-down {
+          0%   { transform: translateY(-50%); }
+          100% { transform: translateY(0); }
+        }
+        .memories-scroll-up {
+          animation: memories-up linear infinite;
+          will-change: transform;
+        }
+        .memories-scroll-down {
+          animation: memories-down linear infinite;
+          will-change: transform;
+        }
+        /* Card hover — done in CSS so it works even when column is paused */
+        .memories-card:hover {
+          transform: scale(1.04);
+          box-shadow: 0 16px 48px rgba(0,0,0,0.14), 0 0 0 1.5px rgba(212,175,55,0.45) !important;
+          border-color: rgba(212,175,55,0.5) !important;
+          z-index: 10;
+        }
+
+        /* Responsive grid */
+        .memories-grid {
+          display: flex;
+          gap: clamp(0.5rem, 1.5vw, 1.25rem);
+          width: 100%;
+          height: 100%;
+          align-items: flex-start;
+        }
+        @media (max-width: 768px) {
+          .memories-grid > *:nth-child(3),
+          .memories-grid > *:nth-child(4) {
+            display: none;
+          }
+        }
+        @media (max-width: 480px) {
+          .memories-grid > *:nth-child(2) {
+            display: none;
+          }
+        }
+      `}</style>
+
+      {/* ── Subtle parchment background texture ── */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            'repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(184,134,11,0.02) 60px, rgba(184,134,11,0.02) 61px)',
+          zIndex: 0,
+        }}
+      />
+
+      {/* ── Warm central radial glow ── */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(ellipse at 50% 50%, rgba(212,175,55,0.07) 0%, transparent 65%)',
+          zIndex: 0,
+        }}
+      />
+
+      {/* ── 4-column scroll grid (slightly tilted for depth) ── */}
+      <div
+        className="memories-grid absolute"
+        style={{
+          top: '-5%',
+          left: 'clamp(-1rem, -2vw, -1.5rem)',
+          right: 'clamp(-1rem, -2vw, -1.5rem)',
+          bottom: '-5%',
+          padding: '0 clamp(0.5rem, 2vw, 1.5rem)',
+          transform: 'rotate(-2deg) scale(1.06)',
+          transformOrigin: 'center center',
+          zIndex: 1,
+        }}
+      >
+        {COLUMNS.map((col, i) => (
+          <ScrollColumn
+            key={i}
+            colIndex={i}
+            direction={col.direction}
+            duration={col.duration}
+            nudge={0} /* Per-column tilt handled inside ScrollColumn */
+          />
+        ))}
+      </div>
+
+      {/* ── Top fade mask — creates infinite illusion ── */}
+      <div
+        className="absolute inset-x-0 top-0 pointer-events-none"
+        style={{
+          height: '28%',
+          background:
+            'linear-gradient(to bottom, #FFFDF6 0%, rgba(255,253,246,0.8) 50%, transparent 100%)',
+          zIndex: 10,
+        }}
+      />
+
+      {/* ── Bottom fade mask ── */}
+      <div
+        className="absolute inset-x-0 bottom-0 pointer-events-none"
+        style={{
+          height: '28%',
+          background:
+            'linear-gradient(to top, #FFFDF6 0%, rgba(255,253,246,0.8) 50%, transparent 100%)',
+          zIndex: 10,
+        }}
+      />
+
+      {/* ── Left fade ── */}
+      <div
+        className="absolute inset-y-0 left-0 pointer-events-none"
+        style={{
+          width: '6%',
+          background: 'linear-gradient(to right, #FFFDF6, transparent)',
+          zIndex: 10,
+        }}
+      />
+
+      {/* ── Right fade ── */}
+      <div
+        className="absolute inset-y-0 right-0 pointer-events-none"
+        style={{
+          width: '6%',
+          background: 'linear-gradient(to left, #FFFDF6, transparent)',
+          zIndex: 10,
+        }}
+      />
+
+      {/* ══ Centred text overlay ══ */}
+      <div
+        className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
+        style={{ zIndex: 20 }}
+      >
+        {/* Frosted pill behind text */}
+        <div
+          style={{
+            padding: 'clamp(1.5rem, 3vw, 2.5rem) clamp(2rem, 5vw, 4rem)',
+            borderRadius: '24px',
+            background: 'rgba(255,253,246,0.72)',
+            backdropFilter: 'blur(14px)',
+            WebkitBackdropFilter: 'blur(14px)',
+            border: '1px solid rgba(212,175,55,0.25)',
+            boxShadow: '0 8px 48px rgba(0,0,0,0.08), 0 0 0 1px rgba(255,255,255,0.6) inset',
+            textAlign: 'center',
+            maxWidth: 'clamp(280px, 55vw, 620px)',
+            width: '90%',
+          }}
+        >
+          {/* Eyebrow */}
+          <p
+            className="font-heading uppercase"
+            style={{
+              fontSize: 'clamp(0.55rem, 0.8vw, 0.7rem)',
+              letterSpacing: '0.48em',
+              color: '#B8860B',
+              fontWeight: 700,
+              marginBottom: '0.85rem',
+              opacity: 0.8,
+            }}
+          >
+            ✦&nbsp;&nbsp;NCS Hackathon&nbsp;&nbsp;✦
+          </p>
+
+          {/* Main heading */}
+          <h2
+            className="font-heading uppercase"
+            style={{
+              fontSize: 'clamp(2rem, 5vw, 4rem)',
+              fontWeight: 900,
+              letterSpacing: '0.06em',
+              lineHeight: 1.05,
+              color: '#1A1008',
+              marginBottom: '0.85rem',
+            }}
+          >
+            Memories of{' '}
+            <span
+              style={{
+                background:
+                  'linear-gradient(135deg, #c9a227 0%, #f5d980 50%, #9a6c10 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              Asgard
+            </span>
+          </h2>
+
+          {/* Gold ornament */}
+          <div
+            className="flex items-center justify-center gap-3"
+            style={{ marginBottom: '0.85rem' }}
+          >
+            <div
+              style={{
+                width: '40px',
+                height: '1px',
+                background: 'linear-gradient(to right, transparent, rgba(201,162,39,0.6))',
+              }}
+            />
+            <div
+              style={{
+                width: '6px',
+                height: '6px',
+                background: '#c9a227',
+                transform: 'rotate(45deg)',
+                flexShrink: 0,
+              }}
+            />
+            <div
+              style={{
+                width: '40px',
+                height: '1px',
+                background: 'linear-gradient(to left, transparent, rgba(201,162,39,0.6))',
+              }}
+            />
+          </div>
+
+          {/* Subtitle */}
+          <p
+            className="font-body"
+            style={{
+              fontSize: 'clamp(0.72rem, 1vw, 0.875rem)',
+              color: '#6B5120',
+              fontWeight: 500,
+              letterSpacing: '0.03em',
+              lineHeight: 1.6,
+            }}
+          >
+            A legacy forged in code — hover to pause the flow
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }

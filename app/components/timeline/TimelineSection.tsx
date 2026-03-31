@@ -90,8 +90,10 @@ export default function TimelineSection() {
     const ctx = gsap.context(() => {
       // 1. Lava Flow animation
       if (lavaRef.current) {
+        gsap.set(lavaRef.current, { transformOrigin: 'top' });
         gsap.to(lavaRef.current, {
           scaleY: 1,
+          transformOrigin: 'top',
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,

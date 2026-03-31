@@ -155,6 +155,22 @@ const SECTION_MESSAGES: Record<MascotSection, MascotMessage[]> = {
     { id: 'cta-9', text: 'This is your launch rune.', tone: 'epic', priority: 7, trigger: 'onEnter', section: 'cta', cooldownMs: 15000 },
     { id: 'cta-10', text: 'I will celebrate from Valhalla.', tone: 'celebration', priority: 6, trigger: 'onIdle', section: 'cta', cooldownMs: 15000 },
   ],
+  winners: [
+    { id: 'winners-1', text: 'Behold the divine champions of Asgard.', tone: 'epic', priority: 9, trigger: 'onEnter', section: 'winners', cooldownMs: 12000 },
+    { id: 'winners-2', text: 'These are not trophies… they are legends.', tone: 'epic', priority: 8, trigger: 'onEnter', section: 'winners', cooldownMs: 12000 },
+    { id: 'winners-3', text: 'Scroll to watch the sacred cards turn.', tone: 'hint', priority: 8, trigger: 'onEnter', section: 'winners', cooldownMs: 11000 },
+    { id: 'winners-4', text: 'Only the worthy are revealed here.', tone: 'celebration', priority: 7, trigger: 'onHover', section: 'winners', cooldownMs: 12000 },
+    { id: 'winners-5', text: 'Could your name grace these cards one day?', tone: 'playful', priority: 6, trigger: 'onIdle', section: 'winners', cooldownMs: 14000 },
+    { id: 'winners-6', text: 'Honor earned in code, forged in fire.', tone: 'epic', priority: 7, trigger: 'onIdle', section: 'winners', cooldownMs: 13000 },
+  ] as const,
+  memories: [
+    { id: 'memories-1', text: 'Every frame here holds a story.', tone: 'hint', priority: 9, trigger: 'onEnter', section: 'memories', cooldownMs: 12000 },
+    { id: 'memories-2', text: 'Memories flow like the rivers of Asgard.', tone: 'epic', priority: 8, trigger: 'onEnter', section: 'memories', cooldownMs: 12000 },
+    { id: 'memories-3', text: 'Hover your cursor — the stream pauses for you.', tone: 'hint', priority: 8, trigger: 'onEnter', section: 'memories', cooldownMs: 11000 },
+    { id: 'memories-4', text: 'These warriors were here before you.', tone: 'epic', priority: 7, trigger: 'onHover', section: 'memories', cooldownMs: 12000 },
+    { id: 'memories-5', text: 'A legacy forged in code and camaraderie.', tone: 'celebration', priority: 6, trigger: 'onIdle', section: 'memories', cooldownMs: 14000 },
+    { id: 'memories-6', text: 'Your memory will flow here too someday.', tone: 'playful', priority: 6, trigger: 'onIdle', section: 'memories', cooldownMs: 13000 },
+  ] as const,
 };
 
 export const GLOBAL_REACTIVE_MESSAGES: MascotMessage[] = [

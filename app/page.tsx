@@ -3,119 +3,99 @@
 import dynamic from "next/dynamic";
 import LoadingScreen from "./components/ui/LoadingScreen";
 
-// Dynamic import with no SSR — canvas + GSAP are client-only
+// HERO SYSTEM
 const AsgardCanvas = dynamic(() => import("./components/Hero/AsgardCanvas"), {
   ssr: false,
   loading: () => <LoadingScreen />,
 });
 const CinematicOverlay = dynamic(
   () => import("./components/Hero/CinematicOverlay"),
-  {
-    ssr: false,
-    loading: () => <LoadingScreen />,
-  },
+  { ssr: false, loading: () => <LoadingScreen /> }
 );
 const ParticleOverlay = dynamic(
   () => import("./components/Hero/ParticleOverlay"),
-  {
-    ssr: false,
-    loading: () => <LoadingScreen />,
-  },
+  { ssr: false, loading: () => <LoadingScreen /> }
 );
-const AboutNibble = dynamic(
-  () => import("./components/aboutNibble/AboutNibble"),
-  {
-    ssr: false,
-    loading: () => <LoadingScreen />,
-  },
-);
-const HackathonTracks = dynamic(() => import("./components/tracks/Tracks"), {
-  ssr: false,
-});
-const TimelineSection = dynamic(
-  () => import("./components/timeline/TimelineSection"),
-  {
-    ssr: false,
-  },
-);
-const PhotoStream = dynamic(() => import("./components/previous/PhotoStream"), {
-  ssr: false,
-});
-const Sponsors = dynamic(() => import("./components/sponsors/Sponsors"), {
-  ssr: false,
-});
-const CallToAction = dynamic(() => import("./components/CTA/CallToAction"), {
-  ssr: false,
-});
-const PrizesSection = dynamic(
-  () => import("./components/prizes/PrizesSection"),
-  {
-    ssr: false,
-  },
-);
-const FAQSection = dynamic(() => import("./components/faq/FaqSection"), {
-  ssr: false,
-});
-const Mascot = dynamic(() => import("./components/mascot/Mascot"), {
-  ssr: false,
-});
+
+// CORE SECTIONS
+const AboutNibble = dynamic(() => import("./components/aboutNibble/AboutNibble"), { ssr: false });
+const HackathonTracks = dynamic(() => import("./components/tracks/Tracks"), { ssr: false });
+const TimelineSection = dynamic(() => import("./components/timeline/TimelineSection"), { ssr: false });
+const PhotoStream = dynamic(() => import("./components/previous/PhotoStream"), { ssr: false });
+const Sponsors = dynamic(() => import("./components/sponsors/Sponsors"), { ssr: false });
+const WinnersSection = dynamic(() => import("./components/prizes/WinnersSection"), { ssr: false });
+const FAQSection = dynamic(() => import("./components/faq/FaqSection"), { ssr: false });
+const CallToAction = dynamic(() => import("./components/CTA/CallToAction"), { ssr: false });
+
+const Mascot = dynamic(() => import("./components/mascot/Mascot"), { ssr: false });
 
 export default function Home() {
   return (
     <>
-      {/* Scroll container — creates scroll height for GSAP ScrollTrigger */}
-      <div id="home">
-        <div id="hero">
-          <div
-            id="scroll-container"
-            className="relative h-[900vh] w-full z-[1]"
-          >
-            <div className="sticky top-0 left-0 w-full h-[100dvh] overflow-hidden bg-black">
-              {/* Cinematic canvas + overlay */}
-              <AsgardCanvas />
-              <CinematicOverlay />
-              <ParticleOverlay />
-            </div>
+      {/* ================= HERO (CINEMATIC ENTRY) ================= */}
+      <section id="hero" className="relative">
+        <div id="scroll-container" className="relative h-[900vh] w-full">
+          <div className="sticky top-0 left-0 w-full h-[100dvh] overflow-hidden bg-black">
+            <AsgardCanvas />
+            <CinematicOverlay />
+            <ParticleOverlay />
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Content below hero */}
-      <div className="relative z-20">
-        <section id="announcement">
-          {/* announcement maps to the story/photo reveal panel in this build */}
+      {/* ================= MAIN EXPERIENCE ================= */}
+      <main className="relative z-20 bg-[#f5f0e6]">
+
+        {/* 🧭 ANNOUNCEMENT / SOCIAL PROOF */}
+        <section id="announcement" className="py-32">
           <PhotoStream />
         </section>
-        <section id="kingdom">
-          {/* keep #about anchor for existing navigation links */}
+
+        {/* 🏛️ KINGDOM / ABOUT */}
+        <section id="kingdom" className="py-40">
           <div id="about" />
           <AboutNibble />
         </section>
-        <section id="tracks">
+
+        {/* 🌍 TRACKS */}
+        <section id="tracks" className="py-40">
           <HackathonTracks />
         </section>
-        <section id="timeline">
+
+        {/* 🧭 TIMELINE */}
+        <section id="timeline" className="py-40">
           <TimelineSection />
         </section>
-        <section id="sponsors">
-          <div id="team">
-            <Sponsors />
-          </div>
-          <div id="community">
-            <PrizesSection />
-          </div>
+
+        {/* 🏆 WINNERS (DIVINE TREASURES) */}
+        <section id="winners" className="py-48 relative">
+          {/* Optional divider glow */}
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-transparent via-[#e8dcc3]/40 to-transparent pointer-events-none" />
+          <WinnersSection />
         </section>
-        <section id="faq" className="w-full">
+
+        {/* 📜 FAQ (DIVINE KNOWLEDGE) */}
+        <section id="faq" className="py-40 relative">
+          {/* separation from winners */}
+          <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-transparent via-[#e8dcc3]/30 to-transparent pointer-events-none" />
           <FAQSection />
         </section>
-        <section id="flow">
+
+        {/* 🤝 SPONSORS */}
+        <section id="sponsors" className="py-40">
+          <div id="team" />
+          <Sponsors />
+        </section>
+
+        {/* 🚀 CTA (FINAL PUSH) */}
+        <section id="cta" className="py-48">
           <CallToAction />
         </section>
-      
-       
-      </div>
-      
-      {/* <Mascot /> */}
+
+      </main>
+
+      {/* 🤖 GLOBAL MASCOT SYSTEM */}
+      <Mascot />
     </>
   );
 }

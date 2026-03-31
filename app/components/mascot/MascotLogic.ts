@@ -8,6 +8,8 @@ export const sections = [
   'timeline',
   'flow',
   'prizes',
+  'winners',
+  'memories',
   'sponsors',
   'faq',
   'cta',

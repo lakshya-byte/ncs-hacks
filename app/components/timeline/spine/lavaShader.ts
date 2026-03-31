@@ -1,58 +1,75 @@
 'use client';
 
-export type LavaStreak = {
+// ─── Noise Utilities ────────────────────────────────────────────────────────
+// Smooth hash function
+const hash2 = (x: number, y: number): number => {
+  const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453123;
+  return n - Math.floor(n);
+};
+
+// Bilinear interpolation value noise
+const vnoise = (x: number, y: number): number => {
+  const ix = Math.floor(x);
+  const iy = Math.floor(y);
+  const fx = x - ix;
+  const fy = y - iy;
+  // Smoothstep
+  const ux = fx * fx * (3 - 2 * fx);
+  const uy = fy * fy * (3 - 2 * fy);
+  return (
+    hash2(ix, iy) * (1 - ux) * (1 - uy) +
+    hash2(ix + 1, iy) * ux * (1 - uy) +
+    hash2(ix, iy + 1) * (1 - ux) * uy +
+    hash2(ix + 1, iy + 1) * ux * uy
+  );
+};
+
+// Fractal Brownian Motion – layered noise for rich organic detail
+const fbm = (x: number, y: number, octaves = 4): number => {
+  let val = 0;
+  let amp = 0.5;
+  let freq = 1;
+  let max = 0;
+  for (let i = 0; i < octaves; i++) {
+    val += vnoise(x * freq, y * freq) * amp;
+    max += amp;
+    amp *= 0.5;
+    freq *= 2.1;
+  }
+  return val / max;
+};
+
+// ─── Blob Types ─────────────────────────────────────────────────────────────
+export type LavaBlob = {
+  /** 0..1 vertical seed position within the channel height */
+  ySeed: number;
+  /** Relative horizontal wander seed */
+  xSeed: number;
+  /** Radius seed 0..1 */
+  rSeed: number;
+  /** Phase offset for oscillation */
   phase: number;
-  amplitude: number;
-  width: number;
-  speed: number;
+  /** Speed multiplier */
+  speedMult: number;
+  /** Unique noise seed to break determinism */
   noiseSeed: number;
 };
 
-const STREAK_PHASE_STEP = 0.62;
-const STREAK_BASE_AMPLITUDE = 3;
-const STREAK_AMPLITUDE_VARIANCE = 0.9;
-const STREAK_BASE_WIDTH = 1.4;
-const STREAK_WIDTH_VARIANCE = 0.45;
-const STREAK_BASE_SPEED = 0.65;
-const STREAK_SPEED_VARIANCE = 0.18;
-const STREAK_NOISE_SEED_STEP = 13.7;
-const LAVA_TRACK_WIDTH = 14;
-const LAVA_SEGMENT_LENGTH = 140;
-const LAVA_SEGMENT_SPACING = 56;
-
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
-const hash = (x: number, y: number) => {
-  const value = Math.sin(x * 127.1 + y * 311.7) * 43758.5453123;
-  return value - Math.floor(value);
-};
-
-const valueNoise = (x: number, y: number) => {
-  const x0 = Math.floor(x);
-  const y0 = Math.floor(y);
-  const xf = x - x0;
-  const yf = y - y0;
-
-  const u = xf * xf * (3 - 2 * xf);
-  const v = yf * yf * (3 - 2 * yf);
-
-  const n00 = hash(x0, y0);
-  const n10 = hash(x0 + 1, y0);
-  const n01 = hash(x0, y0 + 1);
-  const n11 = hash(x0 + 1, y0 + 1);
-
-  return lerp(lerp(n00, n10, u), lerp(n01, n11, u), v);
-};
-
-export const createLavaStreaks = (count: number): LavaStreak[] =>
-  Array.from({ length: count }, (_, index) => ({
-    phase: index * STREAK_PHASE_STEP,
-    amplitude: STREAK_BASE_AMPLITUDE + ((index % 6) + 1) * STREAK_AMPLITUDE_VARIANCE,
-    width: STREAK_BASE_WIDTH + (index % 4) * STREAK_WIDTH_VARIANCE,
-    speed: STREAK_BASE_SPEED + (index % 5) * STREAK_SPEED_VARIANCE,
-    noiseSeed: index * STREAK_NOISE_SEED_STEP,
+export const createLavaBlobs = (count: number): LavaBlob[] =>
+  Array.from({ length: count }, (_, i) => ({
+    ySeed: i / count,
+    xSeed: hash2(i * 17.3, i * 5.7),
+    rSeed: hash2(i * 3.1, i * 11.9),
+    phase: hash2(i * 7.3, 42) * Math.PI * 2,
+    speedMult: 0.55 + hash2(i * 2.3, i * 9.1) * 0.9,
+    noiseSeed: hash2(i * 41.7, i * 13.3) * 100,
   }));
 
+// ─── Channel Constants ───────────────────────────────────────────────────────
+const CHANNEL_HALF_W = 6;   // px – hard boundary; blobs stay inside this
+const GLOW_RADIUS_MAX = 16; // px – max outer glow radius
+
+// ─── Main Render ─────────────────────────────────────────────────────────────
 export const renderLava = (
   ctx: CanvasRenderingContext2D,
   width: number,
@@ -60,86 +77,152 @@ export const renderLava = (
   time: number,
   flowOffset: number,
   speed: number,
-  streaks: LavaStreak[],
-) => {
-  const centerX = width / 2;
-  const speedStrength = Math.min(1.6, Math.abs(speed) * 0.45);
+  blobs: LavaBlob[],
+): void => {
+  const cx = width / 2;
+  const speedMag = Math.abs(speed);
 
+  // 1. Clear
   ctx.clearRect(0, 0, width, height);
 
-  const coreGradient = ctx.createLinearGradient(centerX, 0, centerX, height);
-  coreGradient.addColorStop(0, 'rgba(120, 72, 22, 0.32)');
-  coreGradient.addColorStop(0.35, 'rgba(191, 113, 28, 0.42)');
-  coreGradient.addColorStop(0.7, 'rgba(226, 142, 38, 0.34)');
-  coreGradient.addColorStop(1, 'rgba(119, 71, 20, 0.28)');
-  ctx.fillStyle = coreGradient;
-  ctx.fillRect(centerX - LAVA_TRACK_WIDTH / 2, 0, LAVA_TRACK_WIDTH, height);
+  // ── 2. Dark molten channel base ────────────────────────────────────────────
+  const baseGrad = ctx.createLinearGradient(cx - CHANNEL_HALF_W, 0, cx + CHANNEL_HALF_W, 0);
+  baseGrad.addColorStop(0,   'rgba(80, 30, 0, 0.0)');
+  baseGrad.addColorStop(0.2, 'rgba(140, 55, 5, 0.45)');
+  baseGrad.addColorStop(0.5, 'rgba(180, 80, 10, 0.60)');
+  baseGrad.addColorStop(0.8, 'rgba(140, 55, 5, 0.45)');
+  baseGrad.addColorStop(1,   'rgba(80, 30, 0, 0.0)');
+  ctx.fillStyle = baseGrad;
+  ctx.fillRect(cx - CHANNEL_HALF_W, 0, CHANNEL_HALF_W * 2, height);
 
-  ctx.globalAlpha = 0.95;
-  for (let i = 0; i < streaks.length; i += 1) {
-    const streak = streaks[i];
-    const wave = Math.sin(time * 1.35 + streak.phase) * streak.amplitude;
-    const organicNoise =
-      (valueNoise(streak.noiseSeed, time * 0.26) - 0.5) * 10 +
-      (valueNoise(time * 0.18, streak.noiseSeed * 0.07) - 0.5) * 14;
-    const x = centerX + wave + organicNoise;
-    const travel = flowOffset * streak.speed + i * 33;
-
-    for (let y = -LAVA_SEGMENT_LENGTH; y < height + LAVA_SEGMENT_LENGTH; y += LAVA_SEGMENT_SPACING) {
-      const yPos =
-        ((y + travel) % (height + LAVA_SEGMENT_LENGTH * 2)) - LAVA_SEGMENT_LENGTH;
-
-      if (yPos > height + LAVA_SEGMENT_LENGTH || yPos < -LAVA_SEGMENT_LENGTH) {
-        continue;
-      }
-
-      const gradient = ctx.createLinearGradient(x, yPos, x, yPos + LAVA_SEGMENT_LENGTH);
-      gradient.addColorStop(0, 'rgba(255, 215, 89, 0)');
-      gradient.addColorStop(0.2, 'rgba(255, 229, 155, 0.92)');
-      gradient.addColorStop(0.62, 'rgba(255, 140, 0, 0.88)');
-      gradient.addColorStop(1, 'rgba(255, 90, 0, 0)');
-
-      const wobble = Math.sin(time * 2 + i * 0.4 + y * 0.015) * 3;
-      ctx.strokeStyle = gradient;
-      ctx.lineWidth = streak.width + Math.sin(time + i * 0.5) * 0.45;
-      ctx.beginPath();
-      ctx.moveTo(x, yPos);
-      ctx.quadraticCurveTo(
-        x + wobble,
-        yPos + LAVA_SEGMENT_LENGTH * 0.55,
-        x,
-        yPos + LAVA_SEGMENT_LENGTH,
-      );
-      ctx.stroke();
-    }
-  }
-
-  const glowAlpha = Math.min(0.75, 0.28 + speedStrength * 0.3);
+  // ── 3. Additive blob layer ──────────────────────────────────────────────────
   ctx.save();
   ctx.globalCompositeOperation = 'lighter';
-  ctx.shadowBlur = 18 + speedStrength * 26;
-  ctx.shadowColor = '#ffd571';
-  ctx.globalAlpha = glowAlpha;
 
-  for (let i = 0; i < streaks.length; i += 2) {
-    const streak = streaks[i];
-    const x =
-      centerX +
-      Math.sin(time * 1.6 + streak.phase) * (streak.amplitude + 1.4) +
-      (valueNoise(streak.noiseSeed * 0.2, time * 0.2) - 0.5) * 16;
-    const yPos = ((flowOffset * streak.speed + i * 51) % (height + 180)) - 90;
-    const glowGradient = ctx.createLinearGradient(x, yPos, x, yPos + 180);
-    glowGradient.addColorStop(0, 'rgba(255, 238, 189, 0)');
-    glowGradient.addColorStop(0.35, 'rgba(255, 220, 120, 0.8)');
-    glowGradient.addColorStop(1, 'rgba(255, 170, 70, 0)');
-    ctx.strokeStyle = glowGradient;
-    ctx.lineWidth = streak.width + 1.2;
+  const blobCount = blobs.length;
+  for (let i = 0; i < blobCount; i++) {
+    const blob = blobs[i];
+
+    // Vertical position – wraps around so blobs loop seamlessly
+    const travelY = flowOffset * blob.speedMult + blob.ySeed * height;
+    const rawY = ((travelY % (height + 200)) + height + 200) % (height + 200) - 100;
+
+    // --- Horizontal distortion (noise-driven, stays in channel) ---
+    const nxInput = blob.noiseSeed + time * 0.11;
+    const nyInput = blob.noiseSeed * 0.37 + time * 0.07;
+    const noiseX = (fbm(nxInput, nyInput, 3) - 0.5) * 2; // -1..1
+
+    // Secondary sine wobble for chaotic organic feel
+    const wobbleX =
+      Math.sin(time * 0.9 + blob.phase) * 2.2 +
+      Math.sin(time * 1.7 + blob.phase * 1.3) * 1.1;
+
+    // Combine but clamp hard to channel
+    const rawX = cx + noiseX * (CHANNEL_HALF_W * 0.7) + wobbleX;
+    const blobX = Math.max(cx - CHANNEL_HALF_W + 2, Math.min(cx + CHANNEL_HALF_W - 2, rawX));
+
+    // --- Radius: base + oscillating + speed boost ---
+    const baseRadius =
+      3.5 + blob.rSeed * 5.5 +
+      Math.sin(time * 1.1 + blob.phase) * 1.8 +
+      Math.sin(time * 2.3 + blob.phase * 0.7) * 0.9;
+    const speedBoost = speedMag * 1.6;
+    const r = Math.max(1.5, Math.min(CHANNEL_HALF_W * 1.2, baseRadius + speedBoost));
+
+    // --- Vertical stretch: blobs elongate when scrolling fast ---
+    const stretchY = 1 + speedMag * 0.7;
+
+    // --- Color intensity: hotter core blobs are brighter ---
+    const heat = 0.5 + blob.rSeed * 0.5;
+    const alpha = 0.55 + heat * 0.3 + speedMag * 0.08;
+
+    // --- Draw stretched radial gradient blob ---
+    ctx.save();
+    ctx.translate(blobX, rawY);
+    ctx.scale(1, stretchY);
+
+    const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, r);
+    // Core: bright almost-white gold
+    grad.addColorStop(0,   `rgba(255, 248, 200, ${Math.min(1, alpha * 1.35)})`);
+    // Bright gold
+    grad.addColorStop(0.25, `rgba(255, 215, 50, ${Math.min(1, alpha * 1.1)})`);
+    // Orange mid
+    grad.addColorStop(0.55, `rgba(255, 120, 10, ${alpha})`);
+    // Deep amber outer
+    grad.addColorStop(0.82, `rgba(200, 55, 5, ${alpha * 0.45})`);
+    // Fade to transparent
+    grad.addColorStop(1,   'rgba(100, 20, 0, 0)');
+
+    ctx.fillStyle = grad;
     ctx.beginPath();
-    ctx.moveTo(x, yPos);
-    ctx.lineTo(x, yPos + 180);
+    ctx.arc(0, 0, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  ctx.restore();
+
+  // ── 4. Turbulence distortion overlay ──────────────────────────────────────
+  // Render thin "tendrils" of bright noise to give the surface chaos
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  ctx.globalAlpha = 0.18 + speedMag * 0.06;
+
+  const tendrilCount = 6;
+  for (let t = 0; t < tendrilCount; t++) {
+    const seed = t * 17.3 + 5.1;
+    const x0 = cx + (fbm(seed, time * 0.08, 3) - 0.5) * (CHANNEL_HALF_W * 1.4);
+    const clampedX = Math.max(cx - CHANNEL_HALF_W + 1, Math.min(cx + CHANNEL_HALF_W - 1, x0));
+
+    const segLen = 40 + fbm(seed * 1.3, flowOffset * 0.003 + t, 2) * 80;
+    const yStart = ((flowOffset * (0.6 + t * 0.07) + t * (height / tendrilCount)) % (height + segLen * 2) + height + segLen * 2) % (height + segLen * 2) - segLen;
+
+    // Build a bezier tendril – not a straight line
+    const cpX1 = clampedX + (fbm(seed * 2.1, time * 0.14, 2) - 0.5) * 8;
+    const cpX2 = clampedX + (fbm(seed * 3.7, time * 0.10, 2) - 0.5) * 8;
+
+    const flowGrad = ctx.createLinearGradient(clampedX, yStart, clampedX, yStart + segLen);
+    flowGrad.addColorStop(0,   'rgba(255, 250, 220, 0)');
+    flowGrad.addColorStop(0.3, 'rgba(255, 230, 130, 0.9)');
+    flowGrad.addColorStop(0.7, 'rgba(255, 160, 40, 0.7)');
+    flowGrad.addColorStop(1,   'rgba(255, 80, 10, 0)');
+
+    ctx.strokeStyle = flowGrad;
+    ctx.lineWidth = 1.5 + fbm(seed * 0.7, time * 0.12) * 2;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(clampedX, yStart);
+    ctx.bezierCurveTo(cpX1, yStart + segLen * 0.33, cpX2, yStart + segLen * 0.66, clampedX, yStart + segLen);
     ctx.stroke();
   }
 
   ctx.restore();
-  ctx.globalAlpha = 1;
+
+  // ── 5. Outer glow bloom ─────────────────────────────────────────────────────
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  const glowAlpha = Math.min(0.55, 0.18 + speedMag * 0.22);
+  const glowRadius = Math.min(GLOW_RADIUS_MAX, 7 + speedMag * 9);
+
+  const glowGrad = ctx.createRadialGradient(cx, height / 2, 0, cx, height / 2, glowRadius + CHANNEL_HALF_W);
+  glowGrad.addColorStop(0,   `rgba(255, 220, 100, ${glowAlpha})`);
+  glowGrad.addColorStop(0.5, `rgba(255, 140, 20, ${glowAlpha * 0.4})`);
+  glowGrad.addColorStop(1,   'rgba(200, 60, 0, 0)');
+
+  ctx.fillStyle = glowGrad;
+  ctx.fillRect(cx - glowRadius - CHANNEL_HALF_W, 0, (glowRadius + CHANNEL_HALF_W) * 2, height);
+  ctx.restore();
+
+  // ── 6. Edge squash vignette – reinforce channel boundary ───────────────────
+  const vigLeft = ctx.createLinearGradient(cx - CHANNEL_HALF_W - 4, 0, cx - CHANNEL_HALF_W + 2, 0);
+  vigLeft.addColorStop(0, 'rgba(0,0,0,0.55)');
+  vigLeft.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = vigLeft;
+  ctx.fillRect(cx - CHANNEL_HALF_W - 4, 0, 6, height);
+
+  const vigRight = ctx.createLinearGradient(cx + CHANNEL_HALF_W - 2, 0, cx + CHANNEL_HALF_W + 4, 0);
+  vigRight.addColorStop(0, 'rgba(0,0,0,0)');
+  vigRight.addColorStop(1, 'rgba(0,0,0,0.55)');
+  ctx.fillStyle = vigRight;
+  ctx.fillRect(cx + CHANNEL_HALF_W - 2, 0, 6, height);
 };
