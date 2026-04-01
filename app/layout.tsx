@@ -3,6 +3,7 @@ import './globals.css';
 import LenisProvider from './components/utils/LenisProvider';
 import Navbar from './components/ui/Navbar';
 import Footer from './components/ui/Footer';
+import MarqueeStrip from './components/ui/MarqueeStrip';
 import AudioSystem from './components/ui/AudioSystem';
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default function RootLayout({
           <Navbar />
           {children}
           <Footer />
+          <MarqueeStrip />
         </LenisProvider>
       </body>
     </html>

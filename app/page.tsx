@@ -51,9 +51,8 @@ export default function Home() {
           <PhotoStream />
         </section>
 
-        {/* 🏛️ KINGDOM / ABOUT */}
-        <section id="kingdom" className="py-40">
-          <div id="about" />
+        {/* 🏛️ KINGDOM / ABOUT — sticky scroll story, no outer padding needed */}
+        <section id="kingdom">
           <AboutNibble />
         </section>
 
@@ -87,10 +86,8 @@ export default function Home() {
           <Sponsors />
         </section>
 
-        {/* 🚀 CTA (FINAL PUSH) */}
-        <section id="cta" className="py-48">
-          <CallToAction />
-        </section>
+        {/* 🚀 CTA (ASCENSION MOMENT) */}
+        <CallToAction />
 
       </main>
 
