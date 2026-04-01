@@ -84,8 +84,8 @@ export default function Mascot() {
             <div
               style={{
                 position: 'relative',
-                width: 'clamp(180px, 24vw, 260px)',
-                height: 'clamp(180px, 24vw, 260px)',
+                width: 'clamp(140px, 18vw, 200px)',
+                height: 'clamp(140px, 18vw, 200px)',
                 filter: `
                   drop-shadow(0 8px 20px rgba(0,0,0,0.22))
                   drop-shadow(0 2px 8px rgba(184,134,11,0.3))
@@ -93,10 +93,10 @@ export default function Mascot() {
               }}
             >
               <Image
-                src="/mascot/mascot.png"
+                src="/mascot/mascot2.png"
                 alt="Asgard guide"
                 fill
-                sizes="260px"
+                sizes="200px"
                 style={{ objectFit: 'contain' }}
                 priority={false}
                 unoptimized={false}

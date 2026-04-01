@@ -1,9 +1,31 @@
 @import "tailwindcss";
 
+/* ══════════════════════════════════════════════════════════
+   LOCAL NORSE FONTS  (public/norse/)
+══════════════════════════════════════════════════════════ */
+@font-face {
+  font-family: 'Norse';
+  src: url('/norse/Myrkvior.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Norse';
+  src: url('/norse/Myrkvior.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ══════════════════════════════════════════════════════════
+   TAILWIND THEME TOKENS
+══════════════════════════════════════════════════════════ */
 @theme {
-  --font-heading: var(--font-cinzel);
-  --font-body: var(--font-noto);
-  --font-accent: var(--font-cinzel);
+  --font-heading: 'Norse', serif;
+  --font-body:    'Norse', serif;
+  --font-accent:  'Norse', serif;
 }
 
 @layer base {
@@ -66,8 +88,16 @@
 :root {
   --gold:             #c9a227;
   --gold-light:       #f5d980;
-  --font-cinzel:      'Cinzel', serif;
-  --font-noto:        'Noto Sans', sans-serif;
+
+  /* ── TYPOGRAPHY ─────────────────────────────────────────
+     All text uses the local Norse OTF family.
+     400 = Norse.otf  |  700 = Norsebold.otf
+  ────────────────────────────────────────────────────── */
+  --font-norse:       'Norse', serif;
+  --font-heading:     var(--font-norse);
+  --font-body:        var(--font-norse);
+  --font-accent:      var(--font-norse);
+
   color-scheme:       dark;
 
   /* ── CANONICAL LAYOUT SYSTEM ─────────────────────────── */
@@ -92,7 +122,7 @@ html {
   /* Prevent horizontal overflow on all viewports without breaking CSS position: sticky */
   overflow-x: clip; 
   /* Custom Gold & Blue Diamond Cursor */
-  cursor: url('/Gold & Blue Diamond/Gold & Blue Diamond--cursor--SweezyCursors.cur'), auto;
+  cursor: url('/Gold & Blue Diamond/Gold & Blue Diamond--cursor--SweezyCursors.png') 16 16, auto;
 }
 
 html::-webkit-scrollbar { display: none; }
@@ -121,9 +151,7 @@ label,
 select,
 summary,
 .cursor-pointer {
-  cursor: url('/Gold & Blue Diamond/Gold & Blue Diamond--pointer--SweezyCursors.cur'), pointer;
-  height: 16px;
-  width: 16px;
+  cursor: url('/Gold & Blue Diamond/Gold & Blue Diamond--pointer--SweezyCursors.png') 16 16, pointer;
 }
 
 body::-webkit-scrollbar { display: none; }

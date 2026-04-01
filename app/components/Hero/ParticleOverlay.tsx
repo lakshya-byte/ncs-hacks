@@ -152,7 +152,7 @@ function ParticleText({ scrollProgress, isMobile }: { scrollProgress: number, is
         
         let wave = 0;
         if (targetProgress > 0.8) {
-           wave = Math.sin(state.clock.elapsedTime * 1.5 + bx * 0.5) * 0.15;
+           wave = Math.sin((performance.now() / 1000) * 1.5 + bx * 0.5) * 0.15;
         }
         
         currentPositions.current[i*3] += (tx - currentPositions.current[i*3]) * delta * 5;

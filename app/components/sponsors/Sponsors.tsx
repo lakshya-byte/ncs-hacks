@@ -179,7 +179,7 @@ export default function GodLevelSponsors() {
               <div key={i} className="sp-reveal col-span-4 md:col-span-4 lg:col-span-4 relative flex flex-col justify-between items-center text-center p-8 rounded-xl bg-white/70 backdrop-blur-xl border border-[#D4AF37]/30 shadow-[0_10px_30px_rgba(212,175,55,0.05)] hover:border-[#D4AF37]/60 hover:-translate-y-1 transition-all duration-300 group w-full h-full">
                 <GoldCardCorners />
                 {/* IMAGE SAFE CONTAINER */}
-                <div className="h-[80px] w-full flex items-center justify-center mb-6 shrink-0">
+                <div className="relative h-[80px] w-full flex items-center justify-center mb-6 shrink-0">
                   <Image src={sp.logoUrl} alt={sp.name} fill sizes="(max-width: 768px) 150px, 200px" className="object-contain opacity-80" />
                 </div>
                 <div className="flex flex-col items-center justify-end flex-grow w-full">

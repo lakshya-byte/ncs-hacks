@@ -39,11 +39,11 @@ export const positions = [
 export type MascotPosition = (typeof positions)[number];
 
 export const sizeMap = {
-  hero: { className: 'w-40', px: 160 },
-  timeline: { className: 'w-28', px: 112 },
-  faq: { className: 'w-24', px: 96 },
-  idle: { className: 'w-20', px: 80 },
-  default: { className: 'w-32', px: 128 },
+  hero: { className: 'w-32', px: 128 },
+  timeline: { className: 'w-24', px: 96 },
+  faq: { className: 'w-20', px: 80 },
+  idle: { className: 'w-16', px: 64 },
+  default: { className: 'w-28', px: 112 },
 } as const;
 
 export interface ContextSnapshot {

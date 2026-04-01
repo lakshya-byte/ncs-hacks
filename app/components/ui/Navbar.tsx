@@ -225,60 +225,140 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* ═══════════════ CTA ═══════════════ */}
+          {/* ═══════════════ CTA — GOD TIER ═══════════════ */}
           <div className="flex-1 flex justify-end relative z-[2]">
+
             <Link
               href="#"
-            onMouseEnter={() => setCtaHovered(true)}
-            onMouseLeave={() => { setCtaHovered(false); setCtaPressed(false); }}
-            onMouseDown={() => setCtaPressed(true)}
-            onMouseUp={() => setCtaPressed(false)}
-            className="relative z-2 overflow-hidden inline-flex items-center justify-center px-7 py-3 rounded-[50px] border-none cursor-pointer no-underline transition-all duration-[400ms] [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]"
-            style={{
-              fontFamily: '"Cinzel", serif',
-              fontSize: '0.65rem',
-              fontWeight: 700,
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              color: ctaHovered ? 'rgba(60,35,0,0.95)' : '#fff',
-              background: ctaHovered
-                ? 'linear-gradient(135deg, #f5d980 0%, #e8b820 30%, #f8d44c 55%, #c9a227 80%, #f5d980 100%)'
-                : 'linear-gradient(135deg, #8a5e0a 0%, #c9a227 35%, #e8c040 55%, #b38a18 80%, #7a5010 100%)',
-              boxShadow: ctaHovered
-                ? '0 0 0 1px rgba(201,162,39,0.6), 0 0 20px rgba(249,212,76,0.7), 0 0 40px rgba(201,162,39,0.4), 0 4px 20px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.5), inset 0 -1px 0 rgba(120,80,0,0.3)'
-                : '0 0 0 1px rgba(201,162,39,0.35), 0 0 12px rgba(201,162,39,0.3), 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 0 rgba(0,0,0,0.2)',
-              transform: ctaPressed
-                ? 'scale(0.97) translateY(1px)'
-                : ctaHovered
-                ? 'scale(1.04) translateY(-2px)'
-                : 'scale(1) translateY(0)',
-            }}
-          >
-            {/* Auto light sweep */}
-            <span
-              className="absolute top-0 bottom-0 w-[60%] pointer-events-none"
+              id="nav-join-btn"
+              onMouseEnter={() => setCtaHovered(true)}
+              onMouseLeave={() => { setCtaHovered(false); setCtaPressed(false); }}
+              onMouseDown={() => setCtaPressed(true)}
+              onMouseUp={() => setCtaPressed(false)}
+              className="relative inline-flex items-center justify-center gap-2 no-underline select-none"
               style={{
-                background: 'linear-gradient(105deg, transparent, rgba(255,255,255,0.45), transparent)',
-                animation: ctaHovered ? 'none' : 'ctaSweep 3s ease-in-out infinite 1s',
+                padding: '11px 28px 11px 22px',
+                borderRadius: '50px',
+                transition: 'transform 350ms cubic-bezier(0.34,1.56,0.64,1), box-shadow 350ms ease',
+                transform: ctaPressed
+                  ? 'scale(0.96) translateY(1px)'
+                  : ctaHovered
+                  ? 'scale(1.06) translateY(-3px)'
+                  : 'scale(1) translateY(0)',
               }}
-            />
-
-            {/* Hover sweep */}
-            {ctaHovered && (
+            >
+              {/* Outer ambient glow blob */}
               <span
-                className="absolute top-0 bottom-0 w-[60%] pointer-events-none [animation:ctaSweep_0.6s_ease-out_forwards]"
-                style={{ background: 'linear-gradient(105deg, transparent, rgba(255,255,255,0.6), transparent)' }}
+                className="absolute pointer-events-none"
+                style={{
+                  inset: '-12px',
+                  borderRadius: '60px',
+                  background: 'radial-gradient(ellipse at center, rgba(201,162,39,0.32) 0%, transparent 70%)',
+                  filter: 'blur(10px)',
+                  animation: 'goldPulse 3s ease-in-out infinite',
+                  opacity: ctaHovered ? 1 : 0.6,
+                  transition: 'opacity 400ms ease',
+                }}
               />
-            )}
 
-            {/* Energy pulse ring */}
-            {ctaHovered && (
+              {/* Animated spinning conic border */}
               <span
-                className="absolute inset-0 rounded-[inherit] border border-[rgba(249,212,76,0.8)] pointer-events-none [animation:energyPulse_0.7s_ease-out_forwards]"
+                className="absolute inset-0 rounded-[50px] pointer-events-none"
+                style={{
+                  padding: '1.5px',
+                  background: 'conic-gradient(from 0deg, #7a5010 0%, #f5d980 20%, #c9a227 40%, #f8d44c 60%, #8a5e0a 80%, #f5d980 90%, #7a5010 100%)',
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'xor',
+                  maskComposite: 'exclude',
+                  animation: 'borderEnergy 3s linear infinite',
+                  opacity: ctaHovered ? 1 : 0.75,
+                  transition: 'opacity 300ms ease',
+                }}
               />
-            )}
 
-            <span className="relative z-[1]">Join Hackathon</span>
+              {/* Main fill */}
+              <span
+                className="absolute inset-[1.5px] rounded-[48px] pointer-events-none"
+                style={{
+                  background: ctaHovered
+                    ? 'linear-gradient(135deg, #f0c840 0%, #f5d980 30%, #fce97a 55%, #d4a820 80%, #f5d980 100%)'
+                    : 'linear-gradient(135deg, #5c3a08 0%, #9a7220 25%, #c9a227 45%, #e8c040 60%, #a07820 80%, #5c3a08 100%)',
+                  transition: 'background 400ms ease',
+                  boxShadow: ctaHovered
+                    ? 'inset 0 1px 0 rgba(255,255,255,0.65), inset 0 -2px 0 rgba(80,40,0,0.35)'
+                    : 'inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -2px 0 rgba(0,0,0,0.32)',
+                }}
+              />
+
+              {/* Outer glow shell */}
+              <span
+                className="absolute inset-0 rounded-[50px] pointer-events-none"
+                style={{
+                  boxShadow: ctaHovered
+                    ? '0 0 0 1.5px rgba(245,217,128,0.9), 0 0 20px rgba(249,212,76,0.8), 0 0 55px rgba(201,162,39,0.45), 0 8px 28px rgba(0,0,0,0.25)'
+                    : '0 0 0 1px rgba(201,162,39,0.4), 0 0 12px rgba(201,162,39,0.28), 0 4px 18px rgba(0,0,0,0.28)',
+                  transition: 'box-shadow 400ms ease',
+                }}
+              />
+
+              {/* Shimmer sweep */}
+              <span
+                className="absolute top-0 bottom-0 w-[55%] rounded-[50px] pointer-events-none"
+                style={{
+                  background: 'linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.42) 50%, transparent 100%)',
+                  animation: ctaHovered ? 'ctaSweep 0.55s ease-out forwards' : 'ctaSweep 3.5s ease-in-out infinite 1.2s',
+                }}
+              />
+
+              {/* Dual energy pulse rings on hover */}
+              {ctaHovered && (
+                <span
+                  className="absolute inset-0 rounded-[50px] pointer-events-none"
+                  style={{
+                    border: '1.5px solid rgba(249,212,76,0.9)',
+                    animation: 'energyPulse 0.65s ease-out forwards',
+                  }}
+                />
+              )}
+              {ctaHovered && (
+                <span
+                  className="absolute inset-0 rounded-[50px] pointer-events-none"
+                  style={{
+                    border: '1px solid rgba(249,212,76,0.5)',
+                    animation: 'energyPulse 0.65s ease-out 0.2s forwards',
+                  }}
+                />
+              )}
+
+              {/* Norse rune icon */}
+              <span
+                className="relative z-[2] font-heading text-[1rem] leading-none"
+                style={{
+                  color: ctaHovered ? 'rgba(55,25,0,0.85)' : 'rgba(245,217,128,0.95)',
+                  filter: ctaHovered
+                    ? 'drop-shadow(0 0 3px rgba(255,190,0,0.4))'
+                    : 'drop-shadow(0 0 7px rgba(255,215,0,0.55))',
+                  display: 'inline-block',
+                  transform: ctaHovered ? 'rotate(-15deg) scale(1.2)' : 'rotate(0deg) scale(1)',
+                  transition: 'transform 350ms cubic-bezier(0.34,1.56,0.64,1), color 300ms ease, filter 300ms ease',
+                }}
+              >
+                ᚦ
+              </span>
+
+              {/* Label */}
+              <span
+                className="relative z-[2] font-heading font-bold uppercase"
+                style={{
+                  fontSize: '0.63rem',
+                  letterSpacing: '0.2em',
+                  color: ctaHovered ? 'rgba(45,20,0,0.95)' : '#fff',
+                  textShadow: ctaHovered ? 'none' : '0 1px 8px rgba(0,0,0,0.45)',
+                  transition: 'color 300ms ease, text-shadow 300ms ease',
+                }}
+              >
+                Join Hackathon
+              </span>
             </Link>
           </div>
         </div>{/* end main panel */}

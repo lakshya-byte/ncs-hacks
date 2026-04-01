@@ -21,7 +21,7 @@ const ParticleOverlay = dynamic(
 const AboutNibble = dynamic(() => import("./components/aboutNibble/AboutNibble"), { ssr: false });
 const HackathonTracks = dynamic(() => import("./components/tracks/Tracks"), { ssr: false });
 const TimelineSection = dynamic(() => import("./components/timeline/TimelineSection"), { ssr: false });
-const PhotoStream = dynamic(() => import("./components/previous/PhotoStream"), { ssr: false });
+const PhotoStream = dynamic(() => import("./components/memories/PhotoStream"), { ssr: false });
 const Sponsors = dynamic(() => import("./components/sponsors/Sponsors"), { ssr: false });
 const WinnersSection = dynamic(() => import("./components/prizes/WinnersSection"), { ssr: false });
 const FAQSection = dynamic(() => import("./components/faq/FaqSection"), { ssr: false });
