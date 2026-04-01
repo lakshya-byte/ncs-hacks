@@ -84,7 +84,7 @@ export default function MarqueeStrip() {
         width: '100%',
         minHeight: '260px',
         overflow: 'hidden',
-        background: 'linear-gradient(150deg, #0a1628 0%, #0d1f3c 25%, #0f2550 50%, #0b1a38 75%, #07102a 100%)',
+        background: 'linear-gradient(150deg, #1a0f02 0%, #2a1a04 25%, #321f06 50%, #2a1a04 75%, #1a0f02 100%)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'stretch',
@@ -108,7 +108,7 @@ export default function MarqueeStrip() {
       <div style={{
         position: 'absolute',
         inset: 0,
-        background: 'radial-gradient(ellipse at 50% 50%, rgba(30,80,200,0.28) 0%, rgba(10,40,120,0.15) 45%, transparent 72%)',
+        background: 'radial-gradient(ellipse at 50% 50%, rgba(201,162,39,0.18) 0%, rgba(80,40,0,0.1) 45%, transparent 72%)',
         pointerEvents: 'none',
         zIndex: 1,
       }} />
@@ -259,11 +259,11 @@ export default function MarqueeStrip() {
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
                 padding: '0 3rem',
-                background: 'linear-gradient(135deg, #8fb4ff 0%, #c0d4ff 20%, #ffffff 42%, #f5d980 58%, #fce97a 68%, #c9a227 80%, #8fb4ff 100%)',
+                background: 'linear-gradient(135deg, #6b4a0a 0%, #c9a227 28%, #f5d980 50%, #fce97a 62%, #c9a227 76%, #8a5d0e 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
-                filter: 'drop-shadow(0 0 18px rgba(120,160,255,0.4)) drop-shadow(0 0 6px rgba(245,217,128,0.3))',
+                filter: 'drop-shadow(0 0 14px rgba(201,162,39,0.35))',
               }}>
                 NIBBLE COMPUTER SOCIETY
               </span>
@@ -275,14 +275,10 @@ export default function MarqueeStrip() {
                 width: '44px',
                 height: '44px',
                 borderRadius: '50%',
-                border: `1px solid rgba(${i % 2 === 0 ? '201,162,39' : '120,160,255'},0.45)`,
-                background: i % 2 === 0
-                  ? 'radial-gradient(circle at 35% 35%, rgba(245,217,128,0.25), rgba(201,162,39,0.1))'
-                  : 'radial-gradient(circle at 35% 35%, rgba(150,190,255,0.25), rgba(80,120,220,0.1))',
-                boxShadow: i % 2 === 0
-                  ? '0 0 12px rgba(201,162,39,0.3)'
-                  : '0 0 12px rgba(100,150,255,0.3)',
-                color: i % 2 === 0 ? '#f5d980' : '#8fb4ff',
+                border: `1px solid rgba(201,162,39,0.45)`,
+                background: 'radial-gradient(circle at 35% 35%, rgba(245,217,128,0.25), rgba(201,162,39,0.1))',
+                boxShadow: '0 0 12px rgba(201,162,39,0.3)',
+                color: '#f5d980',
                 fontFamily: 'var(--font-heading)',
                 fontSize: '1.1rem',
                 flexShrink: 0,
@@ -318,7 +314,7 @@ export default function MarqueeStrip() {
                 letterSpacing: '0.42em',
                 textTransform: 'uppercase',
                 padding: '0 2.5rem',
-                color: 'rgba(143,180,255,0.45)',
+                color: 'rgba(245,217,128,0.35)',
               }}>
                 ᚠ &nbsp; OFFICIAL TECHNICAL SOCIETY · JSSATEN · EST. 2018 · NOIDA &nbsp; ᚠ
               </span>
@@ -349,7 +345,7 @@ export default function MarqueeStrip() {
                 fontSize: 'clamp(0.65rem, 1.2vw, 0.9rem)',
                 letterSpacing: '0.55em',
                 padding: '0 2rem',
-                color: 'rgba(120,160,255,0.2)',
+                color: 'rgba(201,162,39,0.2)',
                 flexShrink: 0,
                 whiteSpace: 'nowrap',
               }}
@@ -365,7 +361,7 @@ export default function MarqueeStrip() {
         position: 'absolute',
         top: 0, left: 0, bottom: 0,
         width: '140px',
-        background: 'linear-gradient(90deg, #0a1628 0%, transparent 100%)',
+        background: 'linear-gradient(90deg, #1a0f02 0%, transparent 100%)',
         pointerEvents: 'none',
         zIndex: 5,
       }} />
@@ -373,7 +369,7 @@ export default function MarqueeStrip() {
         position: 'absolute',
         top: 0, right: 0, bottom: 0,
         width: '140px',
-        background: 'linear-gradient(270deg, #07102a 0%, transparent 100%)',
+        background: 'linear-gradient(270deg, #1a0f02 0%, transparent 100%)',
         pointerEvents: 'none',
         zIndex: 5,
       }} />
@@ -383,7 +379,7 @@ export default function MarqueeStrip() {
         position: 'absolute',
         bottom: 0, left: 0, right: 0,
         height: '1px',
-        background: 'linear-gradient(90deg, transparent, rgba(80,120,220,0.35) 30%, rgba(120,160,255,0.6) 50%, rgba(80,120,220,0.35) 70%, transparent)',
+        background: 'linear-gradient(90deg, transparent, rgba(201,162,39,0.35) 30%, rgba(245,217,128,0.6) 50%, rgba(201,162,39,0.35) 70%, transparent)',
         zIndex: 3,
       }} />
 
