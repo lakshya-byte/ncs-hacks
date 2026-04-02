@@ -387,8 +387,7 @@ TarotCard.displayName = 'TarotCard';
 // MAIN SECTION — Sticky‑scroll pin with card flip on midpoint
 // ─────────────────────────────────────────────────────────────────────────────
 export default function WinnersSection() {
-  const outerRef = useRef<HTMLDivElement>(null);   // scroll track (tall div)
-  const stickyRef = useRef<HTMLDivElement>(null);  // sticky viewport
+  const sectionRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>(WINNERS.map(() => null));
 
@@ -424,48 +423,38 @@ export default function WinnersSection() {
             duration: 0.85, ease: 'power3.out',
             delay: i * 0.1,
             scrollTrigger: {
-              trigger: outerRef.current,
+              trigger: sectionRef.current,
               start: 'top 75%',
             },
           }
         );
       });
 
-      // ── Sticky pin + flip toggle at midpoint of scroll ──
-      // The outer div is 250vh tall → sticky view sits inside for 150vh of scroll.
-      // At the midpoint (~75vh in) we trigger the flip.
-      ScrollTrigger.create({
-        trigger: outerRef.current,
-        start: 'top top',
-        end: 'bottom bottom',
-        pin: stickyRef.current,
-        pinSpacing: false,
-        onUpdate: (self) => {
-          // Flip when progress crosses 0.4
-          setFlipped(self.progress >= 0.4);
-        },
-      });
+      // ── Flip cards when the grid crosses 50% of the viewport ──
+      // No pin, no sticky — just a simple trigger using class selector.
+      const grid = sectionRef.current?.querySelector('.winners-grid');
+      if (grid) {
+        ScrollTrigger.create({
+          trigger: grid,
+          start: 'top 55%',
+          onEnter: () => setFlipped(true),
+          onLeaveBack: () => setFlipped(false),
+        });
+      }
 
-    }, outerRef);
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    // outerRef — tall div that provides scroll distance
     <div
-      ref={outerRef}
+      ref={sectionRef}
       id="winners"
-      style={{ height: '280vh', position: 'relative' }}
     >
-      {/* stickyRef — the visible panel, pinned to top */}
       <div
-        ref={stickyRef}
         style={{
           width: '100%',
-          minHeight: '100vh',
-          position: 'sticky',
-          top: 0,
           overflow: 'hidden',
           background:
             'linear-gradient(180deg, #FFFDF5 0%, #FDF8EC 50%, #FAF3DC 100%)',

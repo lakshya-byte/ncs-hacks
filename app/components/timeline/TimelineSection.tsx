@@ -288,7 +288,7 @@ export default function TimelineSection() {
 
       <div className="site-container relative z-10 mx-auto max-w-[1400px]">
         {/* The Grid Setup */}
-        <div className="relative grid grid-cols-[80px_1fr] gap-y-24 md:grid-cols-[1fr_120px_1fr] md:gap-y-40">
+        <div className="relative grid grid-cols-[80px_1fr] gap-y-24 md:grid-cols-[1fr_120px_1fr] md:gap-y-40" style={{ paddingTop: 'clamp(4rem, 8vw, 6rem)', paddingBottom: 'clamp(4rem, 8vw, 6rem)' }}>
           <TimelineSpine ref={lavaRef} />
 
           {timelineData.map((stage, idx) => {
@@ -316,11 +316,10 @@ export default function TimelineSection() {
 
                 {/* 3. The Card */}
                 <div
-                  className={`col-start-2 flex items-center ${
-                    isLeft
+                  className={`col-start-2 flex items-center ${isLeft
                       ? "md:col-start-1 md:justify-end"
                       : "md:col-start-3 md:justify-start"
-                  }`}
+                    }`}
                   style={{ gridRow: idx + 1 }}
                 >
                   <div className={`w-full min-w-0 md:max-w-[540px] px-6 md:px-0 ${isLeft ? 'md:pr-10' : 'md:pl-10'}`}>

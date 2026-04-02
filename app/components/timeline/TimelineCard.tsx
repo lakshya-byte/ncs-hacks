@@ -20,13 +20,13 @@ export default function TimelineCard({ title, date, description, side, className
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    
+
     const rotateX = ((y - centerY) / centerY) * -8; // max 8 deg tilt
     const rotateY = ((x - centerX) / centerX) * 8;
-    
+
     setRotation({ x: rotateX, y: rotateY });
   };
 
@@ -35,7 +35,7 @@ export default function TimelineCard({ title, date, description, side, className
   };
 
   return (
-    <article 
+    <article
       className={`relative w-full perspective-[1200px] ${className}`}
     >
       <div
@@ -55,24 +55,27 @@ export default function TimelineCard({ title, date, description, side, className
         <div className="pointer-events-none absolute inset-0 rounded-[inherit] border border-[#f8e6bd]/40" />
 
         {/* Dynamic Highlight tied to mouse tilt! */}
-        <div 
+        <div
           className="pointer-events-none absolute inset-0 bg-linear-to-tr from-white/0 via-white/40 to-white/0 transition-opacity duration-300"
           style={{ opacity: (Math.abs(rotation.x) + Math.abs(rotation.y)) > 2 ? 1 : 0 }}
         />
 
-        {/* Text Container: Uses standard block layout to guarantee padding limits are completely respected. */}
-        <div className={`relative z-10 w-full wrap-break-word ${isLeft ? 'text-left md:text-right' : 'text-left md:text-left'}`}>
+        {/* Text Container */}
+        <div
+          className={`relative z-10 w-full wrap-break-word ${isLeft ? 'text-left md:text-right' : 'text-left md:text-left'}`}
+          style={{ padding: 'clamp(1rem, 2vw, 2rem)' }}
+        >
           <p className="font-heading text-[0.75rem] font-bold uppercase tracking-[0.2em] text-[#b8860b] md:text-xs mb-3">
             {date}
           </p>
-          <h3 
-            className="text-2xl font-bold leading-[1.15] text-slate-900 md:text-[2.2rem] lg:text-[2.6rem] mb-4 drop-shadow-sm" 
+          <h3
+            className="text-2xl font-bold leading-[1.15] text-slate-900 md:text-[2.2rem] lg:text-[2.6rem] mb-4 drop-shadow-sm"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             {title}
           </h3>
-          <p 
-            className="text-sm font-medium leading-relaxed tracking-wide text-slate-600 md:text-[1.05rem] text-balance" 
+          <p
+            className="text-sm font-medium leading-relaxed tracking-wide text-slate-600 md:text-[1.05rem] text-balance"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             {description}

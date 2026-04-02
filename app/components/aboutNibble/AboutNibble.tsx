@@ -1,569 +1,433 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 /* ─────────────────────────────────────────────
-   STORY LINES — each has a scroll threshold (0–1)
-   at which it becomes fully visible
+   CARD DATA — four pillars of Nibble
 ───────────────────────────────────────────── */
-const STORY_LINES = [
+const CARDS = [
   {
     rune: 'ᚠ',
-    label: 'Origin',
-    text: 'From the divine forge of imagination,',
-    sub: 'we shape bold digital realms.',
-    threshold: 0.08,
+    title: 'Origin',
+    description: 'From the divine forge of imagination, we shape bold digital realms that redefine boundaries.',
+    icon: '',
   },
   {
     rune: 'ᚢ',
-    label: 'Craft',
-    text: 'Every idea forged through precision,',
-    sub: 'craft, and fearless experimentation.',
-    threshold: 0.28,
+    title: 'Craft',
+    description: 'Every idea forged through precision, craft, and fearless experimentation with cutting-edge tech.',
+    icon: '',
   },
   {
     rune: 'ᚦ',
-    label: 'Rise',
-    text: 'Builders rise. Engineers ascend.',
-    sub: 'Legends are built one commit at a time.',
-    threshold: 0.48,
+    title: 'Rise',
+    description: 'Builders rise. Engineers ascend. Legends are built one commit at a time in our realm.',
+    icon: '',
   },
   {
     rune: 'ᚨ',
-    label: 'Legacy',
-    text: 'Welcome to the Kingdom of Nibble —',
-    sub: 'where innovation becomes legacy.',
-    threshold: 0.68,
+    title: 'Legacy',
+    description: 'Welcome to the Kingdom of Nibble — where innovation becomes legacy that echoes through time.',
+    icon: '',
   },
 ];
 
-/* Particle config */
-const PARTICLES = Array.from({ length: 22 }, (_, i) => ({
-  id: i,
-  x: 10 + Math.random() * 80,
-  y: 15 + Math.random() * 70,
-  size: 1.5 + Math.random() * 2.5,
-  dur: 5 + Math.random() * 6,
-  delay: Math.random() * 4,
-  opacity: 0.3 + Math.random() * 0.5,
-}));
+/* ─────────────────────────────────────────────
+   GLASS CARD with micro-interactions
+───────────────────────────────────────────── */
+function GlassCard({
+  rune, title, description, icon, index,
+}: {
+  rune: string; title: string; description: string; icon: string; index: number;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [rotation, setRotation] = useState({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
 
-export default function KingdomOfNibble() {
-  const outerRef = useRef<HTMLDivElement>(null);     // scroll container (200vh)
-  const stickyRef = useRef<HTMLDivElement>(null);    // sticky 100vh stage
-  const [progress, setProgress] = useState(0);       // 0 → 1 across the scroll range
-
-  /* Track scroll progress */
-  useEffect(() => {
-    const onScroll = () => {
-      const el = outerRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const total = el.offsetHeight - window.innerHeight;
-      // How far the top of the outer element has scrolled past the viewport top
-      const scrolled = -rect.top;
-      const p = Math.max(0, Math.min(1, scrolled / total));
-      setProgress(p);
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    setRotation({
+      x: ((y - centerY) / centerY) * -6,
+      y: ((x - centerX) / centerX) * 6,
+    });
   }, []);
 
-  /* Helper: compute opacity + translateY for each line */
-  const lineStyle = (threshold: number, windowSize = 0.18) => {
-    const raw = (progress - threshold) / windowSize;
-    const opacity = Math.max(0, Math.min(1, raw));
-    const y = Math.max(0, 40 - raw * 40);
-    const blur = Math.max(0, 8 - raw * 8);
-    return { opacity, y, blur };
-  };
-
-  /* Central orb glow pulsing based on progress */
-  const orbScale = 0.9 + progress * 0.22;
-  const orbGlow = Math.round(progress * 40);
+  const handleMouseLeave = useCallback(() => {
+    setRotation({ x: 0, y: 0 });
+    setHovered(false);
+  }, []);
 
   return (
-    /* ── OUTER: tall scroll container ── */
-    <div ref={outerRef} style={{ height: '260vh', position: 'relative' }} id="about">
-
-      {/* ── STICKY STAGE ── */}
+    <div
+      ref={cardRef}
+      className="about-glass-card"
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        perspective: '1000px',
+        opacity: 0,
+        transform: 'translateY(60px) scale(0.92)',
+      }}
+    >
       <div
-        ref={stickyRef}
         style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          width: '100%',
+          position: 'relative',
+          height: '100%',
+          padding: 'clamp(1.5rem, 3vw, 2.5rem)',
+          borderRadius: '1.5rem',
+          border: `1.5px solid ${hovered ? 'rgba(212,175,55,0.7)' : 'rgba(212,175,55,0.35)'}`,
+          background: hovered
+            ? 'linear-gradient(145deg, rgba(255,252,234,0.65), rgba(255,246,210,0.45))'
+            : 'linear-gradient(145deg, rgba(255,255,255,0.35), rgba(255,252,234,0.2))',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
           overflow: 'hidden',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: 'linear-gradient(170deg, #fdfcf7 0%, #f8f3e6 50%, #f3edd8 100%)',
+          flexDirection: 'column',
+          transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale(${hovered ? 1.03 : 1})`,
+          transition: 'transform 250ms ease-out, border-color 300ms ease, background 300ms ease, box-shadow 300ms ease',
+          boxShadow: hovered
+            ? '0 24px 60px rgba(0,0,0,0.15), 0 0 40px rgba(212,175,55,0.2), inset 0 1px 0 rgba(255,255,255,0.7)'
+            : '0 8px 32px rgba(0,0,0,0.08), 0 0 0 rgba(212,175,55,0), inset 0 1px 0 rgba(255,255,255,0.5)',
+          willChange: 'transform',
         }}
       >
-        {/* ══ BACKGROUND LAYERS ══ */}
-
-        {/* Radial gold glow — intensifies with progress */}
+        {/* Shimmer on hover */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            background: `radial-gradient(ellipse at 50% 40%, rgba(201,162,39,${0.04 + progress * 0.10}) 0%, transparent 65%)`,
+            background: 'linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%)',
+            opacity: hovered ? 1 : 0,
+            transition: 'opacity 400ms ease',
             pointerEvents: 'none',
-            transition: 'background 200ms linear',
           }}
         />
 
-        {/* Soft light rays */}
+        {/* Corner ornaments */}
+        <div className="absolute top-3 left-3 w-4 h-4 border-t border-l border-[#D4AF37]/50 rounded-tl-sm pointer-events-none" />
+        <div className="absolute top-3 right-3 w-4 h-4 border-t border-r border-[#D4AF37]/50 rounded-tr-sm pointer-events-none" />
+        <div className="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-[#D4AF37]/50 rounded-bl-sm pointer-events-none" />
+        <div className="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-[#D4AF37]/50 rounded-br-sm pointer-events-none" />
+
+        {/* Rune + Icon header */}
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1rem', position: 'relative', zIndex: 1,
+        }}>
+          <div style={{
+            width: '44px', height: '44px', borderRadius: '50%',
+            border: '1.5px solid rgba(201,162,39,0.5)',
+            background: 'radial-gradient(circle at 35% 30%, #fff9e6, #f5d980 40%, #c9a227 70%, #7a5210)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: 'rgba(60,30,0,0.85)',
+            boxShadow: hovered
+              ? '0 0 24px rgba(201,162,39,0.6), inset 0 1px 0 rgba(255,255,255,0.6)'
+              : '0 0 10px rgba(201,162,39,0.3), inset 0 1px 0 rgba(255,255,255,0.5)',
+            transition: 'box-shadow 300ms ease',
+            flexShrink: 0,
+          }}>
+            {rune}
+          </div>
+          <span style={{ fontSize: '1.4rem' }}>{icon}</span>
+        </div>
+
+        {/* Title */}
+        <h3 style={{
+          fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.1rem, 2vw, 1.4rem)',
+          fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase',
+          color: '#1a1005', margin: '0 0 0.6rem', position: 'relative', zIndex: 1,
+          lineHeight: 1.2,
+        }}>
+          {title}
+        </h3>
+
+        {/* Description */}
+        <p style={{
+          fontFamily: 'var(--font-body)', fontSize: 'clamp(0.8rem, 1.3vw, 0.92rem)',
+          color: '#5a4a30', lineHeight: 1.65, margin: 0, position: 'relative', zIndex: 1,
+          letterSpacing: '0.02em',
+        }}>
+          {description}
+        </p>
+
+        {/* Bottom gold accent line */}
+        <div style={{
+          position: 'absolute', bottom: 0, left: '15%', right: '15%', height: '2px',
+          background: `linear-gradient(90deg, transparent, rgba(212,175,55,${hovered ? 0.7 : 0.2}), transparent)`,
+          transition: 'background 300ms ease',
+        }} />
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   MAIN COMPONENT
+───────────────────────────────────────────── */
+export default function KingdomOfNibble() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+
+      // ── HEADING REVEAL ──
+      if (headingRef.current) {
+        gsap.fromTo(
+          headingRef.current.children,
+          { opacity: 0, y: 30, filter: 'blur(6px)' },
+          {
+            opacity: 1, y: 0, filter: 'blur(0px)',
+            duration: 1, stagger: 0.15, ease: 'power3.out',
+            scrollTrigger: {
+              trigger: headingRef.current,
+              start: 'top 75%',
+            },
+          }
+        );
+      }
+
+      // ── CARDS STAGGERED ENTRY ──
+      const mm = gsap.matchMedia();
+
+      // Desktop: Arc layout
+      mm.add("(min-width: 1025px)", () => {
+        const cards = gsap.utils.toArray<HTMLElement>('.about-glass-card');
+        const arcY = [-20, 20, 20, -20]; // Outer cards higher, inner cards lower
+        const arcRot = [8, 2, -2, -8]; // Inward-facing rotation
+
+        cards.forEach((card, i) => {
+          gsap.to(card, {
+            opacity: 1,
+            y: arcY[i] || 0,
+            rotation: arcRot[i] || 0,
+            scale: 1,
+            duration: 0.9,
+            ease: 'power3.out',
+            delay: i * 0.12,
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 88%',
+            },
+          });
+        });
+      });
+
+      // Tablet / Mobile: Flat layout
+      mm.add("(max-width: 1024px)", () => {
+        const cards = gsap.utils.toArray<HTMLElement>('.about-glass-card');
+        cards.forEach((card, i) => {
+          gsap.to(card, {
+            opacity: 1,
+            y: 0,
+            rotation: 0,
+            scale: 1,
+            duration: 0.9,
+            ease: 'power3.out',
+            delay: i * 0.12,
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 88%',
+            },
+          });
+        });
+      });
+
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="about"
+      style={{
+        position: 'relative',
+        width: '100%',
+        minHeight: '100vh',
+        overflow: 'hidden',
+      }}
+    >
+      {/* ══ FULL-SCREEN BACKGROUND IMAGE ══ */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        <Image
+          src="/newaboutNibblebackground.png"
+          alt="Kingdom of Nibble background"
+          fill
+          sizes="100vw"
+          style={{ objectFit: 'cover', objectPosition: 'center' }}
+          quality={90}
+          priority
+        />
+        {/* Dark overlay for readability */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(180deg, rgba(15,10,5,0.55) 0%, rgba(15,10,5,0.4) 40%, rgba(15,10,5,0.65) 100%)',
+        }} />
+        {/* Gold ambient gradient */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'radial-gradient(ellipse at 50% 30%, rgba(201,162,39,0.12) 0%, transparent 60%)',
+        }} />
+      </div>
+
+      {/* ══ MAIN CONTENT ══ */}
+      <div
+        ref={contentRef}
+        style={{
+          position: 'relative',
+          zIndex: 5,
+          width: '100%',
+          maxWidth: '1200px',
+          margin: '0 auto',
+          padding: 'clamp(4rem, 10vw, 8rem) 2rem clamp(4rem, 8vw, 6rem)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          minHeight: '100vh',
+        }}
+      >
+        {/* ── HEADING BLOCK (top center) ── */}
         <div
+          ref={headingRef}
           style={{
-            position: 'absolute',
-            top: '-20%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '80vw',
-            height: '90vh',
-            background: `
-              conic-gradient(from 265deg at 50% 0%,
-                transparent 0deg,
-                rgba(245,217,128,${0.04 + progress * 0.06}) 8deg,
-                transparent 18deg,
-                rgba(201,162,39,${0.03 + progress * 0.05}) 28deg,
-                transparent 40deg,
-                rgba(245,217,128,${0.05 + progress * 0.07}) 52deg,
-                transparent 65deg,
-                rgba(201,162,39,${0.03 + progress * 0.04}) 80deg,
-                transparent 95deg
-              )
-            `,
-            pointerEvents: 'none',
-            mixBlendMode: 'multiply',
-            opacity: 0.6 + progress * 0.4,
-            transition: 'opacity 300ms linear',
+            textAlign: 'center',
+            marginBottom: 'clamp(3rem, 8vw, 5rem)',
           }}
-        />
+        >
+          {/* Eyebrow */}
+          <span
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              padding: '6px 20px', borderRadius: '40px',
+              border: '1px solid rgba(245,217,128,0.4)',
+              background: 'rgba(255,255,255,0.12)',
+              backdropFilter: 'blur(10px)',
+              fontSize: '0.62rem', fontFamily: 'var(--font-heading)',
+              fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase',
+              color: '#f5d980', marginBottom: '1.5rem',
+            }}
+          >
+            <span style={{
+              width: '6px', height: '6px', borderRadius: '50%',
+              background: '#f5d980', boxShadow: '0 0 10px rgba(245,217,128,0.8)',
+              animation: 'goldFlicker 3s infinite',
+            }} />
+            Official Technical Society of JSSATEN
+          </span>
 
-        {/* Floating particles */}
-        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-          {PARTICLES.map((p) => (
-            <div
-              key={p.id}
+          {/* Main title */}
+          <h2
+            style={{
+              fontFamily: 'var(--font-heading)',
+              fontSize: 'clamp(3rem, 7vw, 5.5rem)',
+              fontWeight: 900, letterSpacing: '0.08em', textTransform: 'uppercase',
+              lineHeight: 1.05, margin: '1rem 0 1.2rem',
+            }}
+          >
+            <span style={{ color: 'rgba(255,255,255,0.95)', display: 'block' }}>
+              The Kingdom
+            </span>
+            <span
               style={{
-                position: 'absolute',
-                left: `${p.x}%`,
-                top: `${p.y}%`,
-                width: `${p.size}px`,
-                height: `${p.size}px`,
-                borderRadius: '50%',
-                background: `radial-gradient(circle, #f5d980, #c9a227)`,
-                boxShadow: `0 0 ${p.size * 3}px rgba(201,162,39,0.6)`,
-                opacity: progress > 0.05 ? p.opacity : 0,
-                animation: `nibble-particle ${p.dur}s ease-in-out ${p.delay}s infinite`,
-                transition: 'opacity 800ms ease',
+                background: 'linear-gradient(135deg, #6b4a0a 0%, #c9a227 30%, #f5d980 55%, #c9a227 75%, #6b4a0a 100%)',
+                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+                filter: 'drop-shadow(0 2px 20px rgba(201,162,39,0.5))',
               }}
-            />
+            >
+              Of Nibble
+            </span>
+          </h2>
+
+          {/* Subtitle */}
+          <p style={{
+            fontFamily: 'var(--font-body)', fontSize: 'clamp(0.9rem, 1.8vw, 1.15rem)',
+            color: 'rgba(255,248,220,0.75)', lineHeight: 1.65, maxWidth: '560px',
+            margin: '0 auto', letterSpacing: '0.03em',
+          }}>
+            Where builders rise, engineers ascend, and innovation becomes legacy
+            that echoes through the nine realms.
+          </p>
+
+          {/* Ornamental divider */}
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px',
+            marginTop: '1.5rem',
+          }}>
+            <div style={{ width: '60px', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(245,217,128,0.5))' }} />
+            <div style={{
+              width: '8px', height: '8px', background: '#c9a227',
+              transform: 'rotate(45deg)', boxShadow: '0 0 12px rgba(201,162,39,0.6)', flexShrink: 0,
+            }} />
+            <div style={{ width: '60px', height: '1px', background: 'linear-gradient(90deg, rgba(245,217,128,0.5), transparent)' }} />
+          </div>
+        </div>
+
+        {/* ── FOUR GLASS CARDS (bottom half) ── */}
+        <div
+          className="about-cards-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: 'clamp(1rem, 2vw, 1.5rem)',
+            width: '100%',
+            marginTop: 'auto',
+          }}
+        >
+          {CARDS.map((card, i) => (
+            <GlassCard key={card.title} {...card} index={i} />
           ))}
         </div>
+      </div>
 
-        {/* Grain micro-texture */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`,
-            backgroundSize: '160px 160px',
-            opacity: 0.028,
-            mixBlendMode: 'overlay',
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* ══ CONTENT LAYOUT ══ */}
-        <div
-          style={{
-            position: 'relative',
-            zIndex: 2,
-            width: '100%',
-            maxWidth: '1100px',
-            padding: '0 2rem',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '4rem',
-            alignItems: 'center',
-          }}
-          className="scroll-story-grid"
-        >
-          {/* ── LEFT: TEXT REVEAL COLUMN ── */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-
-            {/* Section eyebrow */}
-            <div
-              style={{
-                opacity: progress > 0 ? 1 : 0,
-                transform: `translateY(${progress > 0 ? 0 : 20}px)`,
-                transition: 'opacity 700ms ease, transform 700ms ease',
-                marginBottom: '2.5rem',
-              }}
-            >
-              <span
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '6px 18px',
-                  borderRadius: '40px',
-                  border: '1px solid rgba(201,162,39,0.35)',
-                  background: 'rgba(255,255,255,0.7)',
-                  backdropFilter: 'blur(10px)',
-                  fontSize: '0.62rem',
-                  fontFamily: 'var(--font-heading)',
-                  fontWeight: 700,
-                  letterSpacing: '0.28em',
-                  textTransform: 'uppercase',
-                  color: '#8f6b14',
-                }}
-              >
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#c9a227', boxShadow: '0 0 8px rgba(201,162,39,0.7)', animation: 'goldFlicker 3s infinite' }} />
-                Official Technical Society
-              </span>
-            </div>
-
-            {/* Main heading */}
-            <div
-              style={{
-                opacity: progress > 0 ? Math.min(1, progress / 0.06) : 0,
-                transform: `translateY(${Math.max(0, 30 - (progress / 0.06) * 30)}px)`,
-                marginBottom: '3rem',
-              }}
-            >
-              <h2
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: 'clamp(2.8rem, 5vw, 4.5rem)',
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  lineHeight: 1.05,
-                  color: '#1a1005',
-                  margin: 0,
-                }}
-              >
-                The Kingdom<br />
-                <span
-                  style={{
-                    background: 'linear-gradient(135deg, #6b4a0a 0%, #c9a227 35%, #f5d980 60%, #c9a227 80%, #6b4a0a 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    filter: 'drop-shadow(0 2px 12px rgba(201,162,39,0.35))',
-                  }}
-                >
-                  Of Nibble
-                </span>
-              </h2>
-            </div>
-
-            {/* Story lines — scroll-driven reveal */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-              {STORY_LINES.map((item) => {
-                const { opacity, y, blur } = lineStyle(item.threshold);
-                return (
-                  <div
-                    key={item.rune}
-                    style={{
-                      opacity,
-                      transform: `translateY(${y}px)`,
-                      filter: `blur(${blur}px)`,
-                      transition: 'none', // pure scroll-driven — no CSS transition
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      gap: '1rem',
-                    }}
-                  >
-                    {/* Rune badge */}
-                    <div
-                      style={{
-                        flexShrink: 0,
-                        width: '36px',
-                        height: '36px',
-                        borderRadius: '50%',
-                        border: '1px solid rgba(201,162,39,0.4)',
-                        background: 'radial-gradient(circle at 35% 35%, #f5d980, #c9a227 55%, #7a5210)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        boxShadow: `0 0 ${8 + Math.round(opacity * 14)}px rgba(201,162,39,${0.3 + opacity * 0.4})`,
-                        color: 'rgba(60,30,0,0.85)',
-                        fontFamily: 'var(--font-heading)',
-                        fontSize: '1rem',
-                        marginTop: '2px',
-                      }}
-                    >
-                      {item.rune}
-                    </div>
-                    <div>
-                      <p
-                        style={{
-                          fontFamily: 'var(--font-heading)',
-                          fontSize: 'clamp(1.05rem, 2.2vw, 1.35rem)',
-                          fontWeight: 700,
-                          letterSpacing: '0.05em',
-                          color: '#1a1005',
-                          margin: 0,
-                          lineHeight: 1.3,
-                        }}
-                      >
-                        {item.text}
-                      </p>
-                      <p
-                        style={{
-                          fontFamily: 'var(--font-body)',
-                          fontSize: 'clamp(0.85rem, 1.5vw, 1rem)',
-                          color: '#6b5a30',
-                          margin: '4px 0 0',
-                          letterSpacing: '0.03em',
-                          lineHeight: 1.5,
-                        }}
-                      >
-                        {item.sub}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Scroll hint */}
-            <div
-              style={{
-                marginTop: '2.5rem',
-                opacity: progress < 0.85 ? Math.max(0, (0.15 - Math.abs(progress - 0.07)) / 0.15) : 0,
-                transition: 'opacity 400ms ease',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-              }}
-            >
-              <div style={{ height: '1px', width: '32px', background: 'linear-gradient(90deg, transparent, rgba(201,162,39,0.5))' }} />
-              <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.58rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(201,162,39,0.6)' }}>
-                Scroll to reveal
-              </span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ color: '#c9a227', animation: 'scrollPulse 2s ease-in-out infinite' }}>
-                <path d="M12 5v14M12 19l-4-4M12 19l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-          </div>
-
-          {/* ── RIGHT: CENTRAL VISUAL ORBS ── */}
+      {/* ── Floating particles ── */}
+      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 4 }}>
+        {Array.from({ length: 16 }).map((_, i) => (
           <div
+            key={i}
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative',
-              minHeight: '460px',
-            }}
-            className="scroll-story-visual"
-          >
-            {/* Outer ambient ring */}
-            <div
-              style={{
-                position: 'absolute',
-                width: `${280 + orbGlow}px`,
-                height: `${280 + orbGlow}px`,
-                borderRadius: '50%',
-                border: `1px solid rgba(201,162,39,${0.1 + progress * 0.2})`,
-                background: `radial-gradient(circle, rgba(201,162,39,${0.03 + progress * 0.07}) 0%, transparent 70%)`,
-                boxShadow: `0 0 ${40 + orbGlow * 2}px rgba(201,162,39,${0.08 + progress * 0.15})`,
-                transition: 'none',
-                animation: 'divineFloat 7s ease-in-out infinite',
-              }}
-            />
-
-            {/* Mid ring */}
-            <div
-              style={{
-                position: 'absolute',
-                width: `${200 + orbGlow / 2}px`,
-                height: `${200 + orbGlow / 2}px`,
-                borderRadius: '50%',
-                border: `1px solid rgba(201,162,39,${0.18 + progress * 0.25})`,
-                animation: 'divineFloat 5s ease-in-out 0.5s infinite',
-              }}
-            />
-
-            {/* Main image card */}
-            <div
-              style={{
-                position: 'relative',
-                width: '340px',
-                height: '240px',
-                borderRadius: '2rem',
-                border: '1px solid rgba(201,162,39,0.4)',
-                background: 'rgba(255,252,240,0.7)',
-                backdropFilter: 'blur(12px)',
-                overflow: 'hidden',
-                transform: `scale(${orbScale})`,
-                transition: 'none',
-                boxShadow: `
-                  0 ${20 + orbGlow}px ${60 + orbGlow * 2}px rgba(0,0,0,${0.06 + progress * 0.09}),
-                  0 0 ${orbGlow + 10}px rgba(201,162,39,${0.1 + progress * 0.2}),
-                  inset 0 1px 0 rgba(255,255,255,0.8)
-                `,
-                animation: 'divineFloat 6s ease-in-out 1s infinite',
-              }}
-            >
-              <Image
-                src="/aboutNibbleBackground.png"
-                alt="Kingdom of Nibble"
-                fill
-                sizes="340px"
-                style={{ objectFit: 'cover', objectPosition: 'center', opacity: 0.55, mixBlendMode: 'luminosity' }}
-              />
-              {/* Shimmer */}
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.5) 0%, transparent 50%, rgba(201,162,39,0.08) 100%)', pointerEvents: 'none' }} />
-
-              {/* Gold bottom glow */}
-              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%', background: 'linear-gradient(0deg, rgba(201,162,39,0.12) 0%, transparent 100%)', pointerEvents: 'none' }} />
-            </div>
-
-            {/* Core orb on top of card */}
-            <div
-              style={{
-                position: 'absolute',
-                width: '72px',
-                height: '72px',
-                borderRadius: '50%',
-                border: '1.5px solid rgba(201,162,39,0.6)',
-                background: 'radial-gradient(circle at 35% 30%, #fff9e6, #f5d980 40%, #c9a227 70%, #7a5210)',
-                boxShadow: `0 0 ${20 + orbGlow}px rgba(201,162,39,0.55), inset 0 2px 0 rgba(255,255,255,0.7)`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'rgba(60,30,0,0.85)',
-                fontFamily: 'var(--font-heading)',
-                fontSize: '1.8rem',
-                transform: `scale(${0.85 + progress * 0.25})`,
-                transition: 'none',
-                animation: 'divinePulse 3.5s ease-in-out infinite',
-              }}
-            >
-              ✦
-            </div>
-
-            {/* Tags that materialize */}
-            {[
-              { label: 'Innovation', x: '90%', y: '12%', th: 0.20 },
-              { label: 'Engineering', x: '-12%', y: '18%', th: 0.32 },
-              { label: 'Community', x: '85%', y: '72%', th: 0.44 },
-              { label: 'Leadership', x: '-15%', y: '76%', th: 0.56 },
-            ].map((tag) => {
-              const { opacity: tOp, y: tY } = lineStyle(tag.th, 0.14);
-              return (
-                <div
-                  key={tag.label}
-                  style={{
-                    position: 'absolute',
-                    left: tag.x,
-                    top: tag.y,
-                    opacity: tOp,
-                    transform: `translateY(${tY * 0.4}px)`,
-                    padding: '5px 14px',
-                    borderRadius: '20px',
-                    border: '1px solid rgba(201,162,39,0.3)',
-                    background: 'rgba(255,255,255,0.75)',
-                    backdropFilter: 'blur(8px)',
-                    boxShadow: '0 4px 16px rgba(0,0,0,0.06)',
-                    fontFamily: 'var(--font-heading)',
-                    fontSize: '0.58rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.2em',
-                    textTransform: 'uppercase',
-                    color: '#8f6b14',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {tag.label}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* ══ PROGRESS BAR (left vertical) ══ */}
-        <div
-          style={{
-            position: 'absolute',
-            left: '2.5rem',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '0',
-            zIndex: 10,
-            opacity: progress > 0.03 ? 1 : 0,
-            transition: 'opacity 500ms ease',
-          }}
-          className="scroll-progress-bar-container"
-        >
-          <div
-            style={{
-              width: '1px',
-              height: '180px',
-              background: 'rgba(201,162,39,0.15)',
-              position: 'relative',
-              overflow: 'hidden',
-              borderRadius: '1px',
-            }}
-          >
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: `${progress * 100}%`,
-                background: 'linear-gradient(180deg, #f5d980, #c9a227)',
-                boxShadow: '0 0 8px rgba(201,162,39,0.6)',
-                borderRadius: '1px',
-                transition: 'none',
-              }}
-            />
-          </div>
-          <div
-            style={{
-              width: '5px',
-              height: '5px',
+              position: 'absolute',
+              left: `${8 + (i * 37.3) % 84}%`,
+              top: `${12 + (i * 53.7) % 76}%`,
+              width: `${2 + (i % 3)}px`,
+              height: `${2 + (i % 3)}px`,
               borderRadius: '50%',
-              background: '#c9a227',
-              marginTop: '4px',
-              boxShadow: '0 0 8px rgba(201,162,39,0.7)',
+              background: 'radial-gradient(circle, #f5d980, #c9a227)',
+              boxShadow: `0 0 ${4 + (i % 3) * 3}px rgba(201,162,39,0.5)`,
+              opacity: 0.5 + (i % 4) * 0.1,
+              animation: `nibble-particle ${5 + (i % 4) * 1.5}s ease-in-out ${(i % 5) * 0.8}s infinite`,
             }}
           />
-        </div>
+        ))}
+      </div>
 
-        {/* Inline keyframes */}
-        <style>{`
-          @keyframes divineFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-12px) rotate(0.4deg); }
+      {/* ── RESPONSIVE STYLES ── */}
+      <style>{`
+        @media (max-width: 1024px) {
+          .about-cards-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
           }
-          @keyframes divinePulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(201,162,39,0.4), inset 0 2px 0 rgba(255,255,255,0.7); }
-            50% { box-shadow: 0 0 45px rgba(201,162,39,0.7), inset 0 2px 0 rgba(255,255,255,0.7); }
+        }
+        @media (max-width: 600px) {
+          .about-cards-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1rem !important;
           }
-          @media (max-width: 768px) {
-            .scroll-story-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
-            .scroll-story-visual { display: none !important; }
-            .scroll-progress-bar-container { display: none !important; }
-          }
-        `}</style>
-
-      </div>{/* end sticky */}
-    </div>/* end outer */
+        }
+      `}</style>
+    </section>
   );
 }

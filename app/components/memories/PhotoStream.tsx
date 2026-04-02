@@ -11,8 +11,13 @@ import Image from 'next/image';
 // ─────────────────────────────────────────────────────────────────────────────
 const ALL_PHOTOS = [
   { src: '/event_photos/image.png', alt: 'Memories of Asgard', aspect: 'landscape' as const },
-  // → add more here, e.g.:
-  // { src: '/event_photos/photo2.jpg', alt: 'NCS Hackathon 2024', aspect: 'portrait' },
+  { src: '/event_photos/image copy.png', alt: 'NCS Hackathon Event', aspect: 'portrait' as const },
+  { src: '/event_photos/image copy 2.png', alt: 'Hackathon Memories', aspect: 'landscape' as const },
+  { src: '/event_photos/image copy 3.png', alt: 'NCS Event', aspect: 'portrait' as const },
+  { src: '/event_photos/image copy 4.png', alt: 'Asgard Moments', aspect: 'landscape' as const },
+  { src: '/event_photos/image copy 5.png', alt: 'NCS Highlights', aspect: 'portrait' as const },
+  { src: '/event_photos/image copy 6.png', alt: 'Hackathon Journey', aspect: 'landscape' as const },
+  { src: '/event_photos/image copy 7.png', alt: 'Stage NCS', aspect: 'landscape' as const },
 ];
 
 // Deterministic distribution across 4 columns.

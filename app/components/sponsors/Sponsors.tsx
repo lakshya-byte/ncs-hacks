@@ -69,7 +69,7 @@ export default function GodLevelSponsors() {
           { y: 30, opacity: 0 },
           {
             y: 0, opacity: 1, duration: 0.8, ease: 'power2.out',
-            scrollTrigger: { trigger: el, start: 'top 85%' },
+            scrollTrigger: { trigger: el, start: 'top 150%' },
             delay: (i % 3) * 0.15 
           }
         );
@@ -206,7 +206,7 @@ export default function GodLevelSponsors() {
           
           <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-4 md:gap-6 w-full items-stretch">
             {SPONSORS_DATA.community.map((name, i) => (
-              <div key={i} className="sp-reveal col-span-2 md:col-span-2 lg:col-span-3 flex items-center justify-center p-4 min-h-[80px] rounded-lg bg-white/30 border border-[#D4AF37]/10 hover:bg-white/60 hover:border-[#D4AF37]/40 transition-all duration-300 cursor-default text-center group w-full h-full">
+              <div key={i} className="sp-reveal col-span-2 md:col-span-2 lg:col-span-3 flex items-center justify-center p-4 min-h-[80px] rounded-lg bg-white/30 border-2 border-[#D4AF37]/45 hover:bg-white/60 hover:border-[#D4AF37]/70 shadow-[0_2px_12px_rgba(212,175,55,0.08)] hover:shadow-[0_4px_20px_rgba(212,175,55,0.18)] transition-all duration-300 cursor-default text-center group w-full h-full">
                 <span className="font-heading text-[10px] md:text-[11px] text-slate-600 group-hover:text-slate-900 tracking-[0.15em] uppercase transition-colors">
                   {name}
                 </span>
