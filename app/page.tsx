@@ -81,7 +81,7 @@ export default function Home() {
         </section>
 
         {/* 🤝 SPONSORS */}
-        <section id="sponsors" className="py-40">
+        <section id="sponsors" className="pt-4 pb-4">
           <div id="team" />
           <Sponsors />
         </section>

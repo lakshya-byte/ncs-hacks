@@ -254,7 +254,7 @@ export default function HackathonTracks() {
               <span
                 className="font-heading leading-none text-transparent select-none"
                 style={{
-                  WebkitTextStroke: "1px rgba(212, 175, 55, 0.4)",
+                  WebkitTextStroke: "3px rgba(212, 175, 55, 0.6)",
                   fontSize: "clamp(3.5rem, 12vw, 7rem)",
                 }}
               >
@@ -262,7 +262,7 @@ export default function HackathonTracks() {
               </span>
 
               <h2
-                className="mt-1 md:mt-2 font-heading font-medium leading-[1.1] tracking-tight text-[#B8860B] drop-shadow-[0_0_20px_rgba(212,175,55,0.2)] transition-all duration-700"
+                className="mt-1 md:mt-2 font-heading font-bold leading-[1.1] tracking-tight text-[#B8860B] drop-shadow-[0_0_20px_rgba(212,175,55,0.2)] transition-all duration-700"
                 style={{ fontSize: "clamp(1.75rem, 8vw, 4rem)" }}
               >
                 {active.title}
@@ -305,7 +305,7 @@ export default function HackathonTracks() {
                                 fill
                                 sizes="(max-width: 768px) 300px, 420px"
                                 className="object-cover brightness-105"
-                              unoptimized={true}
+                                unoptimized={true}
                               />
                               <div className="pointer-events-none absolute inset-0 z-20 mix-blend-screen shadow-[inset_0_0_30px_rgba(255,215,0,0.3)]" />
                             </div>
@@ -327,10 +327,10 @@ export default function HackathonTracks() {
         {tracks.map((_, idx) => (
           <div
             key={`dot-${idx}`}
-            className={`w-[2px] transition-all duration-500 ease-out rounded-full ${
+            className={`w-[4px] transition-all duration-500 ease-out rounded-full ${
               idx === activeIndex
                 ? "h-10 md:h-12 bg-gradient-to-b from-[#D4AF37] to-[#B8860B] shadow-[0_0_10px_rgba(212,175,55,0.5)]"
-                : "h-3 md:h-4 bg-slate-300/40"
+                : "h-4 md:h-5 bg-slate-400/70"
             }`}
           />
         ))}

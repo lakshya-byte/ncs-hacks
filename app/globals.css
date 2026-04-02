@@ -5,7 +5,7 @@
 ══════════════════════════════════════════════════════════ */
 @font-face {
   font-family: 'Norse';
-  src: url('/norse/Myrkvior.otf') format('opentype');
+  src: url('/norse/Norse-KaWl.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -13,7 +13,7 @@
 
 @font-face {
   font-family: 'Norse';
-  src: url('/norse/Myrkvior.otf') format('opentype');
+  src: url('/norse/NorseBold-2Kge.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -122,7 +122,7 @@ html {
   /* Prevent horizontal overflow on all viewports without breaking CSS position: sticky */
   overflow-x: clip; 
   /* Custom Gold & Blue Diamond Cursor */
-  cursor: url('/Gold & Blue Diamond/Gold & Blue Diamond--cursor--SweezyCursors.png') 16 16, auto;
+  cursor: url('/Gold & Blue Diamond/Gold & Blue Diamond--cursor--SweezyCursors.png') 4 4, auto;
 }
 
 html::-webkit-scrollbar { display: none; }
@@ -151,7 +151,7 @@ label,
 select,
 summary,
 .cursor-pointer {
-  cursor: url('/Gold & Blue Diamond/Gold & Blue Diamond--pointer--SweezyCursors.png') 16 16, pointer;
+  cursor: url('/Gold & Blue Diamond/Gold & Blue Diamond--pointer--SweezyCursors.png') 4 4, pointer;
 }
 
 body::-webkit-scrollbar { display: none; }

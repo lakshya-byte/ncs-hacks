@@ -71,7 +71,6 @@ export default function CallToAction() {
       style={{
         position: 'relative',
         width: '100%',
-        minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -79,7 +78,7 @@ export default function CallToAction() {
         overflow: 'hidden',
         background: 'radial-gradient(ellipse at 50% 0%, rgba(255,236,180,0.55) 0%, rgba(252,250,244,0.98) 40%, #f5f1e7 100%)',
         textAlign: 'center',
-        padding: '6rem 2rem',
+        padding: '1rem 2rem 2rem 2rem',
       }}
     >
       {/* ══ BACKGROUND ══ */}
@@ -183,7 +182,7 @@ export default function CallToAction() {
           ref={runeRef}
           style={{
             ...appear(0),
-            marginBottom: '2.5rem',
+            marginBottom: '1.5rem',
             width: '72px',
             height: '72px',
             borderRadius: '50%',
@@ -232,7 +231,7 @@ export default function CallToAction() {
             letterSpacing: '0.1em',
             textTransform: 'uppercase',
             lineHeight: 1.0,
-            margin: '0 0 1.5rem',
+            margin: '0 0 1rem',
           }}
         >
           <span style={{
@@ -270,7 +269,7 @@ export default function CallToAction() {
             letterSpacing: '0.12em',
             lineHeight: 1.7,
             maxWidth: '520px',
-            margin: '0 0 3.5rem',
+            margin: '0 0 2rem',
           }}
         >
           The realm awaits your creation. Forge something that defies the ordinary — and let your name echo through Asgard.
@@ -434,7 +433,7 @@ export default function CallToAction() {
         </div>
 
         {/* Small urgency note below */}
-        <div style={{ ...appear(680), marginTop: '2rem' }}>
+        <div style={{ ...appear(680), marginTop: '1.5rem' }}>
           <p style={{
             fontFamily: 'var(--font-heading)',
             fontSize: '0.6rem',
