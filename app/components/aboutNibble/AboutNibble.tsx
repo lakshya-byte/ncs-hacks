@@ -41,9 +41,9 @@ const CARDS = [
    GLASS CARD with micro-interactions
 ───────────────────────────────────────────── */
 function GlassCard({
-  rune, title, description, icon, index,
+  rune, title, description, icon,
 }: {
-  rune: string; title: string; description: string; icon: string; index: number;
+  rune: string; title: string; description: string; icon: string;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
@@ -88,8 +88,8 @@ function GlassCard({
           borderRadius: '1.5rem',
           border: `1.5px solid ${hovered ? 'rgba(212,175,55,0.7)' : 'rgba(212,175,55,0.35)'}`,
           background: hovered
-            ? 'linear-gradient(145deg, rgba(255,252,234,0.65), rgba(255,246,210,0.45))'
-            : 'linear-gradient(145deg, rgba(255,255,255,0.35), rgba(255,252,234,0.2))',
+            ? 'linear-gradient(145deg, rgba(20,20,20,0.8), rgba(10,10,10,0.65))'
+            : 'linear-gradient(145deg, rgba(15,15,15,0.65), rgba(5,5,5,0.45))',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           overflow: 'hidden',
@@ -98,8 +98,8 @@ function GlassCard({
           transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale(${hovered ? 1.03 : 1})`,
           transition: 'transform 250ms ease-out, border-color 300ms ease, background 300ms ease, box-shadow 300ms ease',
           boxShadow: hovered
-            ? '0 24px 60px rgba(0,0,0,0.15), 0 0 40px rgba(212,175,55,0.2), inset 0 1px 0 rgba(255,255,255,0.7)'
-            : '0 8px 32px rgba(0,0,0,0.08), 0 0 0 rgba(212,175,55,0), inset 0 1px 0 rgba(255,255,255,0.5)',
+            ? '0 24px 60px rgba(0,0,0,0.4), 0 0 40px rgba(212,175,55,0.15), inset 0 1px 0 rgba(255,255,255,0.15)'
+            : '0 8px 32px rgba(0,0,0,0.3), 0 0 0 rgba(212,175,55,0), inset 0 1px 0 rgba(255,255,255,0.08)',
           willChange: 'transform',
         }}
       >
@@ -130,7 +130,7 @@ function GlassCard({
             border: '1.5px solid rgba(201,162,39,0.5)',
             background: 'radial-gradient(circle at 35% 30%, #fff9e6, #f5d980 40%, #c9a227 70%, #7a5210)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: 'rgba(60,30,0,0.85)',
+            fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: '#fff',
             boxShadow: hovered
               ? '0 0 24px rgba(201,162,39,0.6), inset 0 1px 0 rgba(255,255,255,0.6)'
               : '0 0 10px rgba(201,162,39,0.3), inset 0 1px 0 rgba(255,255,255,0.5)',
@@ -146,7 +146,7 @@ function GlassCard({
         <h3 style={{
           fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.1rem, 2vw, 1.4rem)',
           fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase',
-          color: '#1a1005', margin: '0 0 0.6rem', position: 'relative', zIndex: 1,
+          color: '#f5d980', margin: '0 0 0.6rem', position: 'relative', zIndex: 1,
           lineHeight: 1.2,
         }}>
           {title}
@@ -155,7 +155,7 @@ function GlassCard({
         {/* Description */}
         <p style={{
           fontFamily: 'var(--font-body)', fontSize: 'clamp(0.8rem, 1.3vw, 0.92rem)',
-          color: '#5a4a30', lineHeight: 1.65, margin: 0, position: 'relative', zIndex: 1,
+          color: 'rgba(255,255,255,0.75)', lineHeight: 1.65, margin: 0, position: 'relative', zIndex: 1,
           letterSpacing: '0.02em',
         }}>
           {description}
@@ -275,8 +275,9 @@ export default function KingdomOfNibble() {
         {/* Dark overlay for readability */}
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(180deg, rgba(15,10,5,0.55) 0%, rgba(15,10,5,0.4) 40%, rgba(15,10,5,0.65) 100%)',
+          background: 'linear-gradient(180deg, rgba(8,7,6,0.3) 0%, rgba(8,7,6,0.15) 40%, rgba(8,7,6,0.3) 100%)',
         }} />
+
         {/* Gold ambient gradient */}
         <div style={{
           position: 'absolute', inset: 0,
@@ -387,8 +388,8 @@ export default function KingdomOfNibble() {
             marginTop: 'auto',
           }}
         >
-          {CARDS.map((card, i) => (
-            <GlassCard key={card.title} {...card} index={i} />
+          {CARDS.map((card) => (
+            <GlassCard key={card.title} {...card} />
           ))}
         </div>
       </div>

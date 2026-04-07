@@ -75,7 +75,7 @@ export default function CallToAction() {
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',
-        background: 'radial-gradient(ellipse at 50% 0%, rgba(255,236,180,0.55) 0%, rgba(252,250,244,0.98) 40%, #f5f1e7 100%)',
+        background: '#080706',
         textAlign: 'center',
         padding: '1rem 2rem 2rem 2rem',
       }}
@@ -117,13 +117,13 @@ export default function CallToAction() {
           height: '80vh',
           background: `conic-gradient(from 260deg at 50% 0%,
             transparent 0deg,
-            rgba(245,217,128,0.06) 10deg,
+            rgba(245,217,128,0.02) 10deg,
             transparent 22deg,
-            rgba(201,162,39,0.04) 36deg,
+            rgba(201,162,39,0.01) 36deg,
             transparent 50deg,
-            rgba(245,217,128,0.07) 64deg,
+            rgba(245,217,128,0.03) 64deg,
             transparent 78deg,
-            rgba(201,162,39,0.04) 92deg,
+            rgba(201,162,39,0.01) 92deg,
             transparent 108deg
           )`,
           pointerEvents: 'none',
@@ -235,7 +235,7 @@ export default function CallToAction() {
         >
           <span style={{
             display: 'block',
-            background: 'linear-gradient(160deg, #1a0f02 0%, #6b4a0a 20%, #c9a227 45%, #f5d980 58%, #c9a227 72%, #6b4a0a 88%, #1a0f02 100%)',
+            background: 'linear-gradient(160deg, #fff 0%, #f5d980 40%, #c9a227 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -245,7 +245,7 @@ export default function CallToAction() {
           </span>
           <span style={{
             display: 'block',
-            background: 'linear-gradient(160deg, #3d2600 0%, #8f6b14 30%, #d4af37 50%, #f5d980 62%, #d4af37 75%, #8f6b14 90%)',
+            background: 'linear-gradient(160deg, #fff 0%, #f5d980 50%, #d4af37 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -264,7 +264,7 @@ export default function CallToAction() {
             ...appear(380),
             fontFamily: 'var(--font-body)',
             fontSize: 'clamp(1rem, 2vw, 1.2rem)',
-            color: '#6b5230',
+            color: 'rgba(255,255,255,0.7)',
             letterSpacing: '0.12em',
             lineHeight: 1.7,
             maxWidth: '520px',
@@ -454,7 +454,7 @@ export default function CallToAction() {
         left: 0,
         right: 0,
         height: '120px',
-        background: 'linear-gradient(0deg, #f5f1e7 0%, transparent 100%)',
+        background: 'linear-gradient(0deg, #080706 0%, transparent 100%)',
         pointerEvents: 'none',
       }} />
 

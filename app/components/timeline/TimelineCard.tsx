@@ -36,27 +36,27 @@ export default function TimelineCard({ title, date, description, side, className
 
   return (
     <article
-      className={`relative w-full perspective-[1200px] ${className}`}
+      className={`relative w-full perspective-distant ${className}`}
     >
       <div
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative w-full overflow-hidden rounded-[2rem] border-[2px] border-[#d4af37]/40 bg-white/60 p-6 md:px-12 md:py-10 backdrop-blur-md transition-[transform,border-color,box-shadow,background-color] duration-300 ease-out hover:border-[#d4af37]/80 hover:bg-white/80 shadow-lg gpu-accelerate"
+        className="relative w-full overflow-hidden rounded-4xl border-2 border-[#d4af37]/30 bg-[#121110]/60 p-6 md:px-12 md:py-10 backdrop-blur-md transition-[transform,border-color,box-shadow,background-color] duration-300 ease-out hover:border-[#d4af37]/80 hover:bg-[#1a1918]/80 shadow-2xl gpu-accelerate"
         style={{
           transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
-          boxShadow: '0 16px 40px -10px rgba(218,165,32,0.15), inset 0 2px 0 rgba(255,255,255,0.7)',
+          boxShadow: '0 16px 60px -15px rgba(0,0,0,0.8), inset 0 2px 0 rgba(255,255,255,0.05)',
         }}
       >
         {/* Soft Background Radial Glow inside the card */}
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.8),transparent_60%)] opacity-70" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.05),transparent_60%)] opacity-30" />
 
         {/* Inner Gold Accent Shine */}
-        <div className="pointer-events-none absolute inset-0 rounded-[inherit] border border-[#f8e6bd]/40" />
+        <div className="pointer-events-none absolute inset-0 rounded-[inherit] border border-[#f8e6bd]/10" />
 
         {/* Dynamic Highlight tied to mouse tilt! */}
         <div
-          className="pointer-events-none absolute inset-0 bg-linear-to-tr from-white/0 via-white/40 to-white/0 transition-opacity duration-300"
+          className="pointer-events-none absolute inset-0 bg-linear-to-tr from-white/0 via-white/10 to-white/0 transition-opacity duration-300"
           style={{ opacity: (Math.abs(rotation.x) + Math.abs(rotation.y)) > 2 ? 1 : 0 }}
         />
 
@@ -69,13 +69,13 @@ export default function TimelineCard({ title, date, description, side, className
             {date}
           </p>
           <h3
-            className="text-2xl font-bold leading-[1.15] text-slate-900 md:text-[2.2rem] lg:text-[2.6rem] mb-4 drop-shadow-sm"
+            className="text-2xl font-bold leading-[1.15] text-white md:text-[2.2rem] lg:text-[2.6rem] mb-4 drop-shadow-md"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             {title}
           </h3>
           <p
-            className="text-sm font-medium leading-relaxed tracking-wide text-slate-600 md:text-[1.05rem] text-balance"
+            className="text-sm font-medium leading-relaxed tracking-wide text-slate-300 md:text-[1.05rem] text-balance"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             {description}

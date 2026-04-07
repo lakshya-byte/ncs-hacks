@@ -89,16 +89,16 @@ function AccordionItem({ item, isOpen, onToggle, index }: AccordionItemProps) {
   }, [isOpen]);
 
   const cardBg = isOpen
-    ? '#FFFFFF'
+    ? 'rgba(25,25,25,0.95)'
     : hovered
-    ? 'rgba(255,255,255,0.82)'
-    : 'rgba(255,252,240,0.65)';
+    ? 'rgba(30,30,30,0.85)'
+    : 'rgba(20,20,20,0.65)';
 
   const cardShadow = isOpen
-    ? '0 8px 40px rgba(184,134,11,0.16), 0 2px 12px rgba(0,0,0,0.07), 0 0 0 1.5px rgba(201,162,39,0.55)'
+    ? '0 8px 40px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(201,162,39,0.55)'
     : hovered
-    ? '0 6px 28px rgba(0,0,0,0.08), 0 0 0 1px rgba(201,162,39,0.38)'
-    : '0 2px 12px rgba(0,0,0,0.05), 0 0 0 1px rgba(212,175,55,0.25)';
+    ? '0 6px 28px rgba(0,0,0,0.3), 0 0 0 1px rgba(201,162,39,0.38)'
+    : '0 2px 12px rgba(0,0,0,0.2), 0 0 0 1px rgba(212,175,55,0.25)';
 
   const cardTranslate = hovered && !isOpen ? 'translateY(-2px)' : 'translateY(0)';
 
@@ -188,11 +188,11 @@ function AccordionItem({ item, isOpen, onToggle, index }: AccordionItemProps) {
           <span
             className="font-heading"
             style={{
-              fontSize: 'clamp(0.95rem, 1.3vw, 1.15rem)',
-              fontWeight: 700,
-              color: isOpen ? '#6B3F00' : '#1A1008',
-              lineHeight: 1.35,
-              transition: 'color 0.3s ease',
+            fontSize: 'clamp(0.95rem, 1.3vw, 1.15rem)',
+            fontWeight: 700,
+            color: isOpen ? '#f5d980' : 'rgba(255,255,255,0.9)',
+            lineHeight: 1.35,
+            transition: 'color 0.3s ease',
             }}
           >
             {item.question}
@@ -249,10 +249,10 @@ function AccordionItem({ item, isOpen, onToggle, index }: AccordionItemProps) {
           <p
             className="font-body"
             style={{
-              fontSize: 'clamp(0.88rem, 1.2vw, 1rem)',
-              color: '#4A3210',
-              lineHeight: 1.75,
-              fontWeight: 400,
+            fontSize: 'clamp(0.88rem, 1.2vw, 1rem)',
+            color: 'rgba(255,255,255,0.7)',
+            lineHeight: 1.75,
+            fontWeight: 400,
             }}
           >
             {item.answer}
@@ -326,7 +326,7 @@ export default function FAQSection() {
       ref={sectionRef}
       id="faq"
       style={{
-        background: 'linear-gradient(180deg, #FAF6E8 0%, #F5F0E0 50%, #FAF6E8 100%)',
+        background: 'transparent',
         paddingTop: 'clamp(5rem, 10vw, 9rem)',
         paddingBottom: 'clamp(5rem, 10vw, 8rem)',
         position: 'relative',
@@ -338,7 +338,7 @@ export default function FAQSection() {
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage:
-            'repeating-linear-gradient(0deg, transparent, transparent 56px, rgba(184,134,11,0.025) 56px, rgba(184,134,11,0.025) 57px)',
+            'repeating-linear-gradient(0deg, transparent, transparent 56px, rgba(212,175,55,0.02) 56px, rgba(212,175,55,0.02) 57px)',
           zIndex: 0,
         }}
       />
@@ -426,7 +426,7 @@ export default function FAQSection() {
               fontSize: 'clamp(2rem, 4.5vw, 3.5rem)',
               fontWeight: 900,
               letterSpacing: '0.1em',
-              color: '#1A1008',
+              color: '#fff',
               lineHeight: 1.1,
               marginBottom: '1.1rem',
             }}
@@ -459,7 +459,7 @@ export default function FAQSection() {
             className="font-body"
             style={{
               fontSize: 'clamp(0.85rem, 1.15vw, 1rem)',
-              color: '#6B5120',
+              color: 'rgba(255,255,255,0.6)',
               fontWeight: 500,
               lineHeight: 1.65,
               marginTop: '1rem',
