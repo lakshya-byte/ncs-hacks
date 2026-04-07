@@ -250,8 +250,10 @@ export default function Navbar() {
             <div className="flex-1 hidden md:flex justify-end relative z-[2]">
 
               <Link
-                href="#"
+                href="https://inout2026.devfolio.co/overview"
                 id="nav-join-btn"
+                target="_blank"
+                rel="noopener noreferrer"
                 onMouseEnter={() => setCtaHovered(true)}
                 onMouseLeave={() => { setCtaHovered(false); setCtaPressed(false); }}
                 onMouseDown={() => setCtaPressed(true)}
@@ -681,8 +683,10 @@ export default function Navbar() {
             }}
           >
             <Link
-              href="#"
+              href="https://inout2026.devfolio.co/overview"
               id="mobile-join-btn"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => setMenuOpen(false)}
               className="relative inline-flex items-center justify-center gap-2 no-underline select-none"
               style={{
