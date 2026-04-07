@@ -59,12 +59,12 @@ function PhotoCard({
       style={{
         aspectRatio: ratio,
         borderRadius: '16px',
-        border: '1px solid rgba(212,175,55,0.2)',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+        border: '1px solid rgba(212,175,55,0.15)',
+        boxShadow: '0 4px 25px rgba(0,0,0,0.4)',
         cursor: 'pointer',
         willChange: 'transform',
         transition: 'transform 0.5s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease, border-color 0.4s ease',
-        background: 'linear-gradient(135deg, #fdf8f0, #f5efd6)',
+        background: 'rgba(25,25,25,0.8)',
       }}
     >
       <Image
@@ -170,7 +170,7 @@ export default function PhotoStream() {
         width: '100%',
         height: 'clamp(700px, 130vh, 1100px)',
         overflow: 'hidden',
-        background: 'linear-gradient(180deg, #FFFDF6 0%, #FAF5E4 50%, #FFFDF6 100%)',
+        background: '#080706',
       }}
     >
       {/* ── Keyframe definitions ── */}
@@ -271,7 +271,7 @@ export default function PhotoStream() {
         style={{
           height: '28%',
           background:
-            'linear-gradient(to bottom, #FFFDF6 0%, rgba(255,253,246,0.8) 50%, transparent 100%)',
+            'linear-gradient(to bottom, #080706 0%, rgba(8,7,6,0.8) 50%, transparent 100%)',
           zIndex: 10,
         }}
       />
@@ -282,7 +282,7 @@ export default function PhotoStream() {
         style={{
           height: '28%',
           background:
-            'linear-gradient(to top, #FFFDF6 0%, rgba(255,253,246,0.8) 50%, transparent 100%)',
+            'linear-gradient(to top, #080706 0%, rgba(8,7,6,0.8) 50%, transparent 100%)',
           zIndex: 10,
         }}
       />
@@ -292,7 +292,7 @@ export default function PhotoStream() {
         className="absolute inset-y-0 left-0 pointer-events-none"
         style={{
           width: '6%',
-          background: 'linear-gradient(to right, #FFFDF6, transparent)',
+          background: 'linear-gradient(to right, #080706, transparent)',
           zIndex: 10,
         }}
       />
@@ -302,7 +302,7 @@ export default function PhotoStream() {
         className="absolute inset-y-0 right-0 pointer-events-none"
         style={{
           width: '6%',
-          background: 'linear-gradient(to left, #FFFDF6, transparent)',
+          background: 'linear-gradient(to left, #080706, transparent)',
           zIndex: 10,
         }}
       />
@@ -317,11 +317,11 @@ export default function PhotoStream() {
           style={{
             padding: 'clamp(1.5rem, 3vw, 2.5rem) clamp(2rem, 5vw, 4rem)',
             borderRadius: '24px',
-            background: 'rgba(255,253,246,0.72)',
+            background: 'rgba(15,15,15,0.72)',
             backdropFilter: 'blur(14px)',
             WebkitBackdropFilter: 'blur(14px)',
             border: '1px solid rgba(212,175,55,0.25)',
-            boxShadow: '0 8px 48px rgba(0,0,0,0.08), 0 0 0 1px rgba(255,255,255,0.6) inset',
+            boxShadow: '0 8px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1) inset',
             textAlign: 'center',
             maxWidth: 'clamp(280px, 55vw, 620px)',
             width: '90%',
@@ -350,7 +350,7 @@ export default function PhotoStream() {
               fontWeight: 900,
               letterSpacing: '0.06em',
               lineHeight: 1.05,
-              color: '#1A1008',
+              color: '#fff',
               marginBottom: '0.85rem',
             }}
           >
@@ -403,7 +403,7 @@ export default function PhotoStream() {
             className="font-body"
             style={{
               fontSize: 'clamp(0.72rem, 1vw, 0.875rem)',
-              color: '#6B5120',
+              color: 'rgba(255,255,255,0.6)',
               fontWeight: 500,
               letterSpacing: '0.03em',
               lineHeight: 1.6,

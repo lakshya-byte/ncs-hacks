@@ -38,8 +38,7 @@ const MAP_SRC = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28026.018
 const GOLD       = '#c9a227';
 const GOLD_LIGHT = '#f5d980';
 const GOLD_DARK  = '#8f6b14';
-const BROWN      = '#6b5530';
-const BROWN_DARK = '#5a4a3a';
+const TEXT_SECONDARY = 'rgba(255,255,255,0.7)';
 
 const sectionLabel = {
   fontFamily: 'var(--font-heading)',
@@ -54,7 +53,7 @@ const sectionLabel = {
 const glassCard = {
   borderRadius: '16px',
   border: '1px solid rgba(201,162,39,0.22)',
-  background: 'rgba(255,255,255,0.55)',
+  background: 'rgba(15,15,15,0.65)',
   backdropFilter: 'blur(12px)',
   WebkitBackdropFilter: 'blur(12px)',
 };
@@ -88,16 +87,18 @@ export default function GodLevelFooter() {
         position: 'relative',
         width: '100%',
         overflow: 'hidden',
-        background: 'linear-gradient(180deg, #fffdf8 0%, #faf7eb 35%, #f3efde 100%)',
+        background: 'transparent',
+
         paddingTop: '2rem',
         paddingBottom: '2rem',
-        color: BROWN_DARK,
+        color: TEXT_SECONDARY,
+        zIndex: 30,
       }}
     >
       {/* ══ GOLD TOP ACCENT LINE ══ */}
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0, height: '2px',
-        background: `linear-gradient(90deg, transparent 0%, rgba(201,162,39,0.25) 15%, ${GOLD_LIGHT} 50%, rgba(201,162,39,0.25) 85%, transparent 100%)`,
+        background: 'linear-gradient(90deg, #080706 0%, transparent 100%)',
         boxShadow: `0 0 24px rgba(201,162,39,0.15)`,
       }} />
 
@@ -106,7 +107,7 @@ export default function GodLevelFooter() {
         <div style={{
           position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
           width: '80vw', height: '55vh',
-          background: 'radial-gradient(ellipse at top, rgba(201,162,39,0.14) 0%, transparent 60%)',
+          background: 'radial-gradient(ellipse at top, rgba(201,162,39,0.22) 0%, transparent 60%)',
           opacity: inView ? 1 : 0, transition: 'opacity 1400ms ease',
         }} />
         <div style={{
@@ -115,7 +116,7 @@ export default function GodLevelFooter() {
           filter: 'blur(18px)', animation: 'footerRaySway 14s ease-in-out infinite',
         }} />
         <div
-          style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden', opacity: 0.03, pointerEvents: 'none' }}
+          style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden', opacity: 0.05, pointerEvents: 'none' }}
           aria-hidden="true"
         >
           {Array.from({ length: 8 }).map((_, i) => (
@@ -130,7 +131,7 @@ export default function GodLevelFooter() {
         <div style={{
           position: 'absolute', inset: 0,
           backgroundImage: 'radial-gradient(rgba(201,162,39,0.14) 0.5px, transparent 0.5px)',
-          backgroundSize: '30px 30px', opacity: 0.1,
+          backgroundSize: '30px 30px', opacity: 0.05,
         }} />
       </div>
 
@@ -168,7 +169,7 @@ export default function GodLevelFooter() {
             </div>
             <span style={{
               fontFamily: 'var(--font-heading)', fontWeight: 900, fontSize: '1.6rem', letterSpacing: '0.4em', textTransform: 'uppercase',
-              background: `linear-gradient(135deg, #6b4a0a 0%, ${GOLD} 35%, ${GOLD_LIGHT} 58%, ${GOLD} 78%, #6b4a0a 100%)`,
+              background: 'linear-gradient(150deg, #080706 0%, #121110 50%, #080706 100%)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             }}>
               ASGARD
@@ -178,12 +179,12 @@ export default function GodLevelFooter() {
           {/* Sub-labels */}
           <p style={{
             fontFamily: 'var(--font-heading)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase',
-            color: GOLD_DARK, margin: '0.8rem 0 0',
+            color: GOLD_LIGHT, margin: '0.8rem 0 0',
           }}>
             Official Technical Society of JSSATEN
           </p>
           <p style={{
-            fontFamily: 'var(--font-body)', fontSize: '0.95rem', lineHeight: 1.6, color: BROWN,
+            fontFamily: 'var(--font-body)', fontSize: '0.95rem', lineHeight: 1.6, color: TEXT_SECONDARY,
             margin: '0.6rem auto 0', maxWidth: '360px',
           }}>
             Where builders rise. Where innovation becomes legacy.
@@ -223,12 +224,12 @@ export default function GodLevelFooter() {
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '0.25rem' }}>
               <span style={{
                 width: '30px', height: '30px', borderRadius: '50%',
-                border: '1px solid rgba(201,162,39,0.3)', background: 'rgba(255,255,255,0.65)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', color: GOLD_DARK, flexShrink: 0,
+                border: '1px solid rgba(201,162,39,0.3)', background: 'rgba(255,255,255,0.05)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', color: GOLD_LIGHT, flexShrink: 0,
               }}>
                 <MapPin size={12} />
               </span>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.82rem', color: BROWN, margin: 0, lineHeight: 1.5 }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.82rem', color: TEXT_SECONDARY, margin: 0, lineHeight: 1.5 }}>
                 JSS Academy of Technical Education,<br />
                 Sector 62, Noida, UP 201301
               </p>
@@ -251,11 +252,11 @@ export default function GodLevelFooter() {
               padding: '14px 16px',
               borderRadius: '12px',
               border: '1px solid rgba(201,162,39,0.2)',
-              background: 'linear-gradient(135deg, rgba(255,252,234,0.85), rgba(255,246,210,0.7))',
+              background: 'rgba(201,162,39,0.1)',
             }}>
               <p style={{
                 fontFamily: 'var(--font-heading)', fontSize: '0.82rem', fontStyle: 'italic',
-                color: '#7a5b10', margin: 0, lineHeight: 1.55,
+                color: GOLD_LIGHT, margin: 0, lineHeight: 1.55,
               }}>
                 &ldquo;The portal shall open soon.<br />Prepare your ascent.&rdquo;
               </p>
@@ -288,7 +289,7 @@ export default function GodLevelFooter() {
             background: 'rgba(255,255,255,0.4)',
           }}>
             {/* Map */}
-            <div style={{ position: 'relative', minHeight: '340px' }}>
+            <div style={{ position: 'relative', minHeight: '340px', filter: 'invert(90%) hue-rotate(180deg) brightness(1.2)' }}>
               <iframe
                 src={MAP_SRC}
                 width="100%"
@@ -304,7 +305,7 @@ export default function GodLevelFooter() {
             {/* Location info panel (beside map — proximity principle) */}
             <div style={{
               padding: '2.5rem 2rem',
-              background: 'linear-gradient(180deg, rgba(255,253,248,0.95), rgba(250,247,235,0.95))',
+              background: 'linear-gradient(180deg, rgba(15,15,15,0.95), rgba(10,10,10,0.95))',
               backdropFilter: 'blur(14px)',
               display: 'flex',
               flexDirection: 'column',
@@ -317,13 +318,13 @@ export default function GodLevelFooter() {
               <div>
                 <h3 style={{
                   fontFamily: 'var(--font-heading)', fontSize: '1.1rem', fontWeight: 700,
-                  letterSpacing: '0.08em', color: '#4a3a2a', margin: '0 0 0.5rem',
+                  letterSpacing: '0.08em', color: '#fff', margin: '0 0 0.5rem',
                   textTransform: 'uppercase',
                 }}>
                   JSS Academy of<br />Technical Education
                 </h3>
                 <p style={{
-                  fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: BROWN, margin: 0, lineHeight: 1.6,
+                  fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: TEXT_SECONDARY, margin: 0, lineHeight: 1.6,
                 }}>
                   Sector 62, Noida<br />
                   Uttar Pradesh 201301<br />
@@ -338,22 +339,22 @@ export default function GodLevelFooter() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                 <a href="mailto:contact@jssaten.ac.in" style={{
                   display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none',
-                  fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: BROWN, transition: 'color 200ms ease',
+                  fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: TEXT_SECONDARY, transition: 'color 200ms ease',
                 }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = GOLD_DARK; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = BROWN; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = GOLD_LIGHT; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = TEXT_SECONDARY; }}
                 >
-                  <Mail size={11} color={GOLD_DARK} />
+                  <Mail size={11} color={GOLD_LIGHT} />
                   contact@jssaten.ac.in
                 </a>
                 <a href="tel:+917061557021" style={{
                   display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none',
-                  fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: BROWN, transition: 'color 200ms ease',
+                  fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: TEXT_SECONDARY, transition: 'color 200ms ease',
                 }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = GOLD_DARK; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = BROWN; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = GOLD_LIGHT; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = TEXT_SECONDARY; }}
                 >
-                  <Phone size={11} color={GOLD_DARK} />
+                  <Phone size={11} color={GOLD_LIGHT} />
                   +91 70615 57021
                 </a>
               </div>
@@ -370,7 +371,7 @@ export default function GodLevelFooter() {
                   background: `linear-gradient(135deg, rgba(255,252,234,0.9), rgba(245,217,128,0.25))`,
                   fontFamily: 'var(--font-heading)', fontSize: '0.65rem', fontWeight: 700,
                   letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none',
-                  color: GOLD_DARK, transition: 'all 250ms ease',
+                  color: GOLD_LIGHT, transition: 'all 250ms ease',
                   boxShadow: '0 2px 12px rgba(201,162,39,0.1)',
                 }}
                 onMouseEnter={(e) => {
@@ -481,7 +482,7 @@ function FooterNavLink({ href, name }: { href: string; name: string }) {
         position: 'relative', display: 'inline-block',
         fontFamily: 'var(--font-heading)', fontSize: '0.78rem', letterSpacing: '0.18em',
         textTransform: 'uppercase', textDecoration: 'none',
-        color: hovered ? GOLD_DARK : BROWN,
+        color: hovered ? GOLD_LIGHT : TEXT_SECONDARY,
         transition: 'color 250ms ease', padding: '3px 0',
       }}
     >
@@ -512,16 +513,16 @@ function ContactLine({ href, icon, label }: { href: string; icon: React.ReactNod
       <span style={{
         width: '30px', height: '30px', borderRadius: '50%',
         border: '1px solid rgba(201,162,39,0.3)',
-        background: hovered ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.6)',
+        background: hovered ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.05)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        color: GOLD_DARK, transition: 'background 200ms ease, box-shadow 200ms ease',
+        color: GOLD_LIGHT, transition: 'background 200ms ease, box-shadow 200ms ease',
         boxShadow: hovered ? '0 0 16px rgba(201,162,39,0.3)' : 'none', flexShrink: 0,
       }}>
         {icon}
       </span>
       <span style={{
         fontFamily: 'var(--font-body)', fontSize: '0.82rem',
-        color: hovered ? GOLD_DARK : BROWN, transition: 'color 200ms ease',
+        color: hovered ? GOLD_LIGHT : TEXT_SECONDARY, transition: 'color 200ms ease',
       }}>
         {label}
       </span>
@@ -540,9 +541,9 @@ function SocialIcon({ href, label, icon }: { href: string; label: string; icon: 
       style={{
         width: '40px', height: '40px', borderRadius: '50%',
         border: `1px solid ${hovered ? 'rgba(201,162,39,0.6)' : 'rgba(201,162,39,0.3)'}`,
-        background: hovered ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.6)',
+        background: hovered ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.05)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        color: GOLD_DARK, textDecoration: 'none', backdropFilter: 'blur(6px)',
+        color: GOLD_LIGHT, textDecoration: 'none', backdropFilter: 'blur(6px)',
         transition: 'all 250ms ease',
         transform: hovered ? 'translateY(-3px)' : 'translateY(0)',
         boxShadow: hovered ? '0 4px 20px rgba(201,162,39,0.35)' : 'none',

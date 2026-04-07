@@ -5,6 +5,7 @@ import Navbar from './components/ui/Navbar';
 import Footer from './components/ui/Footer';
 import MarqueeStrip from './components/ui/MarqueeStrip';
 import AudioSystem from './components/ui/AudioSystem';
+import ShootingStars from './components/ui/ShootingStars';
 
 export const metadata: Metadata = {
   title: 'Asgard — Where Gods Build Legends',
@@ -25,6 +26,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <LenisProvider>
+          <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: -1 }}>
+            <ShootingStars />
+          </div>
           <AudioSystem />
           <Navbar />
           {children}

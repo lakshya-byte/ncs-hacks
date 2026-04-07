@@ -155,7 +155,7 @@ const TarotCard = React.forwardRef<
           style={{
             fontSize: 'clamp(0.75rem, 1.1vw, 1rem)',
             letterSpacing: '0.12em',
-            color: '#1A1008',
+            color: '#fff',
             fontWeight: 800,
             lineHeight: 1.25,
           }}
@@ -203,8 +203,10 @@ const TarotCard = React.forwardRef<
               WebkitBackfaceVisibility: 'hidden',
               borderRadius: '16px',
               background:
-                'linear-gradient(155deg, #fffcf3 0%, #faf4e1 45%, #f0e6c8 100%)',
+                'rgba(20,20,20,0.85)',
               boxShadow: cardShadow,
+              border: `1.5px solid ${winner.borderColor}`,
+              backdropFilter: 'blur(20px)',
               transition: 'box-shadow 0.45s ease',
             }}
           >
@@ -242,15 +244,15 @@ const TarotCard = React.forwardRef<
             <div className="relative mb-3 flex flex-col items-center">
               <div
                 className="absolute rounded-full blur-2xl"
-                style={{ inset: '-40%', background: winner.accentLight, opacity: 0.8 }}
+                style={{ inset: '-40%', background: winner.accent, opacity: 0.15 }}
               />
               <span
                 className="relative font-heading block"
                 style={{
                   fontSize: 'clamp(52px, 6vw, 72px)',
                   lineHeight: 1,
-                  color: winner.accent,
-                  filter: `drop-shadow(0 2px 12px ${winner.accentLight})`,
+                    color: winner.accentLight,
+                    filter: `drop-shadow(0 2px 20px ${winner.accent})`,
                 }}
               >
                 {winner.rune}
@@ -459,7 +461,8 @@ export default function WinnersSection() {
           width: '100%',
           overflow: 'hidden',
           background:
-            'linear-gradient(180deg, #FFFDF5 0%, #FDF8EC 50%, #FAF3DC 100%)',
+            'linear-gradient(180deg, rgba(8,7,6,0.2) 0%, rgba(13,12,11,0.4) 50%, rgba(8,7,6,0.2) 100%)',
+
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -502,7 +505,7 @@ export default function WinnersSection() {
               fontSize: `${2.5 + (i % 3)}rem`,
               left: `${(i * 157.3) % 85}%`,
               top: `${(i * 113.7) % 80}%`,
-              color: 'rgba(184,134,11,0.05)',
+              color: 'rgba(212,175,55,0.08)',
               transform: `rotate(${(i % 5 - 2) * 9}deg)`,
               zIndex: 0,
             }}
@@ -544,7 +547,7 @@ export default function WinnersSection() {
               fontSize: 'clamp(2.2rem, 5vw, 4rem)',
               letterSpacing: '0.1em',
               fontWeight: 900,
-              color: '#1A1008',
+              color: '#fff',
               lineHeight: 1.1,
               marginBottom: '1rem',
             }}
@@ -600,7 +603,7 @@ export default function WinnersSection() {
             className="font-body"
             style={{
               fontSize: 'clamp(0.82rem, 1.15vw, 1rem)',
-              color: '#6B5120',
+              color: 'rgba(255,255,255,0.7)',
               fontWeight: 500,
               lineHeight: 1.65,
               letterSpacing: '0.02em',

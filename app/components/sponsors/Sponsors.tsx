@@ -79,7 +79,7 @@ export default function GodLevelSponsors() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="w-full min-h-auto section-main bg-[radial-gradient(ellipse_at_bottom,rgba(255,236,187,0.3)_0%,rgba(252,250,244,1)_50%,#f5f1e7_100%)] relative overflow-hidden font-body text-slate-900">
+    <section ref={sectionRef} className="w-full min-h-auto section-main bg-[#080706] relative overflow-hidden font-body text-slate-300">
       
       {/* Global Background Ambience */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] opacity-10 pointer-events-none" />
@@ -90,7 +90,7 @@ export default function GodLevelSponsors() {
 
         {/* Header */}
         <div className="sp-reveal flex flex-col items-center text-center">
-          <h2 className="font-heading text-3xl md:text-5xl text-[#2f2616] tracking-[0.2em] uppercase drop-shadow-[0_2px_15px_rgba(212,175,55,0.1)]">
+          <h2 className="font-heading text-3xl md:text-5xl text-white tracking-[0.2em] uppercase drop-shadow-[0_2px_15px_rgba(212,175,55,0.2)]">
             Stairway of Sovereigns
           </h2>
         </div>
@@ -100,7 +100,7 @@ export default function GodLevelSponsors() {
           
           {/* LEFT: TITLE SPONSOR */}
           <div className="sp-reveal col-span-4 md:col-span-8 lg:col-span-7 flex h-full items-stretch">
-            <div className="flex w-full flex-col justify-between overflow-hidden rounded-3xl border border-[#d4af37]/45 bg-white/75 shadow-[0_30px_60px_-15px_rgba(235,213,165,0.4)] md:flex-row bg-linear-to-b md:bg-linear-to-r from-white/90 to-white/50 backdrop-blur-xl transition-[transform,box-shadow,border-color] duration-500 ease-out hover:scale-[1.02] hover:border-[#d4af37]/75 hover:shadow-[0_45px_75px_-20px_rgba(215,183,115,0.5)]">
+            <div className="flex w-full flex-col justify-between overflow-hidden rounded-3xl border border-[#d4af37]/30 bg-black/40 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] md:flex-row bg-linear-to-b md:bg-linear-to-r from-black/80 to-black/20 backdrop-blur-xl transition-[transform,box-shadow,border-color] duration-500 ease-out hover:scale-[1.02] hover:border-[#d4af37]/75 hover:shadow-[0_45px_75px_-20px_rgba(0,0,0,0.7)]">
               
               {/* Dynamic Arch Background */}
               <div className="absolute -top-[20%] left-1/2 -translate-x-1/2 w-[150%] max-w-[800px] aspect-square rounded-full border-t-2 border-[#D4AF37]/30 opacity-70 pointer-events-none group-hover:border-[#D4AF37]/50 transition-colors duration-700" />
@@ -122,7 +122,7 @@ export default function GodLevelSponsors() {
                     alt={SPONSORS_DATA.titleSponsor.name} 
                     fill
                     sizes="(max-width: 768px) 280px, 400px"
-                    className="object-contain opacity-90 drop-shadow-sm" 
+                    className="object-contain brightness-0 invert opacity-90 drop-shadow-sm" 
                   />
                 </div>
                 
@@ -131,11 +131,11 @@ export default function GodLevelSponsors() {
                 </h3>
                 
                 <div className="flex items-center gap-4 w-full max-w-md justify-center">
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 block h-16 bg-linear-to-t from-white/90 to-transparent md:hidden" />
-                  <p className="font-body text-[11px] md:text-xs tracking-[0.3em] text-[#5a4a36] uppercase whitespace-nowrap">
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 block h-16 bg-linear-to-t from-black/80 to-transparent md:hidden" />
+                  <p className="font-body text-[11px] md:text-xs tracking-[0.3em] text-[#D4AF37] uppercase whitespace-nowrap">
                     {SPONSORS_DATA.titleSponsor.desc}
                   </p>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-16 bg-linear-to-l from-white/90 to-transparent md:block" />
+                  <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-16 bg-linear-to-l from-black/80 to-transparent md:block" />
                 </div>
               </div>
             </div>
@@ -145,16 +145,16 @@ export default function GodLevelSponsors() {
           <div className="sp-reveal col-span-4 md:col-span-8 lg:col-span-5 flex h-full items-stretch">
             <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-6 md:gap-8 w-full h-full">
               {SPONSORS_DATA.goldLight.map((sp, i) => (
-                <div key={i} className="col-span-4 md:col-span-4 lg:col-span-6 flex flex-col justify-between items-center text-center p-6 rounded-xl bg-white/40 backdrop-blur-md border border-[#D4AF37]/20 hover:border-[#D4AF37]/50 shadow-sm transition-all duration-300 w-full h-full group">
+                <div key={i} className="col-span-4 md:col-span-4 lg:col-span-6 flex flex-col justify-between items-center text-center p-6 rounded-xl bg-white/5 backdrop-blur-md border border-[#D4AF37]/20 hover:border-[#D4AF37]/50 shadow-sm transition-all duration-300 w-full h-full group">
                   {/* IMAGE SAFE CONTAINER */}
                   <div className="relative h-[70px] w-full flex items-center justify-center mb-4 shrink-0">
-                    <Image src={sp.logoUrl} alt={sp.name} fill sizes="(max-width: 768px) 150px, 200px" className="object-contain opacity-80 transition-opacity text-transparent grayscale group-hover:grayscale-0" />
+                    <Image src={sp.logoUrl} alt={sp.name} fill sizes="(max-width: 768px) 150px, 200px" className="object-contain invert opacity-70 transition-opacity grayscale group-hover:grayscale-0 group-hover:opacity-100" />
                   </div>
-                  <div className="flex grow flex-col justify-center bg-white/40 p-10 md:w-2/3 lg:p-14">
+                  <div className="flex grow flex-col justify-center bg-black/20 p-10 md:w-2/3 lg:p-14">
                     <span className="mb-2 font-heading text-[10px] font-bold tracking-[0.1em] text-[#d4af37] uppercase">
                       {sp.name}
                     </span>
-                    <p className="font-body text-[10px] text-slate-500 leading-relaxed font-light">
+                    <p className="font-body text-[10px] text-slate-400 leading-relaxed font-light">
                       {sp.desc}
                     </p>
                   </div>
@@ -176,17 +176,17 @@ export default function GodLevelSponsors() {
           
           <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-6 md:gap-8 w-full items-stretch">
             {SPONSORS_DATA.goldDark.map((sp, i) => (
-              <div key={i} className="sp-reveal col-span-4 md:col-span-4 lg:col-span-4 relative flex flex-col justify-between items-center text-center p-8 rounded-xl bg-white/70 backdrop-blur-xl border border-[#D4AF37]/30 shadow-[0_10px_30px_rgba(212,175,55,0.05)] hover:border-[#D4AF37]/60 hover:-translate-y-1 transition-all duration-300 group w-full h-full">
+              <div key={i} className="sp-reveal col-span-4 md:col-span-4 lg:col-span-4 relative flex flex-col justify-between items-center text-center p-8 rounded-xl bg-white/10 backdrop-blur-xl border border-[#D4AF37]/30 shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:border-[#D4AF37]/60 hover:-translate-y-1 transition-all duration-300 group w-full h-full">
                 <GoldCardCorners />
                 {/* IMAGE SAFE CONTAINER */}
                 <div className="relative h-[80px] w-full flex items-center justify-center mb-6 shrink-0">
-                  <Image src={sp.logoUrl} alt={sp.name} fill sizes="(max-width: 768px) 150px, 200px" className="object-contain opacity-80" />
+                  <Image src={sp.logoUrl} alt={sp.name} fill sizes="(max-width: 768px) 150px, 200px" className="object-contain brightness-0 invert opacity-80" />
                 </div>
                 <div className="flex flex-col items-center justify-end flex-grow w-full">
-                  <h4 className="font-heading text-[13px] md:text-[14px] text-slate-900 tracking-[0.15em] mb-3 uppercase">
+                  <h4 className="font-heading text-[13px] md:text-[14px] text-white tracking-[0.15em] mb-3 uppercase">
                     {sp.name}
                   </h4>
-                  <p className="font-body text-[11px] md:text-[12px] text-slate-600 leading-relaxed font-light">
+                  <p className="font-body text-[11px] md:text-[12px] text-slate-400 leading-relaxed font-light">
                     {sp.desc}
                   </p>
                 </div>
@@ -206,8 +206,8 @@ export default function GodLevelSponsors() {
           
           <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-4 md:gap-6 w-full items-stretch">
             {SPONSORS_DATA.community.map((name, i) => (
-              <div key={i} className="sp-reveal col-span-2 md:col-span-2 lg:col-span-3 flex items-center justify-center p-4 min-h-[80px] rounded-lg bg-white/30 border-2 border-[#D4AF37]/45 hover:bg-white/60 hover:border-[#D4AF37]/70 shadow-[0_2px_12px_rgba(212,175,55,0.08)] hover:shadow-[0_4px_20px_rgba(212,175,55,0.18)] transition-all duration-300 cursor-default text-center group w-full h-full">
-                <span className="font-heading text-[10px] md:text-[11px] text-slate-600 group-hover:text-slate-900 tracking-[0.15em] uppercase transition-colors">
+              <div key={i} className="sp-reveal col-span-2 md:col-span-2 lg:col-span-3 flex items-center justify-center p-4 min-h-[80px] rounded-lg bg-white/5 border-2 border-[#D4AF37]/25 hover:bg-white/10 hover:border-[#D4AF37]/50 shadow-[0_2px_12px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.4)] transition-all duration-300 cursor-default text-center group w-full h-full">
+                <span className="font-heading text-[10px] md:text-[11px] text-slate-400 group-hover:text-white tracking-[0.15em] uppercase transition-colors">
                   {name}
                 </span>
               </div>

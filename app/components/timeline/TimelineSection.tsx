@@ -194,14 +194,21 @@ export default function TimelineSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[radial-gradient(ellipse_at_top,rgba(255,236,187,0.48)_0%,rgba(252,250,244,0.98)_42%,#f5f1e7_100%)] py-48 md:py-72"
+      id="timeline"
+      className="relative w-full overflow-hidden bg-transparent py-32 md:py-48"
     >
       {/* Soft Particles & Clouds from original background */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          background: 'radial-gradient(circle at 50% 50%, rgba(212,175,55,0.06) 0%, transparent 70%)',
+        }}
+      />
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
         {/* Deep ambient glow around the spine */}
         <div className="absolute left-1/2 top-0 h-full w-[420px] -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,rgba(255,223,154,0.38),rgba(255,223,154,0)_70%)]" />
 
-        {/* Dynamic Drifting Runes (Adapted for Light Theme) */}
+        {/* Dynamic Drifting Runes */}
         {[
           {
             char: "ᚨ",
@@ -251,7 +258,7 @@ export default function TimelineSection() {
         ].map((rune, i) => (
           <div
             key={`bg-rune-${i}`}
-            className="absolute font-accent text-[#9f6825] opacity-[0.06] blur-[2px]"
+            className="absolute font-norse text-[6rem] text-[#D4AF37]/5 pointer-events-none select-none md:text-[10rem]"
             style={{
               top: rune.top,
               left: rune.left,
@@ -263,20 +270,6 @@ export default function TimelineSection() {
           </div>
         ))}
 
-        {/* Light Theme Dense Fog Layers */}
-        <div
-          className="absolute -left-[16%] top-[10%] h-[45vh] w-[52vw] rounded-full bg-white/40 blur-[100px]"
-          style={{
-            animation: "fogDriftLeft 25s ease-in-out infinite alternate",
-          }}
-        />
-        <div
-          className="absolute -right-[14%] top-[35%] h-[48vh] w-[50vw] rounded-full bg-[#fff5db]/70 blur-[120px]"
-          style={{
-            animation: "fogDriftRight 30s ease-in-out infinite alternate",
-          }}
-        />
-
         {/* Cinematic Film Grain Overlay */}
         <div
           className="absolute inset-0 opacity-[0.03] mix-blend-overlay"
@@ -287,6 +280,14 @@ export default function TimelineSection() {
       </div>
 
       <div className="site-container relative z-10 mx-auto max-w-[1400px]">
+        <div className="flex flex-col items-center mb-20">
+            <span className="mb-4 font-heading text-xs font-bold uppercase tracking-[0.4em] text-[#D4AF37] md:text-sm">
+              The Path of Valor
+            </span>
+            <h2 className="text-center font-heading text-4xl font-black uppercase tracking-tight text-white md:text-7xl lg:text-8xl">
+              Event <span className="text-transparent" style={{ WebkitTextStroke: '1px rgba(212,175,55,0.4)' }}>Timeline</span>
+            </h2>
+        </div>
         {/* The Grid Setup */}
         <div className="relative grid grid-cols-[80px_1fr] gap-y-24 md:grid-cols-[1fr_120px_1fr] md:gap-y-40" style={{ paddingTop: 'clamp(4rem, 8vw, 6rem)', paddingBottom: 'clamp(4rem, 8vw, 6rem)' }}>
           <TimelineSpine ref={lavaRef} />

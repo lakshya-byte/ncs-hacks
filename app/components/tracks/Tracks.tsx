@@ -13,7 +13,7 @@ const tracks = [
     title: "AI / Machine Learning",
     description:
       "The All-Seeing Mind. Harness the omniscient power of artificial intelligence, akin to the watchful gaze of the divine. Forge algorithms that perceive the unseen and predict the future.",
-    bgGradient: "from-[#FAFAF8] to-[#F3F0E6]",
+    bgGradient: "from-[#0A0A0A] to-[#121212]",
     image: "/tracks/AIML.png",
   },
   {
@@ -21,7 +21,7 @@ const tracks = [
     title: "Web / Platforms",
     description:
       "Construct the digital realms of tomorrow. Build robust, scalable, and divine architectures that seamlessly connect the world through glowing networks.",
-    bgGradient: "from-[#FDFBF7] to-[#EAE6DB]",
+    bgGradient: "from-[#090909] to-[#141414]",
     image: "/tracks/WebDev.png",
   },
   {
@@ -29,7 +29,7 @@ const tracks = [
     title: "Blockchain",
     description:
       "Weave trust into the digital fabric. Create immutable decentralized systems and smart contracts that stand the test of time like ancient, unbreakable runes.",
-    bgGradient: "from-[#FAFAF8] to-[#F5F5F0]",
+    bgGradient: "from-[#080808] to-[#111111]",
     image: "/tracks/Blockchain.png",
   },
   {
@@ -37,7 +37,7 @@ const tracks = [
     title: "Open Innovation",
     description:
       "The Infinite Gate. For those whose visions transcend the specified realms. Craft the unforeseen and forge original paths through the uncharted territories of innovation.",
-    bgGradient: "from-[#FAFAF8] to-[#F1EDE2]",
+    bgGradient: "from-[#0A0A0A] to-[#131313]",
     image: "/tracks/OpenInnovation.png",
   },
 ];
@@ -125,22 +125,23 @@ export default function HackathonTracks() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[100dvh] w-full overflow-hidden bg-[#FAFAF8]"
+      className="relative h-[100dvh] w-full overflow-hidden bg-[#080706]"
     >
       {/* Background Gradients crossfade */}
       <div className="absolute inset-0 w-full h-full">
         {tracks.map((track, idx) => (
           <div
             key={`bg-${idx}`}
-            className={`absolute inset-0 w-full h-full bg-gradient-to-br ${track.bgGradient} transition-opacity duration-1000 ease-in-out ${
+            className={`absolute inset-0 w-full h-full bg-gradient-to-br from-black/20 to-black/40 transition-opacity duration-1000 ease-in-out ${
               idx === activeIndex ? "opacity-100" : "opacity-0"
             }`}
+
           />
         ))}
       </div>
 
       {/* Atmospheric system: gradient motion, clouds, rays, particles */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_16%,rgba(255,247,220,0.6)_0%,rgba(255,255,255,0)_58%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_16%,rgba(212,175,55,0.08)_0%,rgba(8,7,6,0)_58%)] pointer-events-none" />
 
       <div
         ref={gradientMotionLayerRef}
@@ -156,7 +157,7 @@ export default function HackathonTracks() {
         {cloudFields.map((cloud, idx) => (
           <div
             key={`cloud-${idx}`}
-            className="absolute -left-[18%] h-[20%] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.24)_0%,rgba(255,248,230,0.08)_48%,rgba(255,255,255,0)_100%)]"
+            className="absolute -left-[18%] h-[20%] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,rgba(255,248,230,0.03)_48%,rgba(0,0,0,0)_100%)]"
             style={{
               top: cloud.top,
               width: cloud.width,
@@ -177,7 +178,7 @@ export default function HackathonTracks() {
         {lightRays.map((ray, idx) => (
           <div
             key={`ray-${idx}`}
-            className="absolute top-[-42%] h-[180%] rounded-[999px] bg-[linear-gradient(180deg,rgba(255,241,195,0)_0%,rgba(223,187,92,0.16)_40%,rgba(255,241,195,0.02)_72%,rgba(255,241,195,0)_100%)]"
+            className="absolute top-[-42%] h-[180%] rounded-[999px] bg-[linear-gradient(180deg,rgba(0,0,0,0)_0%,rgba(212,175,55,0.12)_40%,rgba(0,0,0,0.01)_72%,rgba(0,0,0,0)_100%)]"
             style={{
               left: ray.left,
               width: ray.width,
@@ -268,7 +269,7 @@ export default function HackathonTracks() {
                 {active.title}
               </h2>
 
-              <p className="mt-4 md:mt-7 mx-auto md:mx-0 font-body text-sm md:text-base leading-relaxed text-slate-500 max-w-sm font-light tracking-wide transition-all duration-700 px-4 md:px-0">
+              <p className="mt-4 md:mt-7 mx-auto md:mx-0 font-body text-sm md:text-base leading-relaxed text-slate-400 max-w-sm font-light tracking-wide transition-all duration-700 px-4 md:px-0">
                 {active.description}
               </p>
             </div>
@@ -289,7 +290,7 @@ export default function HackathonTracks() {
                             : "opacity-0 scale-95 blur-xl -rotate-2"
                       }`}
                     >
-                      <div className="w-full h-full rounded-[2.5rem] border border-[#FFD700]/30 bg-gradient-to-br from-white/60 to-white/10 backdrop-blur-xl shadow-[0_20px_70px_rgba(212,175,55,0.15)] flex items-center justify-center relative overflow-hidden">
+                      <div className="w-full h-full rounded-[2.5rem] border border-[#FFD700]/20 bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-xl shadow-[0_20px_70px_rgba(0,0,0,0.5)] flex items-center justify-center relative overflow-hidden">
                         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,215,0,0.2),transparent_60%)] pointer-events-none" />
                         <div className="absolute inset-5 md:inset-6 rounded-4xl shadow-[0_0_50px_rgba(255,215,0,0.25)] ring-1 ring-[#FFD700]/20">
                           <div className="absolute inset-0 rounded-4xl p-[4px] md:p-[6px] overflow-hidden flex items-center justify-center">

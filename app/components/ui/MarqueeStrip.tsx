@@ -84,7 +84,7 @@ export default function MarqueeStrip() {
         width: '100%',
         minHeight: '260px',
         overflow: 'hidden',
-        background: 'linear-gradient(150deg, #1a0f02 0%, #2a1a04 25%, #321f06 50%, #2a1a04 75%, #1a0f02 100%)',
+        background: 'linear-gradient(150deg, #080706 0%, #121110 50%, #080706 100%)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'stretch',
@@ -361,7 +361,7 @@ export default function MarqueeStrip() {
         position: 'absolute',
         top: 0, left: 0, bottom: 0,
         width: '140px',
-        background: 'linear-gradient(90deg, #1a0f02 0%, transparent 100%)',
+        background: 'linear-gradient(90deg, #080706 0%, transparent 100%)',
         pointerEvents: 'none',
         zIndex: 5,
       }} />
@@ -369,7 +369,7 @@ export default function MarqueeStrip() {
         position: 'absolute',
         top: 0, right: 0, bottom: 0,
         width: '140px',
-        background: 'linear-gradient(270deg, #1a0f02 0%, transparent 100%)',
+        background: 'linear-gradient(270deg, #080706 0%, transparent 100%)',
         pointerEvents: 'none',
         zIndex: 5,
       }} />

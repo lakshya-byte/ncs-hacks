@@ -29,13 +29,17 @@ const CallToAction = dynamic(() => import("./components/CTA/CallToAction"), { ss
 
 const Mascot = dynamic(() => import("./components/mascot/Mascot"), { ssr: false });
 
+
+
 export default function Home() {
   return (
     <>
+
       {/* ================= HERO (CINEMATIC ENTRY) ================= */}
-      <section id="hero" className="relative">
+      <section id="hero" className="relative z-30 bg-transparent">
+
         <div id="scroll-container" className="relative h-[900vh] w-full">
-          <div className="sticky top-0 left-0 w-full h-[100dvh] overflow-hidden bg-black">
+          <div className="sticky top-0 left-0 w-full h-[100dvh] overflow-hidden bg-transparent">
             <AsgardCanvas />
             <CinematicOverlay />
             <ParticleOverlay />
@@ -43,48 +47,58 @@ export default function Home() {
         </div>
       </section>
 
+
       {/* ================= MAIN EXPERIENCE ================= */}
-      <main className="relative z-20 bg-[#f5f0e6]">
+      <main className="relative z-20">
+
+
 
         {/* 🧭 ANNOUNCEMENT / SOCIAL PROOF */}
-        <section id="announcement" className="py-32">
+        <section id="announcement" className="py-32 bg-transparent">
           <PhotoStream />
         </section>
 
+
         {/* 🏛️ KINGDOM / ABOUT — sticky scroll story, no outer padding needed */}
-        <section id="kingdom">
+        <section id="kingdom" className="relative z-10 bg-transparent">
           <AboutNibble />
         </section>
 
+
         {/* 🌍 TRACKS */}
-        <section id="tracks" className="py-40">
+        <section id="tracks" className="py-40 bg-transparent">
           <HackathonTracks />
         </section>
 
+
         {/* 🧭 TIMELINE */}
-        <section id="timeline" className="py-40">
+        <section id="timeline" className="py-40 bg-transparent">
           <TimelineSection />
         </section>
 
+
         {/* 🏆 WINNERS (DIVINE TREASURES) */}
-        <section id="winners" className="py-48 relative">
+        <section id="winners" className="py-48 relative bg-transparent">
           {/* Optional divider glow */}
-          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-transparent via-[#e8dcc3]/40 to-transparent pointer-events-none" />
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-transparent via-[#D4AF37]/10 to-transparent pointer-events-none" />
           <WinnersSection />
         </section>
 
+
         {/* 📜 FAQ (DIVINE KNOWLEDGE) */}
-        <section id="faq" className="py-40 relative">
+        <section id="faq" className="py-40 relative bg-transparent">
           {/* separation from winners */}
-          <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-transparent via-[#e8dcc3]/30 to-transparent pointer-events-none" />
+          <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-transparent via-[#D4AF37]/5 to-transparent pointer-events-none" />
           <FAQSection />
         </section>
 
+
         {/* 🤝 SPONSORS */}
-        <section id="sponsors" className="pt-4 pb-4">
+        <section id="sponsors" className="pt-4 pb-4 bg-transparent">
           <div id="team" />
           <Sponsors />
         </section>
+
 
         {/* 🚀 CTA (ASCENSION MOMENT) */}
         <CallToAction />
