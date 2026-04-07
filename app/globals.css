@@ -3,29 +3,15 @@
 /* ══════════════════════════════════════════════════════════
    LOCAL NORSE FONTS  (public/norse/)
 ══════════════════════════════════════════════════════════ */
-@font-face {
-  font-family: 'Norse';
-  src: url('/norse/Norse-KaWl.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Norse';
-  src: url('/norse/NorseBold-2Kge.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
+/* Norse fonts removed in favor of Cinzel/Inter */
 
 /* ══════════════════════════════════════════════════════════
    TAILWIND THEME TOKENS
 ══════════════════════════════════════════════════════════ */
 @theme {
-  --font-heading: 'Norse', serif;
-  --font-body:    'Norse', serif;
-  --font-accent:  'Norse', serif;
+  --font-heading: var(--font-cinzel), serif;
+  --font-body:    var(--font-inter), sans-serif;
+  --font-accent:  var(--font-cinzel), serif;
 }
 
 @layer base {
@@ -92,14 +78,10 @@
   --text-primary:     #f5f5f5;
   --text-secondary:   rgba(255,255,255,0.7);
 
-  /* ── TYPOGRAPHY ─────────────────────────────────────────
-     All text uses the local Norse OTF family.
-     400 = Norse.otf  |  700 = Norsebold.otf
-  ────────────────────────────────────────────────────── */
-  --font-norse:       'Norse', serif;
-  --font-heading:     var(--font-norse);
-  --font-body:        var(--font-norse);
-  --font-accent:      var(--font-norse);
+  /* ── TYPOGRAPHY ───────────────────────────────────────── (Cinzel / Inter) ── */
+  --font-heading:     var(--font-cinzel), serif;
+  --font-body:        var(--font-inter), sans-serif;
+  --font-accent:      var(--font-cinzel), serif;
 
   color-scheme:       dark;
 

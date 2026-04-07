@@ -178,7 +178,7 @@ export default function GodLevelFooter() {
 
           {/* Sub-labels */}
           <p style={{
-            fontFamily: 'var(--font-heading)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase',
+            fontFamily: 'var(--font-body)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase',
             color: GOLD_LIGHT, margin: '0.8rem 0 0',
           }}>
             Official Technical Society of JSSATEN
@@ -369,8 +369,8 @@ export default function GodLevelFooter() {
                   padding: '10px 20px', borderRadius: '10px',
                   border: `1px solid rgba(201,162,39,0.4)`,
                   background: `linear-gradient(135deg, rgba(255,252,234,0.9), rgba(245,217,128,0.25))`,
-                  fontFamily: 'var(--font-heading)', fontSize: '0.65rem', fontWeight: 700,
-                  letterSpacing: '0.2em', textTransform: 'uppercase', textDecoration: 'none',
+                  fontFamily: 'var(--font-body)', fontSize: '0.72rem', fontWeight: 800,
+                  letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none',
                   color: GOLD_LIGHT, transition: 'all 250ms ease',
                   boxShadow: '0 2px 12px rgba(201,162,39,0.1)',
                 }}
@@ -480,7 +480,7 @@ function FooterNavLink({ href, name }: { href: string; name: string }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         position: 'relative', display: 'inline-block',
-        fontFamily: 'var(--font-heading)', fontSize: '0.78rem', letterSpacing: '0.18em',
+        fontFamily: 'var(--font-body)', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.1em',
         textTransform: 'uppercase', textDecoration: 'none',
         color: hovered ? GOLD_LIGHT : TEXT_SECONDARY,
         transition: 'color 250ms ease', padding: '3px 0',

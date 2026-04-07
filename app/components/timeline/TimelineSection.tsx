@@ -258,7 +258,7 @@ export default function TimelineSection() {
         ].map((rune, i) => (
           <div
             key={`bg-rune-${i}`}
-            className="absolute font-norse text-[6rem] text-[#D4AF37]/5 pointer-events-none select-none md:text-[10rem]"
+            className="absolute font-heading text-[6rem] text-[#D4AF37]/5 pointer-events-none select-none md:text-[10rem]"
             style={{
               top: rune.top,
               left: rune.left,

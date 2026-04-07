@@ -223,7 +223,7 @@ export default function Navbar() {
                     href={link.href}
                     className="
                       group relative inline-block
-                      font-heading text-[0.68rem] font-medium tracking-[0.2em] uppercase no-underline
+                      font-body text-[0.7rem] font-bold tracking-[0.1em] uppercase no-underline
                       text-[#3d2600] transition-[color,transform,text-shadow] duration-300 ease-out
                       hover:text-[#9a6f10] hover:-translate-y-0.5
                       hover:[text-shadow:0_0_16px_rgba(201,162,39,0.55),0_0_32px_rgba(201,162,39,0.2)]
@@ -371,10 +371,10 @@ export default function Navbar() {
 
                 {/* Label */}
                 <span
-                  className="relative z-[2] font-heading font-bold uppercase"
+                  className="relative z-[2] font-body font-bold uppercase"
                   style={{
-                    fontSize: '0.63rem',
-                    letterSpacing: '0.2em',
+                    fontSize: '0.68rem',
+                    letterSpacing: '0.12em',
                     color: ctaHovered ? 'rgba(45,20,0,0.95)' : '#fff',
                     textShadow: ctaHovered ? 'none' : '0 1px 8px rgba(0,0,0,0.45)',
                     transition: 'color 300ms ease, text-shadow 300ms ease',
@@ -644,10 +644,10 @@ export default function Navbar() {
                       justifyContent: 'center',
                       gap: '12px',
                       padding: '1rem 2.5rem',
-                      fontFamily: 'var(--font-heading)',
-                      fontSize: '1.3rem',
-                      fontWeight: 700,
-                      letterSpacing: '0.25em',
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '1.25rem',
+                      fontWeight: 800,
+                      letterSpacing: '0.15em',
                       textTransform: 'uppercase',
                       textDecoration: 'none',
                       color: 'rgba(245,217,128,0.85)',

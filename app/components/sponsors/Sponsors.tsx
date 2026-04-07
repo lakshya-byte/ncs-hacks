@@ -126,7 +126,7 @@ export default function GodLevelSponsors() {
                   />
                 </div>
                 
-                <h3 className="font-heading text-3xl md:text-4xl text-[#B8860B] tracking-[0.15em] mb-4 text-center uppercase">
+                <h3 className="font-heading text-3xl md:text-4xl text-[#B8860B] tracking-[0.1em] mb-4 text-center uppercase">
                   {SPONSORS_DATA.titleSponsor.name}
                 </h3>
                 
@@ -151,7 +151,7 @@ export default function GodLevelSponsors() {
                     <Image src={sp.logoUrl} alt={sp.name} fill sizes="(max-width: 768px) 150px, 200px" className="object-contain invert opacity-70 transition-opacity grayscale group-hover:grayscale-0 group-hover:opacity-100" />
                   </div>
                   <div className="flex grow flex-col justify-center bg-black/20 p-10 md:w-2/3 lg:p-14">
-                    <span className="mb-2 font-heading text-[10px] font-bold tracking-[0.1em] text-[#d4af37] uppercase">
+                    <span className="mb-2 font-body text-[0.8rem] font-bold tracking-[0.05em] text-[#d4af37] uppercase">
                       {sp.name}
                     </span>
                     <p className="font-body text-[10px] text-slate-400 leading-relaxed font-light">
@@ -183,7 +183,7 @@ export default function GodLevelSponsors() {
                   <Image src={sp.logoUrl} alt={sp.name} fill sizes="(max-width: 768px) 150px, 200px" className="object-contain brightness-0 invert opacity-80" />
                 </div>
                 <div className="flex flex-col items-center justify-end flex-grow w-full">
-                  <h4 className="font-heading text-[13px] md:text-[14px] text-white tracking-[0.15em] mb-3 uppercase">
+                  <h4 className="font-body text-[0.85rem] md:text-[0.95rem] text-white tracking-[0.08em] mb-3 uppercase font-extrabold">
                     {sp.name}
                   </h4>
                   <p className="font-body text-[11px] md:text-[12px] text-slate-400 leading-relaxed font-light">
@@ -207,7 +207,7 @@ export default function GodLevelSponsors() {
           <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-4 md:gap-6 w-full items-stretch">
             {SPONSORS_DATA.community.map((name, i) => (
               <div key={i} className="sp-reveal col-span-2 md:col-span-2 lg:col-span-3 flex items-center justify-center p-4 min-h-[80px] rounded-lg bg-white/5 border-2 border-[#D4AF37]/25 hover:bg-white/10 hover:border-[#D4AF37]/50 shadow-[0_2px_12px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.4)] transition-all duration-300 cursor-default text-center group w-full h-full">
-                <span className="font-heading text-[10px] md:text-[11px] text-slate-400 group-hover:text-white tracking-[0.15em] uppercase transition-colors">
+                <span className="font-body text-[0.7rem] md:text-[0.75rem] text-slate-400 group-hover:text-white tracking-[0.05em] uppercase font-bold transition-colors">
                   {name}
                 </span>
               </div>
