@@ -45,7 +45,6 @@ export default function CallToAction() {
 
   /* ── Ripple on click ── */
   const handleClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -279,7 +278,9 @@ export default function CallToAction() {
         <div style={appear(520)}>
           <a
             ref={buttonRef}
-            href="#register"
+            href="https://inout2026.devfolio.co/overview"
+            target="_blank"
+            rel="noopener noreferrer"
             id="cta-ascend-btn"
             onClick={handleClick}
             onMouseEnter={() => setBtnHover(true)}

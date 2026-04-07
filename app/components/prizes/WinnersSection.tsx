@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+
+
 gsap.registerPlugin(ScrollTrigger);
 
 // ── Particle sizes — deterministic, never Math.random() in render ─────────────
@@ -19,7 +21,7 @@ const WINNERS = [
     subtitle: 'Grand Champion • AI Track',
     rune: 'ᚠ',
     image: '/winners/AI.png',
-    prize: '₹1,00,000',
+    prize: '',
     accent: '#B8860B',
     accentLight: '#FFF3C4',
     borderColor: 'rgba(184,134,11,0.45)',
@@ -33,7 +35,7 @@ const WINNERS = [
     subtitle: 'Grand Champion • Web Track',
     rune: 'ᚹ',
     image: '/winners/web.png',
-    prize: '₹75,000',
+    prize: '',
     accent: '#1C5FAE',
     accentLight: '#DDEEFF',
     borderColor: 'rgba(28,95,174,0.4)',
@@ -47,7 +49,7 @@ const WINNERS = [
     subtitle: 'Grand Champion • Blockchain Track',
     rune: 'ᛟ',
     image: '/winners/blockchain.png',
-    prize: '₹75,000',
+    prize: '',
     accent: '#6B21A8',
     accentLight: '#F3E8FF',
     borderColor: 'rgba(107,33,168,0.35)',
@@ -61,7 +63,7 @@ const WINNERS = [
     subtitle: 'Grand Champion • Open Innovation',
     rune: 'ᚷ',
     image: '/winners/open_innovation.png',
-    prize: '₹50,000',
+    prize: '',
     accent: '#9A3412',
     accentLight: '#FEE2CC',
     borderColor: 'rgba(154,52,18,0.4)',
