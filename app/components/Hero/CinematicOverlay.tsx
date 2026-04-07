@@ -170,10 +170,10 @@ export default function CinematicOverlay() {
         >
           Enter the Realm
         </h1>
-        <div className="flex items-center gap-4 text-[rgba(255,255,255,0.55)] text-[0.85rem] tracking-[0.3em] uppercase font-heading">
-          <span className="inline-block w-10 h-px bg-current" />
+        <div className="flex items-center gap-5 text-[rgba(255,255,255,0.85)] text-[24px] tracking-[0.35em] uppercase font-heading font-extrabold">
+          <span className="inline-block w-12 h-[2.5px] bg-[#c9a227] shadow-[0_0_10px_rgba(201,162,39,0.6)]" />
           Scroll to pass through
-          <span className="inline-block w-10 h-px bg-current" />
+          <span className="inline-block w-12 h-[2.5px] bg-[#c9a227] shadow-[0_0_10px_rgba(201,162,39,0.6)]" />
         </div>
       </div>
 
@@ -228,7 +228,7 @@ function ScrollIndicator() {
       className="absolute bottom-[6%] left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[rgba(255,255,255,0.45)] text-[0.7rem] tracking-[0.3em] uppercase font-heading"
     >
       <div
-        className="w-px h-10 [animation:scrollPulse_2s_ease-in-out_infinite] bg-[linear-gradient(to_bottom,rgba(201,162,39,0.8),transparent)]"
+        className="w-[2.5px] h-12 [animation:scrollPulse_2s_ease-in-out_infinite] bg-[linear-gradient(to_bottom,rgba(201,162,39,1),transparent)] shadow-[0_0_12px_rgba(201,162,39,0.8)]"
       />
       Scroll
     </div>
