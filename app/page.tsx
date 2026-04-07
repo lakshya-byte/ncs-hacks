@@ -80,7 +80,7 @@ export default function Home() {
         {/* 🏆 WINNERS (DIVINE TREASURES) */}
         <section id="winners" className="py-48 relative bg-transparent">
           {/* Optional divider glow */}
-          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-transparent via-[#D4AF37]/10 to-transparent pointer-events-none" />
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-transparent via-[#C9A84C]/10 to-transparent pointer-events-none" />
           <WinnersSection />
         </section>
 
@@ -88,7 +88,7 @@ export default function Home() {
         {/* 📜 FAQ (DIVINE KNOWLEDGE) */}
         <section id="faq" className="py-40 relative bg-transparent">
           {/* separation from winners */}
-          <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-transparent via-[#D4AF37]/5 to-transparent pointer-events-none" />
+          <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-transparent via-[#C9A84C]/5 to-transparent pointer-events-none" />
           <FAQSection />
         </section>
 

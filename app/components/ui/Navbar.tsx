@@ -106,7 +106,8 @@ export default function Navbar() {
   }, []);
 
   // JS-computed dynamic values (cannot be static Tailwind)
-  const glassOpacity = 0.18 + scrollProgress * 0.42;
+  // Reduced transparency: Higher base and max values
+  const glassOpacity = 0.8; // Requested 80% opacity
   const blurAmount = 18 + scrollProgress * 14;
   const marginTop = scrolled ? 10 : 20;
   const sweepX = mouseX * 130 - 15;
@@ -132,31 +133,25 @@ export default function Navbar() {
             style={{
               top: '-8px',
               bottom: '-8px',
-              background: 'radial-gradient(ellipse at 50% 50%, rgba(201,162,39,0.08) 0%, transparent 70%)',
+              background: 'radial-gradient(ellipse at 50% 50%, rgba(201, 168, 76,0.08) 0%, transparent 70%)',
             }}
           />
 
           {/* ── MAIN GLASS PANEL (Layer 1) ── */}
           <div
-            className="relative flex items-center justify-between rounded-[72px] border border-[rgba(201,162,39,0.28)] overflow-hidden transition-[padding,background,box-shadow,backdrop-filter] duration-500"
+            className="relative flex items-center justify-between rounded-[72px] border border-white/15 overflow-hidden transition-[padding,background,box-shadow,backdrop-filter] duration-500"
             style={{
-              padding: `${scrolled ? 13 : 17}px 40px`,
-              background: `rgba(255, 250, 235, ${glassOpacity})`,
+              padding: `${scrolled ? 18 : 22}px 40px`,
+              background: `rgba(4, 4, 4, ${glassOpacity})`,
               backdropFilter: `blur(${blurAmount}px) saturate(160%)`,
               WebkitBackdropFilter: `blur(${blurAmount}px) saturate(160%)`,
               boxShadow: `
                 0 ${8 + scrollProgress * 16}px ${32 + scrollProgress * 32}px rgba(0,0,0,${0.04 + scrollProgress * 0.08}),
-                0 2px 8px rgba(201,162,39,${0.06 + scrollProgress * 0.1}),
-                inset 0 1px 0 rgba(255,255,255,0.8),
-                inset 0 -1px 0 rgba(201,162,39,0.12)
+                0 2px 8px rgba(201, 168, 76,${0.06 + scrollProgress * 0.1}),
+                inset 0 -1px 0 rgba(201, 168, 76, 0.12)
               `,
             }}
           >
-            {/* ── INNER HIGHLIGHT (top edge) ── */}
-            <div
-              className="absolute top-0 left-0 right-0 h-1/2 rounded-t-[72px] pointer-events-none"
-              style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 100%)' }}
-            />
 
             {/* ── MOUSE LIGHT SWEEP ── */}
             <div
@@ -180,20 +175,22 @@ export default function Navbar() {
             <div
               className="absolute bottom-0 left-[10%] right-[10%] h-px pointer-events-none"
               style={{
-                background: 'linear-gradient(90deg, transparent, rgba(201,162,39,0.5) 30%, rgba(249,212,76,0.8) 50%, rgba(201,162,39,0.5) 70%, transparent)',
-                boxShadow: '0 2px 12px rgba(201,162,39,0.3)',
+                background: 'linear-gradient(90deg, transparent, rgba(201, 168, 76,0.5) 30%, rgba(249,212,76,0.8) 50%, rgba(201, 168, 76,0.5) 70%, transparent)',
+                boxShadow: '0 2px 12px rgba(201, 168, 76,0.3)',
               }}
             />
 
             {/* ═══════════════ LOGO ═══════════════ */}
-            <div className="flex-1 flex justify-start relative z-[2]">
+            <div 
+              className={`flex-1 flex justify-start relative z-[2] transition-opacity duration-300 ${menuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+            >
               <Link href="/" className="flex items-center gap-[10px] no-underline">
               {/* Gold rune orb */}
               <div
                 className="w-7 h-7 rounded-full flex items-center justify-center text-[0.85rem] font-heading shrink-0"
                 style={{
-                  background: 'radial-gradient(circle at 35% 35%, #f5d980, #c9a227 50%, #7a5210)',
-                  boxShadow: '0 0 12px rgba(201,162,39,0.5), 0 2px 6px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.4)',
+                  background: 'radial-gradient(circle at 35% 35%, #F5E0A3, #C9A84C 50%, #8F722E)',
+                  boxShadow: '0 0 12px rgba(201, 168, 76,0.5), 0 2px 6px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.4)',
                   color: 'rgba(80,40,0,0.8)',
                 }}
               >
@@ -201,13 +198,13 @@ export default function Navbar() {
               </div>
               {/* Wordmark */}
               <span
-                className="font-heading font-black text-[1.1rem] tracking-[0.35em] uppercase"
+                className="font-heading font-black text-[1rem] tracking-[0.35em] uppercase"
                 style={{
-                  background: 'linear-gradient(135deg, #6b4a0a 0%, #c9a227 30%, #f5d980 55%, #dfb430 75%, #8a5d0e 100%)',
+                  background: 'linear-gradient(135deg, #6b4a0a 0%, #C9A84C 30%, #F5E0A3 55%, #dfb430 75%, #8a5d0e 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
-                  filter: 'drop-shadow(0 1px 6px rgba(201,162,39,0.3))',
+                  filter: 'drop-shadow(0 1px 6px rgba(201, 168, 76,0.3))',
                 }}
               >
                 ASGARD
@@ -223,21 +220,21 @@ export default function Navbar() {
                     href={link.href}
                     className="
                       group relative inline-block
-                      font-body text-[0.7rem] font-bold tracking-[0.1em] uppercase no-underline
-                      text-[#3d2600] transition-[color,transform,text-shadow] duration-300 ease-out
-                      hover:text-[#9a6f10] hover:-translate-y-0.5
-                      hover:[text-shadow:0_0_16px_rgba(201,162,39,0.55),0_0_32px_rgba(201,162,39,0.2)]
+                      font-body text-[0.875rem] font-bold tracking-widest uppercase no-underline
+                      text-white/90 transition-[color,transform,text-shadow] duration-300 ease-out
+                      hover:text-[#F5E0A3] hover:-translate-y-0.5
+                      hover:[text-shadow:0_0_16px_rgba(201, 168, 76,0.55),0_0_32px_rgba(201, 168, 76,0.2)]
                       py-1
                     "
                   >
                     {link.name}
                     {/* Hover glow bg */}
-                    <span className="absolute -inset-x-3 -inset-y-1.5 rounded-lg bg-[radial-gradient(ellipse_at_center,rgba(201,162,39,0.12)_0%,transparent_70%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" />
+                    <span className="absolute -inset-x-3 -inset-y-1.5 rounded-lg bg-[radial-gradient(ellipse_at_center,rgba(201, 168, 76,0.12)_0%,transparent_70%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" />
                     {/* Underline */}
                     <span
                       className="absolute -bottom-px left-1/2 -translate-x-1/2 h-px w-0 transition-[width] duration-[450ms] [transition-timing-function:cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:w-full pointer-events-none"
                       style={{
-                        background: 'linear-gradient(90deg, transparent, #c9a227 40%, #f5d980 50%, #c9a227 60%, transparent)',
+                        background: 'linear-gradient(90deg, transparent, #C9A84C 40%, #F5E0A3 50%, #C9A84C 60%, transparent)',
                         boxShadow: '0 0 8px rgba(249,212,76,0.7)',
                       }}
                     />
@@ -276,7 +273,7 @@ export default function Navbar() {
                   style={{
                     inset: '-12px',
                     borderRadius: '60px',
-                    background: 'radial-gradient(ellipse at center, rgba(201,162,39,0.32) 0%, transparent 70%)',
+                    background: 'radial-gradient(ellipse at center, rgba(201, 168, 76,0.32) 0%, transparent 70%)',
                     filter: 'blur(10px)',
                     animation: 'goldPulse 3s ease-in-out infinite',
                     opacity: ctaHovered ? 1 : 0.6,
@@ -289,7 +286,7 @@ export default function Navbar() {
                   className="absolute inset-0 rounded-[50px] pointer-events-none"
                   style={{
                     padding: '1.5px',
-                    background: 'conic-gradient(from 0deg, #7a5010 0%, #f5d980 20%, #c9a227 40%, #f8d44c 60%, #8a5e0a 80%, #f5d980 90%, #7a5010 100%)',
+                    background: 'conic-gradient(from 0deg, #7a5010 0%, #F5E0A3 20%, #C9A84C 40%, #F5E0A3 60%, #8a5e0a 80%, #F5E0A3 90%, #7a5010 100%)',
                     WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
                     WebkitMaskComposite: 'xor',
                     maskComposite: 'exclude',
@@ -304,12 +301,12 @@ export default function Navbar() {
                   className="absolute inset-[1.5px] rounded-[48px] pointer-events-none"
                   style={{
                     background: ctaHovered
-                      ? 'linear-gradient(135deg, #f0c840 0%, #f5d980 30%, #fce97a 55%, #d4a820 80%, #f5d980 100%)'
-                      : 'linear-gradient(135deg, #5c3a08 0%, #9a7220 25%, #c9a227 45%, #e8c040 60%, #a07820 80%, #5c3a08 100%)',
+                      ? 'linear-gradient(135deg, #F5E0A3 0%, #F5E0A3 30%, #fce97a 55%, #d4a820 80%, #F5E0A3 100%)'
+                      : 'linear-gradient(135deg, #8F722E 0%, #9a7220 25%, #C9A84C 45%, #e8c040 60%, #a07820 80%, #8F722E 100%)',
                     transition: 'background 400ms ease',
                     boxShadow: ctaHovered
-                      ? 'inset 0 1px 0 rgba(255,255,255,0.65), inset 0 -2px 0 rgba(80,40,0,0.35)'
-                      : 'inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -2px 0 rgba(0,0,0,0.32)',
+                      ? 'inset 0 -2px 0 rgba(80,40,0,0.35)'
+                      : 'inset 0 -2px 0 rgba(0,0,0,0.32)',
                   }}
                 />
 
@@ -318,20 +315,12 @@ export default function Navbar() {
                   className="absolute inset-0 rounded-[50px] pointer-events-none"
                   style={{
                     boxShadow: ctaHovered
-                      ? '0 0 0 1.5px rgba(245,217,128,0.9), 0 0 20px rgba(249,212,76,0.8), 0 0 55px rgba(201,162,39,0.45), 0 8px 28px rgba(0,0,0,0.25)'
-                      : '0 0 0 1px rgba(201,162,39,0.4), 0 0 12px rgba(201,162,39,0.28), 0 4px 18px rgba(0,0,0,0.28)',
+                      ? '0 0 0 1.5px rgba(245,217,128,0.9), 0 0 20px rgba(249,212,76,0.8), 0 0 55px rgba(201, 168, 76,0.45), 0 8px 28px rgba(0,0,0,0.25)'
+                      : '0 0 0 1px rgba(201, 168, 76,0.4), 0 0 12px rgba(201, 168, 76,0.28), 0 4px 18px rgba(0,0,0,0.28)',
                     transition: 'box-shadow 400ms ease',
                   }}
                 />
 
-                {/* Shimmer sweep */}
-                <span
-                  className="absolute top-0 bottom-0 w-[55%] rounded-[50px] pointer-events-none"
-                  style={{
-                    background: 'linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.42) 50%, transparent 100%)',
-                    animation: ctaHovered ? 'ctaSweep 0.55s ease-out forwards' : 'ctaSweep 3.5s ease-in-out infinite 1.2s',
-                  }}
-                />
 
                 {/* Dual energy pulse rings on hover */}
                 {ctaHovered && (
@@ -373,7 +362,7 @@ export default function Navbar() {
                 <span
                   className="relative z-[2] font-body font-bold uppercase"
                   style={{
-                    fontSize: '0.68rem',
+                    fontSize: '0.75rem',
                     letterSpacing: '0.12em',
                     color: ctaHovered ? 'rgba(45,20,0,0.95)' : '#fff',
                     textShadow: ctaHovered ? 'none' : '0 1px 8px rgba(0,0,0,0.45)',
@@ -394,9 +383,9 @@ export default function Navbar() {
                 onClick={() => setMenuOpen((prev) => !prev)}
                 className="relative flex flex-col items-center justify-center w-10 h-10 rounded-full focus:outline-none"
                 style={{
-                  background: 'rgba(201,162,39,0.12)',
-                  border: '1px solid rgba(201,162,39,0.35)',
-                  boxShadow: '0 0 12px rgba(201,162,39,0.2)',
+                  background: 'rgba(201, 168, 76,0.12)',
+                  border: '1px solid rgba(201, 168, 76,0.35)',
+                  boxShadow: '0 0 12px rgba(201, 168, 76,0.2)',
                   transition: 'background 300ms ease, box-shadow 300ms ease',
                 }}
               >
@@ -406,12 +395,12 @@ export default function Navbar() {
                     display: 'block',
                     width: '18px',
                     height: '1.5px',
-                    background: 'linear-gradient(90deg, #c9a227, #f5d980)',
+                    background: 'linear-gradient(90deg, #C9A84C, #F5E0A3)',
                     borderRadius: '2px',
                     transformOrigin: 'center',
                     transition: 'transform 350ms cubic-bezier(0.34,1.56,0.64,1), opacity 250ms ease',
                     transform: menuOpen ? 'translateY(5px) rotate(45deg)' : 'translateY(-4px)',
-                    boxShadow: '0 0 6px rgba(201,162,39,0.6)',
+                    boxShadow: '0 0 6px rgba(201, 168, 76,0.6)',
                   }}
                 />
                 <span
@@ -419,11 +408,11 @@ export default function Navbar() {
                     display: 'block',
                     width: '18px',
                     height: '1.5px',
-                    background: 'linear-gradient(90deg, #c9a227, #f5d980)',
+                    background: 'linear-gradient(90deg, #C9A84C, #F5E0A3)',
                     borderRadius: '2px',
                     transition: 'opacity 250ms ease',
                     opacity: menuOpen ? 0 : 1,
-                    boxShadow: '0 0 6px rgba(201,162,39,0.6)',
+                    boxShadow: '0 0 6px rgba(201, 168, 76,0.6)',
                   }}
                 />
                 <span
@@ -431,12 +420,12 @@ export default function Navbar() {
                     display: 'block',
                     width: '18px',
                     height: '1.5px',
-                    background: 'linear-gradient(90deg, #c9a227, #f5d980)',
+                    background: 'linear-gradient(90deg, #C9A84C, #F5E0A3)',
                     borderRadius: '2px',
                     transformOrigin: 'center',
                     transition: 'transform 350ms cubic-bezier(0.34,1.56,0.64,1), opacity 250ms ease',
                     transform: menuOpen ? 'translateY(-5px) rotate(-45deg)' : 'translateY(4px)',
-                    boxShadow: '0 0 6px rgba(201,162,39,0.6)',
+                    boxShadow: '0 0 6px rgba(201, 168, 76,0.6)',
                   }}
                 />
               </button>
@@ -499,37 +488,12 @@ export default function Navbar() {
             maxWidth: '400px',
             maxHeight: '400px',
             borderRadius: '50%',
-            background: 'radial-gradient(ellipse at center, rgba(201,162,39,0.12) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse at center, rgba(201, 168, 76,0.12) 0%, transparent 70%)',
             filter: 'blur(20px)',
             pointerEvents: 'none',
           }}
         />
 
-        {/* ── Close button (top-right) ── */}
-        <button
-          aria-label="Close menu"
-          onClick={() => setMenuOpen(false)}
-          style={{
-            position: 'absolute',
-            top: '1.5rem',
-            right: '1.5rem',
-            width: '2.5rem',
-            height: '2.5rem',
-            borderRadius: '50%',
-            border: '1px solid rgba(201,162,39,0.3)',
-            background: 'rgba(201,162,39,0.1)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#c9a227',
-            fontSize: '1.2rem',
-            cursor: 'pointer',
-            zIndex: 10,
-            transition: 'background 300ms ease, border-color 300ms ease',
-          }}
-        >
-          ✕
-        </button>
 
         {/* ── Content container ── */}
         <div
@@ -567,8 +531,8 @@ export default function Navbar() {
                 justifyContent: 'center',
                 fontSize: '1.1rem',
                 fontFamily: 'var(--font-heading)',
-                background: 'radial-gradient(circle at 35% 35%, #f5d980, #c9a227 50%, #7a5210)',
-                boxShadow: '0 0 16px rgba(201,162,39,0.5), 0 2px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4)',
+                background: 'radial-gradient(circle at 35% 35%, #F5E0A3, #C9A84C 50%, #8F722E)',
+                boxShadow: '0 0 16px rgba(201, 168, 76,0.5), 0 2px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4)',
                 color: 'rgba(80,40,0,0.8)',
                 flexShrink: 0,
               }}
@@ -582,11 +546,11 @@ export default function Navbar() {
                 fontSize: '1.4rem',
                 letterSpacing: '0.4em',
                 textTransform: 'uppercase',
-                background: 'linear-gradient(135deg, #6b4a0a 0%, #c9a227 30%, #f5d980 55%, #dfb430 75%, #8a5d0e 100%)',
+                background: 'linear-gradient(135deg, #6b4a0a 0%, #C9A84C 30%, #F5E0A3 55%, #dfb430 75%, #8a5d0e 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
-                filter: 'drop-shadow(0 1px 8px rgba(201,162,39,0.4))',
+                filter: 'drop-shadow(0 1px 8px rgba(201, 168, 76,0.4))',
               }}
             >
               ASGARD
@@ -604,11 +568,11 @@ export default function Navbar() {
               transition: 'opacity 500ms ease 150ms',
             }}
           >
-            <div style={{ height: '1px', width: '60px', background: 'linear-gradient(90deg, transparent, rgba(201,162,39,0.5))' }} />
-            <span style={{ color: 'rgba(201,162,39,0.6)', fontSize: '0.65rem', letterSpacing: '0.3em', fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
+            <div style={{ height: '1px', width: '60px', background: 'linear-gradient(90deg, transparent, rgba(201, 168, 76,0.5))' }} />
+            <span style={{ color: 'rgba(201, 168, 76,0.6)', fontSize: '0.65rem', letterSpacing: '0.3em', fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
               ᚠ ᚢ ᚦ ᚨ ᚱ
             </span>
-            <div style={{ height: '1px', width: '60px', background: 'linear-gradient(90deg, rgba(201,162,39,0.5), transparent)' }} />
+            <div style={{ height: '1px', width: '60px', background: 'linear-gradient(90deg, rgba(201, 168, 76,0.5), transparent)' }} />
           </div>
 
           {/* Nav links */}
@@ -651,14 +615,14 @@ export default function Navbar() {
                       textTransform: 'uppercase',
                       textDecoration: 'none',
                       color: 'rgba(245,217,128,0.85)',
-                      borderBottom: '1px solid rgba(201,162,39,0.1)',
+                      borderBottom: '1px solid rgba(201, 168, 76,0.1)',
                       width: '100%',
                       transition: 'color 250ms ease, text-shadow 250ms ease, background 250ms ease',
                     }}
                     onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLElement).style.color = '#f5d980';
-                      (e.currentTarget as HTMLElement).style.textShadow = '0 0 20px rgba(201,162,39,0.6), 0 0 40px rgba(201,162,39,0.3)';
-                      (e.currentTarget as HTMLElement).style.background = 'rgba(201,162,39,0.06)';
+                      (e.currentTarget as HTMLElement).style.color = '#F5E0A3';
+                      (e.currentTarget as HTMLElement).style.textShadow = '0 0 20px rgba(201, 168, 76,0.6), 0 0 40px rgba(201, 168, 76,0.3)';
+                      (e.currentTarget as HTMLElement).style.background = 'rgba(201, 168, 76,0.06)';
                     }}
                     onMouseLeave={(e) => {
                       (e.currentTarget as HTMLElement).style.color = 'rgba(245,217,128,0.85)';
@@ -700,7 +664,7 @@ export default function Navbar() {
                   position: 'absolute',
                   inset: '-14px',
                   borderRadius: '60px',
-                  background: 'radial-gradient(ellipse at center, rgba(201,162,39,0.35) 0%, transparent 70%)',
+                  background: 'radial-gradient(ellipse at center, rgba(201, 168, 76,0.35) 0%, transparent 70%)',
                   filter: 'blur(12px)',
                   animation: 'goldPulse 3s ease-in-out infinite',
                 }}
@@ -713,7 +677,7 @@ export default function Navbar() {
                   inset: 0,
                   borderRadius: '50px',
                   padding: '1.5px',
-                  background: 'conic-gradient(from 0deg, #7a5010 0%, #f5d980 20%, #c9a227 40%, #f8d44c 60%, #8a5e0a 80%, #f5d980 90%, #7a5010 100%)',
+                  background: 'conic-gradient(from 0deg, #7a5010 0%, #F5E0A3 20%, #C9A84C 40%, #F5E0A3 60%, #8a5e0a 80%, #F5E0A3 90%, #7a5010 100%)',
                   WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
                   WebkitMaskComposite: 'xor',
                   maskComposite: 'exclude',
@@ -727,7 +691,7 @@ export default function Navbar() {
                   position: 'absolute',
                   inset: '1.5px',
                   borderRadius: '48px',
-                  background: 'linear-gradient(135deg, #5c3a08 0%, #9a7220 25%, #c9a227 45%, #e8c040 60%, #a07820 80%, #5c3a08 100%)',
+                  background: 'linear-gradient(135deg, #8F722E 0%, #9a7220 25%, #C9A84C 45%, #e8c040 60%, #a07820 80%, #8F722E 100%)',
                   boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -2px 0 rgba(0,0,0,0.32)',
                 }}
               />
@@ -738,7 +702,7 @@ export default function Navbar() {
                   position: 'absolute',
                   inset: 0,
                   borderRadius: '50px',
-                  boxShadow: '0 0 0 1px rgba(201,162,39,0.4), 0 0 16px rgba(201,162,39,0.35), 0 6px 24px rgba(0,0,0,0.35)',
+                  boxShadow: '0 0 0 1px rgba(201, 168, 76,0.4), 0 0 16px rgba(201, 168, 76,0.35), 0 6px 24px rgba(0,0,0,0.35)',
                 }}
               />
 
@@ -783,7 +747,7 @@ export default function Navbar() {
               bottom: '2rem',
               left: '50%',
               transform: 'translateX(-50%)',
-              color: 'rgba(201,162,39,0.2)',
+              color: 'rgba(201, 168, 76,0.2)',
               fontSize: '0.75rem',
               letterSpacing: '0.4em',
               fontFamily: 'var(--font-heading)',

@@ -108,7 +108,7 @@ export default function MarqueeStrip() {
       <div style={{
         position: 'absolute',
         inset: 0,
-        background: 'radial-gradient(ellipse at 50% 50%, rgba(201,162,39,0.18) 0%, rgba(80,40,0,0.1) 45%, transparent 72%)',
+        background: 'radial-gradient(ellipse at 50% 50%, rgba(201, 168, 76,0.18) 0%, rgba(80,40,0,0.1) 45%, transparent 72%)',
         pointerEvents: 'none',
         zIndex: 1,
       }} />
@@ -120,7 +120,7 @@ export default function MarqueeStrip() {
         left: '-10%',
         width: '120%',
         height: '40%',
-        background: 'linear-gradient(180deg, rgba(201,162,39,0.12) 0%, transparent 100%)',
+        background: 'linear-gradient(180deg, rgba(201, 168, 76,0.12) 0%, transparent 100%)',
         filter: 'blur(14px)',
         pointerEvents: 'none',
         zIndex: 1,
@@ -132,7 +132,7 @@ export default function MarqueeStrip() {
         position: 'absolute',
         top: 0, left: 0, right: 0,
         height: '1px',
-        background: 'linear-gradient(90deg, transparent 0%, rgba(201,162,39,0.25) 15%, rgba(245,217,128,0.7) 50%, rgba(201,162,39,0.25) 85%, transparent 100%)',
+        background: 'linear-gradient(90deg, transparent 0%, rgba(201, 168, 76,0.25) 15%, rgba(245,217,128,0.7) 50%, rgba(201, 168, 76,0.25) 85%, transparent 100%)',
         zIndex: 3,
       }} />
 
@@ -222,8 +222,8 @@ export default function MarqueeStrip() {
               width: `${sp.s * 0.35}px`,
               height: `${sp.s * 0.35}px`,
               borderRadius: '50%',
-              background: '#f5d980',
-              boxShadow: `0 0 ${sp.s}px rgba(245,217,128,0.9), 0 0 ${sp.s * 3}px rgba(201,162,39,0.5)`,
+              background: '#F5E0A3',
+              boxShadow: `0 0 ${sp.s}px rgba(245,217,128,0.9), 0 0 ${sp.s * 3}px rgba(201, 168, 76,0.5)`,
             }} />
           </div>
         ))}
@@ -259,11 +259,11 @@ export default function MarqueeStrip() {
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
                 padding: '0 3rem',
-                background: 'linear-gradient(135deg, #6b4a0a 0%, #c9a227 28%, #f5d980 50%, #fce97a 62%, #c9a227 76%, #8a5d0e 100%)',
+                background: 'linear-gradient(135deg, #8F722E 0%, #C9A84C 28%, #F5E0A3 50%, #F5E0A3 62%, #C9A84C 76%, #8F722E 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
-                filter: 'drop-shadow(0 0 14px rgba(201,162,39,0.35))',
+                filter: 'drop-shadow(0 0 14px rgba(201, 168, 76,0.35))',
               }}>
                 NIBBLE COMPUTER SOCIETY
               </span>
@@ -275,10 +275,10 @@ export default function MarqueeStrip() {
                 width: '44px',
                 height: '44px',
                 borderRadius: '50%',
-                border: `1px solid rgba(201,162,39,0.45)`,
-                background: 'radial-gradient(circle at 35% 35%, rgba(245,217,128,0.25), rgba(201,162,39,0.1))',
-                boxShadow: '0 0 12px rgba(201,162,39,0.3)',
-                color: '#f5d980',
+                border: `1px solid rgba(201, 168, 76,0.45)`,
+                background: 'radial-gradient(circle at 35% 35%, rgba(245,217,128,0.25), rgba(201, 168, 76,0.1))',
+                boxShadow: '0 0 12px rgba(201, 168, 76,0.3)',
+                color: '#F5E0A3',
                 fontFamily: 'var(--font-heading)',
                 fontSize: '1.1rem',
                 flexShrink: 0,
@@ -319,7 +319,7 @@ export default function MarqueeStrip() {
                 ᚠ &nbsp; OFFICIAL TECHNICAL SOCIETY · JSSATEN · EST. 2018 · NOIDA &nbsp; ᚠ
               </span>
               <span style={{
-                color: 'rgba(201,162,39,0.3)',
+                color: 'rgba(201, 168, 76,0.3)',
                 fontFamily: 'var(--font-heading)',
                 fontSize: '0.75rem',
                 padding: '0 1rem',
@@ -345,7 +345,7 @@ export default function MarqueeStrip() {
                 fontSize: 'clamp(0.65rem, 1.2vw, 0.9rem)',
                 letterSpacing: '0.55em',
                 padding: '0 2rem',
-                color: 'rgba(201,162,39,0.2)',
+                color: 'rgba(201, 168, 76,0.2)',
                 flexShrink: 0,
                 whiteSpace: 'nowrap',
               }}
@@ -379,7 +379,7 @@ export default function MarqueeStrip() {
         position: 'absolute',
         bottom: 0, left: 0, right: 0,
         height: '1px',
-        background: 'linear-gradient(90deg, transparent, rgba(201,162,39,0.35) 30%, rgba(245,217,128,0.6) 50%, rgba(201,162,39,0.35) 70%, transparent)',
+        background: 'linear-gradient(90deg, transparent, rgba(201, 168, 76,0.35) 30%, rgba(245,217,128,0.6) 50%, rgba(201, 168, 76,0.35) 70%, transparent)',
         zIndex: 3,
       }} />
 

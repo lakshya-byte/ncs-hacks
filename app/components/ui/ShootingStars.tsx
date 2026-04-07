@@ -31,11 +31,11 @@ export default function ShootingStars() {
         top: '-20vh',
         width: `${width}px`,
         height: `${height}px`,
-        background: 'linear-gradient(to bottom, transparent, #f5d980, transparent)',
+        background: 'linear-gradient(to bottom, transparent, #F5E0A3, transparent)',
         opacity: '0',
         pointerEvents: 'none',
         borderRadius: '2px',
-        boxShadow: '0 0 32px rgba(245, 217, 128, 0.7)', // Brighter glow
+        boxShadow: '0 0 32px rgba(201, 168, 76, 0.7)', // Brighter glow
 
         willChange: 'transform, opacity',
       });
