@@ -107,7 +107,7 @@ export default function Navbar() {
 
   // JS-computed dynamic values (cannot be static Tailwind)
   // Reduced transparency: Higher base and max values
-  const glassOpacity = 0.42 + scrollProgress * 0.38;
+  const glassOpacity = 0.8; // Requested 80% opacity
   const blurAmount = 18 + scrollProgress * 14;
   const marginTop = scrolled ? 10 : 20;
   const sweepX = mouseX * 130 - 15;
@@ -139,25 +139,19 @@ export default function Navbar() {
 
           {/* ── MAIN GLASS PANEL (Layer 1) ── */}
           <div
-            className="relative flex items-center justify-between rounded-[72px] border border-[rgba(201, 168, 76,0.28)] overflow-hidden transition-[padding,background,box-shadow,backdrop-filter] duration-500"
+            className="relative flex items-center justify-between rounded-[72px] border border-white/15 overflow-hidden transition-[padding,background,box-shadow,backdrop-filter] duration-500"
             style={{
               padding: `${scrolled ? 18 : 22}px 40px`,
-              background: `rgba(245, 224, 163, ${glassOpacity})`,
+              background: `rgba(4, 4, 4, ${glassOpacity})`,
               backdropFilter: `blur(${blurAmount}px) saturate(160%)`,
               WebkitBackdropFilter: `blur(${blurAmount}px) saturate(160%)`,
               boxShadow: `
                 0 ${8 + scrollProgress * 16}px ${32 + scrollProgress * 32}px rgba(0,0,0,${0.04 + scrollProgress * 0.08}),
                 0 2px 8px rgba(201, 168, 76,${0.06 + scrollProgress * 0.1}),
-                inset 0 1px 0 rgba(255,255,255,0.8),
-                inset 0 -1px 0 rgba(201, 168, 76,0.12)
+                inset 0 -1px 0 rgba(201, 168, 76, 0.12)
               `,
             }}
           >
-            {/* ── INNER HIGHLIGHT (top edge) ── */}
-            <div
-              className="absolute top-0 left-0 right-0 h-1/2 rounded-t-[72px] pointer-events-none"
-              style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 100%)' }}
-            />
 
             {/* ── MOUSE LIGHT SWEEP ── */}
             <div
@@ -187,7 +181,9 @@ export default function Navbar() {
             />
 
             {/* ═══════════════ LOGO ═══════════════ */}
-            <div className="flex-1 flex justify-start relative z-[2]">
+            <div 
+              className={`flex-1 flex justify-start relative z-[2] transition-opacity duration-300 ${menuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+            >
               <Link href="/" className="flex items-center gap-[10px] no-underline">
               {/* Gold rune orb */}
               <div
@@ -202,7 +198,7 @@ export default function Navbar() {
               </div>
               {/* Wordmark */}
               <span
-                className="font-heading font-black text-[1.1rem] tracking-[0.35em] uppercase"
+                className="font-heading font-black text-[1rem] tracking-[0.35em] uppercase"
                 style={{
                   background: 'linear-gradient(135deg, #6b4a0a 0%, #C9A84C 30%, #F5E0A3 55%, #dfb430 75%, #8a5d0e 100%)',
                   WebkitBackgroundClip: 'text',
@@ -224,9 +220,9 @@ export default function Navbar() {
                     href={link.href}
                     className="
                       group relative inline-block
-                      font-body text-[0.7rem] font-bold tracking-widest uppercase no-underline
-                      text-[#3d2600] transition-[color,transform,text-shadow] duration-300 ease-out
-                      hover:text-[#9a6f10] hover:-translate-y-0.5
+                      font-body text-[0.875rem] font-bold tracking-widest uppercase no-underline
+                      text-white/90 transition-[color,transform,text-shadow] duration-300 ease-out
+                      hover:text-[#F5E0A3] hover:-translate-y-0.5
                       hover:[text-shadow:0_0_16px_rgba(201, 168, 76,0.55),0_0_32px_rgba(201, 168, 76,0.2)]
                       py-1
                     "
@@ -309,8 +305,8 @@ export default function Navbar() {
                       : 'linear-gradient(135deg, #8F722E 0%, #9a7220 25%, #C9A84C 45%, #e8c040 60%, #a07820 80%, #8F722E 100%)',
                     transition: 'background 400ms ease',
                     boxShadow: ctaHovered
-                      ? 'inset 0 1px 0 rgba(255,255,255,0.65), inset 0 -2px 0 rgba(80,40,0,0.35)'
-                      : 'inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -2px 0 rgba(0,0,0,0.32)',
+                      ? 'inset 0 -2px 0 rgba(80,40,0,0.35)'
+                      : 'inset 0 -2px 0 rgba(0,0,0,0.32)',
                   }}
                 />
 
@@ -325,14 +321,6 @@ export default function Navbar() {
                   }}
                 />
 
-                {/* Shimmer sweep */}
-                <span
-                  className="absolute top-0 bottom-0 w-[55%] rounded-[50px] pointer-events-none"
-                  style={{
-                    background: 'linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.42) 50%, transparent 100%)',
-                    animation: ctaHovered ? 'ctaSweep 0.55s ease-out forwards' : 'ctaSweep 3.5s ease-in-out infinite 1.2s',
-                  }}
-                />
 
                 {/* Dual energy pulse rings on hover */}
                 {ctaHovered && (
@@ -374,7 +362,7 @@ export default function Navbar() {
                 <span
                   className="relative z-[2] font-body font-bold uppercase"
                   style={{
-                    fontSize: '0.68rem',
+                    fontSize: '0.75rem',
                     letterSpacing: '0.12em',
                     color: ctaHovered ? 'rgba(45,20,0,0.95)' : '#fff',
                     textShadow: ctaHovered ? 'none' : '0 1px 8px rgba(0,0,0,0.45)',
@@ -506,31 +494,6 @@ export default function Navbar() {
           }}
         />
 
-        {/* ── Close button (top-right) ── */}
-        <button
-          aria-label="Close menu"
-          onClick={() => setMenuOpen(false)}
-          style={{
-            position: 'absolute',
-            top: '1.5rem',
-            right: '1.5rem',
-            width: '2.5rem',
-            height: '2.5rem',
-            borderRadius: '50%',
-            border: '1px solid rgba(201, 168, 76,0.3)',
-            background: 'rgba(201, 168, 76,0.1)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#C9A84C',
-            fontSize: '1.2rem',
-            cursor: 'pointer',
-            zIndex: 10,
-            transition: 'background 300ms ease, border-color 300ms ease',
-          }}
-        >
-          ✕
-        </button>
 
         {/* ── Content container ── */}
         <div

@@ -7,7 +7,15 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const tracks = [
+interface Track {
+  id: string;
+  title: string;
+  description: string;
+  bgGradient: string;
+  image: string;
+}
+
+const tracks: Track[] = [
   {
     id: "01",
     title: "AI / Machine Learning",
@@ -39,6 +47,14 @@ const tracks = [
       "The Infinite Gate. For those whose visions transcend the specified realms. Craft the unforeseen and forge original paths through the uncharted territories of innovation.",
     bgGradient: "from-[#0A0A0A] to-[#131313]",
     image: "/tracks/OpenInnovation.png",
+  },
+  {
+    id: "05",
+    title: "Cybersecurity",
+    description:
+      "The Bastion of Bifrost. Defend the interconnected realms from the shadows of the void. Construct ironclad fortifications and vigilant wards to protect the sacred data paths of the gods.",
+    bgGradient: "from-[#080808] to-[#111111]",
+    image: "/tracks/CyberSecuirty.png",
   },
 ];
 
@@ -98,7 +114,7 @@ export default function HackathonTracks() {
         pin: true,
         scrub: true,
         onUpdate: (self) => {
-          const index = Math.min(3, Math.floor(self.progress * 4));
+          const index = Math.min(4, Math.floor(self.progress * 5));
           const centeredProgress = self.progress - 0.5;
           if (cloudLayerRef.current) {
             gsap.set(cloudLayerRef.current, { y: centeredProgress * PARALLAX.clouds });
