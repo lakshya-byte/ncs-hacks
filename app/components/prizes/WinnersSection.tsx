@@ -22,11 +22,11 @@ const WINNERS = [
     rune: 'ᚠ',
     image: '/winners/AI.png',
     prize: '',
-    accent: '#B8860B',
-    accentLight: '#FFF3C4',
-    borderColor: 'rgba(184,134,11,0.45)',
-    hoverBorder: 'rgba(212,175,55,0.85)',
-    glowColor: 'rgba(212,175,55,0.35)',
+    accent: '#C9A84C',
+    accentLight: '#F5E0A3',
+    borderColor: 'rgba(201, 168, 76, 0.45)',
+    hoverBorder: 'rgba(201, 168, 76, 0.85)',
+    glowColor: 'rgba(201, 168, 76, 0.35)',
   },
   {
     id: 2,
@@ -325,7 +325,7 @@ const TarotCard = React.forwardRef<
                 className="font-heading"
                 style={{
                   fontSize: 'clamp(1rem, 1.5vw, 1.3rem)',
-                  color: '#FFE066',
+                  color: '#F5E0A3',
                   fontWeight: 800,
                   letterSpacing: '0.05em',
                   textShadow: '0 2px 16px rgba(255,220,50,0.5)',
@@ -556,7 +556,7 @@ export default function WinnersSection() {
             <span
               style={{
                 background:
-                  'linear-gradient(135deg, #c9a227 0%, #f5d980 50%, #9a6c10 100%)',
+                  'linear-gradient(135deg, #C9A84C 0%, #F5E0A3 50%, #9a6c10 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
@@ -576,14 +576,14 @@ export default function WinnersSection() {
                 width: '60px',
                 height: '1.5px',
                 background:
-                  'linear-gradient(to right, transparent, #c9a227)',
+                  'linear-gradient(to right, transparent, #C9A84C)',
               }}
             />
             <div
               style={{
                 width: '8px',
                 height: '8px',
-                background: '#c9a227',
+                background: '#C9A84C',
                 transform: 'rotate(45deg)',
                 flexShrink: 0,
               }}
@@ -593,7 +593,7 @@ export default function WinnersSection() {
                 width: '60px',
                 height: '1.5px',
                 background:
-                  'linear-gradient(to left, transparent, #c9a227)',
+                  'linear-gradient(to left, transparent, #C9A84C)',
               }}
             />
           </div>

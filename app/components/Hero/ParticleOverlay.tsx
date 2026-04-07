@@ -174,7 +174,7 @@ function ParticleText({ scrollProgress, isMobile }: { scrollProgress: number, is
         size={isMobile ? 0.14 : 0.08} 
         map={circleTexture}
         alphaTest={0.01}
-        color="#FFE066" 
+        color="#F5E0A3" 
         transparent 
         opacity={0.85}
         blending={THREE.AdditiveBlending}
@@ -187,11 +187,13 @@ function ParticleText({ scrollProgress, isMobile }: { scrollProgress: number, is
 export default function ParticleOverlay() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
-  const [isMobile, setIsMobile] = useState(false); // Start false to match SSR
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia("(max-width: 768px)").matches;
+  });
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
-    setIsMobile(mediaQuery.matches); // Hydrate immediate client width
     const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
     mediaQuery.addEventListener("change", handler);
     return () => mediaQuery.removeEventListener("change", handler);
@@ -231,7 +233,7 @@ export default function ParticleOverlay() {
           transform: `translateY(${progress > 0.9 ? Math.max(0, 20 - (progress - 0.9) * 200) : 20}px)` 
         }}
       >
-        <div className="font-heading text-[1.2rem] md:text-[1.5rem] tracking-[0.4em] text-[#FFD700] uppercase drop-shadow-[0_0_15px_rgba(255,215,0,0.6)]">
+        <div className="font-heading text-[1.2rem] md:text-[1.5rem] tracking-[0.4em] text-[#C9A84C] uppercase drop-shadow-[0_0_15px_rgba(201, 168, 76, 0.6)]">
           NCS In Out Hacks
         </div>
       </div>

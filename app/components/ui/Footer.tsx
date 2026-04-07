@@ -35,9 +35,9 @@ const RUNE_ROW = 'ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ ᛇ ᛈ ᛉ �
 const MAP_SRC = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28026.018786814126!2d77.31860563053421!3d28.5922055260388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce5992452d761%3A0xaaa44725147c1507!2sJSS%20Academy%20of%20Technical%20Education!5e0!3m2!1sen!2sin!4v1775057989070!5m2!1sen!2sin';
 
 /* ── Shared Style Tokens ── */
-const GOLD       = '#c9a227';
-const GOLD_LIGHT = '#f5d980';
-const GOLD_DARK  = '#8f6b14';
+const GOLD       = '#C9A84C';
+const GOLD_LIGHT = '#F5E0A3';
+const GOLD_DARK  = '#8F722E';
 const TEXT_SECONDARY = 'rgba(255,255,255,0.7)';
 
 const sectionLabel = {
@@ -160,7 +160,7 @@ export default function GodLevelFooter() {
           <Link href="/" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '14px' }}>
             <div style={{
               width: '44px', height: '44px', borderRadius: '50%',
-              background: `radial-gradient(circle at 35% 35%, ${GOLD_LIGHT}, ${GOLD} 50%, #7a5210)`,
+              background: `radial-gradient(circle at 35% 35%, ${GOLD_LIGHT}, ${GOLD} 50%, #8F722E)`,
               boxShadow: `0 0 18px rgba(201,162,39,0.4), inset 0 1px 0 rgba(255,255,255,0.5)`,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontFamily: 'var(--font-heading)', fontSize: '1.15rem', color: 'rgba(80,40,0,0.85)', flexShrink: 0,

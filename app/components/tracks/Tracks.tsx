@@ -125,7 +125,7 @@ export default function HackathonTracks() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[100dvh] w-full overflow-hidden bg-[#080706]"
+      className="relative h-[100dvh] w-full overflow-hidden bg-black"
     >
       {/* Background Gradients crossfade */}
       <div className="absolute inset-0 w-full h-full">
@@ -269,7 +269,11 @@ export default function HackathonTracks() {
                 {active.title}
               </h2>
 
-              <p className="mt-4 md:mt-7 mx-auto md:mx-0 font-body text-sm md:text-base leading-relaxed text-slate-400 max-w-sm font-light tracking-wide transition-all duration-700 px-4 md:px-0">
+              <p className="mt-4 md:mt-7 mx-auto md:mx-0 font-body leading-[1.4] text-[#FFF8D8] max-w-lg font-medium transition-all duration-700 px-4 md:px-0"
+                 style={{ 
+                   fontSize: "20px",
+                   letterSpacing: "0.04em"
+                 }}>
                 {active.description}
               </p>
             </div>
@@ -290,13 +294,13 @@ export default function HackathonTracks() {
                             : "opacity-0 scale-95 blur-xl -rotate-2"
                       }`}
                     >
-                      <div className="w-full h-full rounded-[2.5rem] border border-[#FFD700]/20 bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-xl shadow-[0_20px_70px_rgba(0,0,0,0.5)] flex items-center justify-center relative overflow-hidden">
-                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,215,0,0.2),transparent_60%)] pointer-events-none" />
-                        <div className="absolute inset-5 md:inset-6 rounded-4xl shadow-[0_0_50px_rgba(255,215,0,0.25)] ring-1 ring-[#FFD700]/20">
+                      <div className="w-full h-full rounded-[2.5rem] border border-[#C9A84C]/20 bg-black backdrop-blur-xl shadow-[0_0_20px_0_rgba(201,168,76,0.2)] flex items-center justify-center relative overflow-hidden">
+                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(201,168,76,0.2),transparent_60%)] pointer-events-none" />
+                        <div className="absolute inset-5 md:inset-6 rounded-4xl shadow-[0_0_50px_rgba(201,168,76,0.25)] ring-1 ring-[#C9A84C]/20">
                           <div className="absolute inset-0 rounded-4xl p-[4px] md:p-[6px] overflow-hidden flex items-center justify-center">
                             
                             {/* Flowing golden energy background */}
-                            <div className="absolute -inset-8 bg-gradient-to-tr from-[#E6B800] via-[#FFF5A0] to-[#E6B800] bg-[size:300%_300%] animate-[borderEnergy_6s_ease-in-out_infinite] blur-[8px] opacity-100" />
+                            <div className="absolute -inset-8 bg-gradient-to-tr from-[#C9A84C] via-[#F5E0A3] to-[#C9A84C] bg-[size:300%_300%] animate-[borderEnergy_6s_ease-in-out_infinite] blur-[8px] opacity-100" />
                             
                             {/* Inner Image Container */}
                             <div className="relative z-10 h-full w-full overflow-hidden rounded-[calc(2rem-4px)] bg-[#0A0F1C] md:rounded-[calc(2rem-6px)]">

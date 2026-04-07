@@ -88,8 +88,8 @@ export default function AsgardCanvas() {
           canvas.height / 2,
           canvas.width * 0.6,
         );
-        gradient.addColorStop(0, `rgba(255, 220, 120, ${bloomAlpha})`);
-        gradient.addColorStop(1, "rgba(255, 200, 80, 0)");
+        gradient.addColorStop(0, `rgba(245, 224, 163, ${bloomAlpha})`);
+        gradient.addColorStop(1, "rgba(201, 168, 76, 0)");
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
@@ -170,12 +170,12 @@ export default function AsgardCanvas() {
     <>
       {!loaded && (
         <div className="absolute inset-0 bg-black flex flex-col items-center justify-center z-100">
-          <div className="font-heading text-[#c9a227] text-[1.1rem] tracking-[0.25em] mb-8">
+          <div className="font-heading text-[#C9A84C] text-[1.1rem] tracking-[0.25em] mb-8">
             LOADING ASGARD
           </div>
           <div className="w-[260px] h-[3px] bg-white/10 rounded-full overflow-hidden">
             <div
-              className="h-full bg-[linear-gradient(90deg,#c9a227,#f5d980)] rounded-full transition-[width] duration-200 ease-[ease]"
+              className="h-full bg-[linear-gradient(90deg,#C9A84C,#F5E0A3)] rounded-full transition-[width] duration-200 ease-[ease]"
               style={{ width: `${loadProgress}%` }}
             />
           </div>

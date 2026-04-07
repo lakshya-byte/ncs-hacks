@@ -116,10 +116,10 @@ function GlassCard({
         />
 
         {/* Corner ornaments */}
-        <div className="absolute top-3 left-3 w-4 h-4 border-t border-l border-[#D4AF37]/50 rounded-tl-sm pointer-events-none" />
-        <div className="absolute top-3 right-3 w-4 h-4 border-t border-r border-[#D4AF37]/50 rounded-tr-sm pointer-events-none" />
-        <div className="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-[#D4AF37]/50 rounded-bl-sm pointer-events-none" />
-        <div className="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-[#D4AF37]/50 rounded-br-sm pointer-events-none" />
+        <div className="absolute top-3 left-3 w-4 h-4 border-t border-l border-[#C9A84C]/50 rounded-tl-sm pointer-events-none" />
+        <div className="absolute top-3 right-3 w-4 h-4 border-t border-r border-[#C9A84C]/50 rounded-tr-sm pointer-events-none" />
+        <div className="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-[#C9A84C]/50 rounded-bl-sm pointer-events-none" />
+        <div className="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-[#C9A84C]/50 rounded-br-sm pointer-events-none" />
 
         {/* Rune + Icon header */}
         <div style={{
@@ -128,7 +128,7 @@ function GlassCard({
           <div style={{
             width: '44px', height: '44px', borderRadius: '50%',
             border: '1.5px solid rgba(201,162,39,0.5)',
-            background: 'radial-gradient(circle at 35% 30%, #fff9e6, #f5d980 40%, #c9a227 70%, #7a5210)',
+            background: 'radial-gradient(circle at 35% 30%, #fff9e6, #F5E0A3 40%, #C9A84C 70%, #8F722E)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontFamily: 'var(--font-heading)', fontSize: '1.4rem', color: '#fff',
             boxShadow: hovered
@@ -146,7 +146,7 @@ function GlassCard({
         <h3 style={{
           fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.2rem, 2.2vw, 1.5rem)',
           fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase',
-          color: '#f5d980', margin: '0 0 0.6rem', position: 'relative', zIndex: 1,
+          color: '#F5E0A3', margin: '0 0 0.6rem', position: 'relative', zIndex: 1,
           lineHeight: 1.2,
         }}>
           {title}
@@ -319,12 +319,12 @@ export default function KingdomOfNibble() {
               backdropFilter: 'blur(10px)',
               fontSize: '0.7rem', fontFamily: 'var(--font-body)',
               fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase',
-              color: '#f5d980', marginBottom: '1.5rem',
+              color: '#F5E0A3', marginBottom: '1.5rem',
             }}
           >
             <span style={{
               width: '6px', height: '6px', borderRadius: '50%',
-              background: '#f5d980', boxShadow: '0 0 10px rgba(245,217,128,0.8)',
+              background: '#F5E0A3', boxShadow: '0 0 10px rgba(245,217,128,0.8)',
               animation: 'goldFlicker 3s infinite',
             }} />
             Official Technical Society of JSSATEN
@@ -344,7 +344,7 @@ export default function KingdomOfNibble() {
             </span>
             <span
               style={{
-                background: 'linear-gradient(135deg, #6b4a0a 0%, #c9a227 30%, #f5d980 55%, #c9a227 75%, #6b4a0a 100%)',
+                background: 'linear-gradient(135deg, #6b4a0a 0%, #C9A84C 30%, #F5E0A3 55%, #C9A84C 75%, #6b4a0a 100%)',
                 WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
                 filter: 'drop-shadow(0 2px 20px rgba(201,162,39,0.5))',
               }}
@@ -370,7 +370,7 @@ export default function KingdomOfNibble() {
           }}>
             <div style={{ width: '60px', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(245,217,128,0.5))' }} />
             <div style={{
-              width: '8px', height: '8px', background: '#c9a227',
+              width: '8px', height: '8px', background: '#C9A84C',
               transform: 'rotate(45deg)', boxShadow: '0 0 12px rgba(201,162,39,0.6)', flexShrink: 0,
             }} />
             <div style={{ width: '60px', height: '1px', background: 'linear-gradient(90deg, rgba(245,217,128,0.5), transparent)' }} />
@@ -406,7 +406,7 @@ export default function KingdomOfNibble() {
               width: `${2 + (i % 3)}px`,
               height: `${2 + (i % 3)}px`,
               borderRadius: '50%',
-              background: 'radial-gradient(circle, #f5d980, #c9a227)',
+              background: 'radial-gradient(circle, #F5E0A3, #C9A84C)',
               boxShadow: `0 0 ${4 + (i % 3) * 3}px rgba(201,162,39,0.5)`,
               opacity: 0.5 + (i % 4) * 0.1,
               animation: `nibble-particle ${5 + (i % 4) * 1.5}s ease-in-out ${(i % 5) * 0.8}s infinite`,

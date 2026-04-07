@@ -13,7 +13,6 @@ export default function CinematicOverlay() {
   const startGradientRef = useRef<HTMLDivElement>(null);
   const endGradientRef = useRef<HTMLDivElement>(null);
   const runeRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const mm = gsap.matchMedia();
 
@@ -149,13 +148,13 @@ export default function CinematicOverlay() {
       {/* Light golden gradient at end */}
       <div
         ref={endGradientRef}
-        className="absolute inset-0 opacity-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(255,230,120,0.18)_0%,rgba(200,160,60,0.08)_50%,transparent_80%)]"
+        className="absolute inset-0 opacity-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(201, 168, 76, 0.18)_0%,rgba(201, 168, 76, 0.08)_50%,transparent_80%)]"
       />
 
       {/* Norse rune decorative symbol */}
       <div
         ref={runeRef}
-        className="absolute top-[12%] left-1/2 -translate-x-1/2 text-[1.8rem] text-center tracking-[1.5rem] font-heading text-[rgba(201,162,39,0.6)]"
+        className="absolute top-[12%] left-1/2 -translate-x-1/2 text-[1.8rem] text-center tracking-[1.5rem] font-heading text-[rgba(201, 168, 76, 0.6)]"
       >
         ᚨ ᚱ ᚷ ᚨ ᚱ
       </div>
@@ -166,14 +165,14 @@ export default function CinematicOverlay() {
         className="absolute bottom-[18%] w-full text-center flex flex-col items-center gap-3"
       >
         <h1
-          className="font-heading text-[clamp(2rem,5vw,3.5rem)] font-bold text-white tracking-[0.25em] uppercase m-0 [text-shadow:0_0_40px_rgba(201,162,39,0.6),0_2px_20px_rgba(0,0,0,0.8)]"
+          className="font-heading text-[clamp(2rem,5vw,3.5rem)] font-bold text-white tracking-[0.25em] uppercase m-0 [text-shadow:0_0_40px_rgba(201, 168, 76, 0.6),0_2px_20px_rgba(0,0,0,0.8)]"
         >
           Enter the Realm
         </h1>
         <div className="flex items-center gap-5 text-[rgba(255,255,255,0.85)] text-[1.1rem] tracking-[0.2em] uppercase font-body font-bold">
-          <span className="inline-block w-12 h-[2.5px] bg-[#c9a227] shadow-[0_0_10px_rgba(201,162,39,0.6)]" />
+          <span className="inline-block w-12 h-[2.5px] bg-[#C9A84C] shadow-[0_0_10px_rgba(201, 168, 76, 0.6)]" />
           Scroll to pass through
-          <span className="inline-block w-12 h-[2.5px] bg-[#c9a227] shadow-[0_0_10px_rgba(201,162,39,0.6)]" />
+          <span className="inline-block w-12 h-[2.5px] bg-[#C9A84C] shadow-[0_0_10px_rgba(201, 168, 76, 0.6)]" />
         </div>
       </div>
 
@@ -183,18 +182,18 @@ export default function CinematicOverlay() {
         className="absolute bottom-[18%] w-full text-center flex flex-col items-center gap-4 opacity-0"
       >
         <div
-          className="font-body text-[clamp(0.8rem,1.8vw,1.1rem)] tracking-[0.3em] font-bold uppercase text-[#c9a227] [text-shadow:0_0_20px_rgba(201,162,39,0.8)]"
+          className="font-body text-[clamp(0.8rem,1.8vw,1.1rem)] tracking-[0.3em] font-bold uppercase text-[#D4AF37] [text-shadow:0_0_20px_rgba(212,175,55,0.8)]"
         >
           ✦ You have arrived ✦
         </div>
         <h2
-          className="font-heading text-[clamp(2.5rem,6vw,4.5rem)] font-bold text-white tracking-[0.2em] uppercase m-0 [text-shadow:0_0_60px_rgba(255,220,100,0.9),0_0_120px_rgba(201,162,39,0.5),0_4px_30px_rgba(0,0,0,0.9)]"
+          className="font-heading text-[clamp(2.5rem,6vw,4.5rem)] font-bold text-white tracking-[0.2em] uppercase m-0 [text-shadow:0_0_60px_rgba(255,215,0,0.9),0_0_120px_rgba(212,175,55,0.5),0_4px_30px_rgba(0,0,0,0.9)]"
         >
           Welcome to Asgard
         </h2>
         <div
           ref={subtitleRef}
-          className="font-body text-[clamp(0.9rem,2vw,1.3rem)] font-medium text-[rgba(255,220,120,0.85)] tracking-[0.2em] uppercase opacity-0 [text-shadow:0_0_20px_rgba(201,162,39,0.6)]"
+          className="font-body text-[clamp(0.9rem,2vw,1.3rem)] font-medium text-[rgba(255,215,0,0.35)] tracking-[0.2em] uppercase opacity-0 [text-shadow:0_0_20px_rgba(212,175,55,0.6)]"
         >
           Where Gods Build Legends
         </div>
@@ -228,7 +227,7 @@ function ScrollIndicator() {
       className="absolute bottom-[6%] left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[rgba(255,255,255,0.45)] text-[0.7rem] tracking-[0.3em] uppercase font-heading"
     >
       <div
-        className="w-[2.5px] h-12 [animation:scrollPulse_2s_ease-in-out_infinite] bg-[linear-gradient(to_bottom,rgba(201,162,39,1),transparent)] shadow-[0_0_12px_rgba(201,162,39,0.8)]"
+        className="w-[2.5px] h-12 [animation:scrollPulse_2s_ease-in-out_infinite] bg-[linear-gradient(to_bottom,rgba(201, 168, 76,1),transparent)] shadow-[0_0_12px_rgba(201, 168, 76,0.8)]"
       />
       <span className="font-body font-bold">Scroll</span>
     </div>

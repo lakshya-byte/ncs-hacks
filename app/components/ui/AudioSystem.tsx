@@ -29,7 +29,7 @@ export default function AudioSystem() {
         setIsPlaying(true);
         // Smoothly fade in to full volume
         gsap.to(audio, { volume: 0.6, duration: 3, ease: 'power2.out' });
-      } catch (err) {
+      } catch {
         // Autoplay blocked by browser. Wait for first interaction.
         console.log('Autoplay blocked. Waiting for user interaction.');
       }
@@ -48,7 +48,7 @@ export default function AudioSystem() {
           window.removeEventListener('click', handleFirstInteraction);
           window.removeEventListener('scroll', handleFirstInteraction);
           window.removeEventListener('touchstart', handleFirstInteraction);
-        } catch (e) {
+        } catch {
           // keep waiting
         }
       }
@@ -65,6 +65,7 @@ export default function AudioSystem() {
       window.removeEventListener('scroll', handleFirstInteraction);
       window.removeEventListener('touchstart', handleFirstInteraction);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canAutoplay]);
 
   // ── LOOP LOGIC (0s -> 27s) ──
@@ -130,39 +131,39 @@ export default function AudioSystem() {
 
       {/* ── STICKY UI ── */}
       <div 
-        className="fixed left-6 bottom-8 z-[200] group cursor-pointer"
+        className="fixed left-6 bottom-8 z-200 group cursor-pointer"
         onClick={togglePlay}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {/* Divine Glow Sphere */}
         <div 
-          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-[#FFD700] rounded-full blur-[24px] pointer-events-none transition-all duration-1000 ${
+          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-[#C9A84C] rounded-full blur-xl pointer-events-none transition-all duration-1000 ${
             isPlaying ? 'opacity-20 scale-100' : 'opacity-0 scale-50'
           }`} 
         />
         
         {/* Main Glassmorphic Container/Artifact */}
         <div 
-          className={`relative flex items-center justify-center w-14 h-14 rounded-full border border-[#FFD700]/30 backdrop-blur-xl transition-all duration-500 overflow-hidden ${
+          className={`relative flex items-center justify-center w-14 h-14 rounded-full border border-[#C9A84C]/30 backdrop-blur-xl transition-all duration-500 overflow-hidden ${
             isPlaying 
-              ? 'bg-white/10 shadow-[0_0_20px_rgba(212,175,55,0.2),inset_0_0_12px_rgba(212,175,55,0.1)]' 
+              ? 'bg-white/10 shadow-[0_0_20px_rgba(201,168,76,0.8),inset_0_0_12px_rgba(201,168,76,0.1)]' 
               : 'bg-black/20 shadow-[0_0_10px_rgba(0,0,0,0.5)]'
-          } ${isHovered ? 'scale-110 border-[#FFD700]/60' : 'scale-100'}`}
+          } ${isHovered ? 'scale-110 border-[#C9A84C]/60' : 'scale-100'}`}
         >
           {/* Waveform Equalizer */}
           <div className="flex items-end gap-[3px] h-[22px] justify-center mt-1">
             {[1, 2, 3, 4, 5].map((i) => (
               <div
                 key={i}
-                className={`w-[2.5px] rounded-t-sm bg-gradient-to-t from-[#D4AF37] to-[#FFF5A0] anim-wave transition-all duration-500 ${
-                  isPlaying ? 'opacity-100' : 'opacity-40 !scale-y-[0.2]'
+                className={`w-[2.5px] rounded-t-sm bg-linear-to-t from-[#C9A84C] to-[#F5E0A3] anim-wave transition-all duration-500 ${
+                  isPlaying ? 'opacity-100' : 'opacity-40 scale-y-[0.2]!'
                 }`}
                 style={{
                   height: '100%',
                   // Staggered animation timings for organic equalizer look
                   animation: isPlaying ? `waveform ${0.8 + (i % 3) * 0.2}s ease-in-out infinite ${i * 0.15}s` : 'none',
-                  boxShadow: isPlaying ? '0 0 6px rgba(212,175,55,0.6)' : 'none'
+                  boxShadow: isPlaying ? '0 0 6px rgba(201,168,76,0.6)' : 'none'
                 }}
               />
             ))}
@@ -177,12 +178,12 @@ export default function AudioSystem() {
             {isPlaying ? (
               // Pause Icon
               <div className="flex gap-1">
-                <div className="w-1.5 h-4 bg-[#B8860B] rounded-sm" />
-                <div className="w-1.5 h-4 bg-[#B8860B] rounded-sm" />
+                <div className="w-1.5 h-4 bg-[#C9A84C] rounded-sm" />
+                <div className="w-1.5 h-4 bg-[#C9A84C] rounded-sm" />
               </div>
             ) : (
               // Play Triangle
-              <div className="w-0 h-0 border-t-[7px] border-t-transparent border-l-[11px] border-l-[#B8860B] border-b-[7px] border-b-transparent ml-1" />
+              <div className="w-0 h-0 border-t-[7px] border-t-transparent border-l-11 border-l-[#C9A84C] border-b-[7px] border-b-transparent ml-1" />
             )}
           </div>
         </div>
