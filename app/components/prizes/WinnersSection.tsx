@@ -139,13 +139,13 @@ const TarotCard = React.forwardRef<
       {/* ── Title block above card ── */}
       <div className="mb-4 text-center w-full px-1">
         <p
-          className="font-heading uppercase tracking-widest"
+          className="font-body uppercase tracking-widest"
           style={{
-            fontSize: 'clamp(0.55rem, 0.75vw, 0.68rem)',
+            fontSize: 'clamp(0.65rem, 0.85vw, 0.8rem)',
             color: winner.accent,
-            letterSpacing: '0.35em',
+            letterSpacing: '0.15em',
             marginBottom: '4px',
-            fontWeight: 700,
+            fontWeight: 800,
           }}
         >
           {winner.track}
@@ -310,10 +310,10 @@ const TarotCard = React.forwardRef<
               style={{ zIndex: 2 }}
             >
               <p
-                className="font-heading uppercase"
+                className="font-body uppercase"
                 style={{
-                  fontSize: 'clamp(0.45rem, 0.65vw, 0.6rem)',
-                  letterSpacing: '0.36em',
+                  fontSize: 'clamp(0.55rem, 0.75vw, 0.7rem)',
+                  letterSpacing: '0.12em',
                   color: 'rgba(255,237,160,0.8)',
                   marginBottom: '3px',
                   fontWeight: 700,
@@ -528,12 +528,12 @@ export default function WinnersSection() {
         >
           {/* Eyebrow */}
           <p
-            className="font-heading uppercase"
+            className="font-body uppercase"
             style={{
-              fontSize: 'clamp(0.6rem, 0.9vw, 0.75rem)',
-              letterSpacing: '0.44em',
+              fontSize: 'clamp(0.7rem, 1vw, 0.85rem)',
+              letterSpacing: '0.25em',
               color: '#B8860B',
-              fontWeight: 700,
+              fontWeight: 800,
               marginBottom: '0.75rem',
             }}
           >

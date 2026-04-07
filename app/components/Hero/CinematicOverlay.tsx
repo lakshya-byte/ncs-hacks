@@ -170,7 +170,7 @@ export default function CinematicOverlay() {
         >
           Enter the Realm
         </h1>
-        <div className="flex items-center gap-5 text-[rgba(255,255,255,0.85)] text-[24px] tracking-[0.35em] uppercase font-heading font-extrabold">
+        <div className="flex items-center gap-5 text-[rgba(255,255,255,0.85)] text-[1.1rem] tracking-[0.2em] uppercase font-body font-bold">
           <span className="inline-block w-12 h-[2.5px] bg-[#c9a227] shadow-[0_0_10px_rgba(201,162,39,0.6)]" />
           Scroll to pass through
           <span className="inline-block w-12 h-[2.5px] bg-[#c9a227] shadow-[0_0_10px_rgba(201,162,39,0.6)]" />
@@ -183,7 +183,7 @@ export default function CinematicOverlay() {
         className="absolute bottom-[18%] w-full text-center flex flex-col items-center gap-4 opacity-0"
       >
         <div
-          className="font-heading text-[clamp(0.7rem,1.5vw,1rem)] tracking-[0.5em] uppercase text-[#c9a227] [text-shadow:0_0_20px_rgba(201,162,39,0.8)]"
+          className="font-body text-[clamp(0.8rem,1.8vw,1.1rem)] tracking-[0.3em] font-bold uppercase text-[#c9a227] [text-shadow:0_0_20px_rgba(201,162,39,0.8)]"
         >
           ✦ You have arrived ✦
         </div>
@@ -194,7 +194,7 @@ export default function CinematicOverlay() {
         </h2>
         <div
           ref={subtitleRef}
-          className="font-heading text-[clamp(0.9rem,2vw,1.3rem)] text-[rgba(255,220,120,0.85)] tracking-[0.3em] uppercase opacity-0 [text-shadow:0_0_20px_rgba(201,162,39,0.6)]"
+          className="font-body text-[clamp(0.9rem,2vw,1.3rem)] font-medium text-[rgba(255,220,120,0.85)] tracking-[0.2em] uppercase opacity-0 [text-shadow:0_0_20px_rgba(201,162,39,0.6)]"
         >
           Where Gods Build Legends
         </div>
@@ -230,7 +230,7 @@ function ScrollIndicator() {
       <div
         className="w-[2.5px] h-12 [animation:scrollPulse_2s_ease-in-out_infinite] bg-[linear-gradient(to_bottom,rgba(201,162,39,1),transparent)] shadow-[0_0_12px_rgba(201,162,39,0.8)]"
       />
-      Scroll
+      <span className="font-body font-bold">Scroll</span>
     </div>
   );
 }

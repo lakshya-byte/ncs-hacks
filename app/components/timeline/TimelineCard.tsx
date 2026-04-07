@@ -65,7 +65,7 @@ export default function TimelineCard({ title, date, description, side, className
           className={`relative z-10 w-full wrap-break-word ${isLeft ? 'text-left md:text-right' : 'text-left md:text-left'}`}
           style={{ padding: 'clamp(1rem, 2vw, 2rem)' }}
         >
-          <p className="font-heading text-[0.75rem] font-bold uppercase tracking-[0.2em] text-[#b8860b] md:text-xs mb-3">
+          <p className="font-body text-[0.8rem] font-bold uppercase tracking-[0.15em] text-[#b8860b] md:text-sm mb-3">
             {date}
           </p>
           <h3

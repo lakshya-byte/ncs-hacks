@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Inter, Cinzel } from 'next/font/google';
 import './globals.css';
 import LenisProvider from './components/utils/LenisProvider';
 import Navbar from './components/ui/Navbar';
@@ -6,6 +7,18 @@ import Footer from './components/ui/Footer';
 import MarqueeStrip from './components/ui/MarqueeStrip';
 import AudioSystem from './components/ui/AudioSystem';
 import ShootingStars from './components/ui/ShootingStars';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+const cinzel = Cinzel({
+  subsets: ['latin'],
+  variable: '--font-cinzel',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Asgard — Where Gods Build Legends',
@@ -23,8 +36,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className={`${inter.variable} ${cinzel.variable}`}>
+      <body className="antialiased">
         <LenisProvider>
           <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: -1 }}>
             <ShootingStars />

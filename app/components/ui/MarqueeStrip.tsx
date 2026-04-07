@@ -308,13 +308,13 @@ export default function MarqueeStrip() {
               }}
             >
               <span style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: 'clamp(0.8rem, 1.6vw, 1.15rem)',
-                fontWeight: 600,
-                letterSpacing: '0.42em',
+                fontFamily: 'var(--font-body)',
+                fontSize: 'clamp(0.85rem, 1.8vw, 1.25rem)',
+                fontWeight: 800,
+                letterSpacing: '0.22em',
                 textTransform: 'uppercase',
                 padding: '0 2.5rem',
-                color: 'rgba(245,217,128,0.35)',
+                color: 'rgba(245,217,128,0.45)',
               }}>
                 ᚠ &nbsp; OFFICIAL TECHNICAL SOCIETY · JSSATEN · EST. 2018 · NOIDA &nbsp; ᚠ
               </span>

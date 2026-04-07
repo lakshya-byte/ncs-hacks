@@ -130,7 +130,7 @@ function GlassCard({
             border: '1.5px solid rgba(201,162,39,0.5)',
             background: 'radial-gradient(circle at 35% 30%, #fff9e6, #f5d980 40%, #c9a227 70%, #7a5210)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: '#fff',
+            fontFamily: 'var(--font-heading)', fontSize: '1.4rem', color: '#fff',
             boxShadow: hovered
               ? '0 0 24px rgba(201,162,39,0.6), inset 0 1px 0 rgba(255,255,255,0.6)'
               : '0 0 10px rgba(201,162,39,0.3), inset 0 1px 0 rgba(255,255,255,0.5)',
@@ -144,8 +144,8 @@ function GlassCard({
 
         {/* Title */}
         <h3 style={{
-          fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.1rem, 2vw, 1.4rem)',
-          fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase',
+          fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.2rem, 2.2vw, 1.5rem)',
+          fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase',
           color: '#f5d980', margin: '0 0 0.6rem', position: 'relative', zIndex: 1,
           lineHeight: 1.2,
         }}>
@@ -154,9 +154,9 @@ function GlassCard({
 
         {/* Description */}
         <p style={{
-          fontFamily: 'var(--font-body)', fontSize: 'clamp(0.8rem, 1.3vw, 0.92rem)',
-          color: 'rgba(255,255,255,0.75)', lineHeight: 1.65, margin: 0, position: 'relative', zIndex: 1,
-          letterSpacing: '0.02em',
+          fontFamily: 'var(--font-body)', fontSize: 'clamp(0.85rem, 1.4vw, 1rem)',
+          color: 'rgba(255,255,255,0.8)', lineHeight: 1.6, margin: 0, position: 'relative', zIndex: 1,
+          letterSpacing: '0.01em',
         }}>
           {description}
         </p>
@@ -317,8 +317,8 @@ export default function KingdomOfNibble() {
               border: '1px solid rgba(245,217,128,0.4)',
               background: 'rgba(255,255,255,0.12)',
               backdropFilter: 'blur(10px)',
-              fontSize: '0.62rem', fontFamily: 'var(--font-heading)',
-              fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase',
+              fontSize: '0.7rem', fontFamily: 'var(--font-body)',
+              fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase',
               color: '#f5d980', marginBottom: '1.5rem',
             }}
           >
