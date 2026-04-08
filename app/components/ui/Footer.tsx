@@ -4,8 +4,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
   FaInstagram as Instagram,
-  FaFacebook as Facebook,
-  FaXTwitter as Twitter,
   FaLinkedin as Linkedin,
   FaEnvelope as Mail,
   FaPhone as Phone,
@@ -24,10 +22,8 @@ const NAV_LINKS = [
 ];
 
 const SOCIALS = [
-  { icon: <Instagram size={15} />, href: '#', label: 'Instagram' },
-  { icon: <Facebook size={15} />, href: '#', label: 'Facebook' },
-  { icon: <Twitter size={15} />, href: '#', label: 'X / Twitter' },
-  { icon: <Linkedin size={15} />, href: '#', label: 'LinkedIn' },
+  { icon: <Instagram size={15} />, href: 'https://www.instagram.com/inouthacks_2026', label: 'Instagram' },
+  { icon: <Linkedin size={15} />, href: 'https://www.linkedin.com/company/hackncs/posts/?feedView=all', label: 'LinkedIn' },
 ];
 
 const RUNE_ROW = 'ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ ᛇ ᛈ ᛉ ᛊ ᛏ ᛒ ᛖ ᛗ ᛚ ᛜ ᛞ ᛟ ';
@@ -227,6 +223,30 @@ export default function GodLevelFooter() {
                 JSS Academy of Technical Education,<br />
                 Sector 62, Noida, UP 201301
               </p>
+            </div>
+
+            {/* Contact Persons */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem 1.5rem', marginTop: '0.25rem' }}>
+              {[
+                { name: 'Prof. (Dr.) Kakoli Banerjee', phone: '+91 9871807851' },
+                { name: 'Parth Mishra', phone: '+91 8265973550' },
+                { name: 'Prof. (Dr.) Dhiraj Pandey', phone: '+91 9953515734' },
+                { name: 'Insha Naseem', phone: '+91 9899671211' },
+              ].map((contact) => (
+                <div key={contact.phone}>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', color: `rgba(201,162,39,0.6)`, margin: '0 0 2px', letterSpacing: '0.05em', textTransform: 'uppercase', fontWeight: 700 }}>
+                    {contact.name}
+                  </p>
+                  <a
+                    href={`tel:${contact.phone.replace(/\s/g, '')}`}
+                    style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: TEXT_SECONDARY, textDecoration: 'none', transition: 'color 200ms ease' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = GOLD_LIGHT; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = TEXT_SECONDARY; }}
+                  >
+                    {contact.phone}
+                  </a>
+                </div>
+              ))}
             </div>
           </div>
 
