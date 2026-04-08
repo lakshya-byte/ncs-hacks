@@ -593,7 +593,7 @@ export default function WinnersSection() {
               letterSpacing: '0.02em',
             }}
           >
-            Scroll to reveal the celestial champions of Asgard.
+            Scroll to reveal the celestial champions of INOUT.
             <br />
             <span style={{ color: '#B8860B', fontWeight: 700 }}>
               {flipped ? 'The champions have been revealed.' : 'Keep scrolling — the cards are turning…'}
@@ -644,14 +644,14 @@ export default function WinnersSection() {
           <span
             className="font-heading uppercase"
             style={{
-              fontSize: 'clamp(0.55rem, 0.75vw, 0.68rem)',
-              letterSpacing: '0.4em',
-              color: 'rgba(184,134,11,0.5)',
+              fontSize: 'clamp(0.8rem, 1.2vw, 1.1rem)',
+              letterSpacing: '0.35em',
+              color: 'rgba(212,175,55,0.75)',
               fontWeight: 700,
               whiteSpace: 'nowrap',
             }}
           >
-            ✦ Champions of Asgard ✦
+            ✦ Champions of INOUT ✦
           </span>
           <div
             style={{

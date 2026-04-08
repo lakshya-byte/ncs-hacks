@@ -416,7 +416,7 @@ export default function FAQSection() {
               marginBottom: '1rem',
             }}
           >
-            ✦&nbsp;&nbsp;Asgard Archives&nbsp;&nbsp;✦
+            ✦&nbsp;&nbsp;INOUT Archives&nbsp;&nbsp;✦
           </p>
 
           {/* Main title */}
@@ -465,7 +465,7 @@ export default function FAQSection() {
               marginTop: '1rem',
             }}
           >
-            Sacred knowledge for every warrior seeking to join the ranks of Asgard.
+            Sacred knowledge for every warrior seeking to join the ranks of INOUT.
           </p>
         </div>
 

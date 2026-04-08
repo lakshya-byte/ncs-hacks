@@ -271,7 +271,7 @@ export default function CallToAction() {
             margin: '0 0 2rem',
           }}
         >
-          The realm awaits your creation. Forge something that defies the ordinary — and let your name echo through Asgard.
+          The realm awaits your creation. Forge something that defies the ordinary — and let your name echo through INOUT.
         </p>
 
         {/* CTA Button */}

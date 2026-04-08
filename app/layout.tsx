@@ -21,12 +21,17 @@ const cinzel = Cinzel({
 });
 
 export const metadata: Metadata = {
-  title: 'Asgard — Where Gods Build Legends',
+  title: 'INOUT — Where Gods Build Legends',
   description:
-    'A cinematic journey through the gates of Asgard. Scroll to enter the divine realm of the Norse gods.',
-  keywords: ['Asgard', 'Norse mythology', 'hackathon', 'cinematic'],
+    'A cinematic journey through the gates of INOUT. Scroll to enter the divine realm of the Norse gods.',
+  keywords: ['INOUT', 'Norse mythology', 'hackathon', 'cinematic'],
+  icons: {
+    icon: '/vector.png',
+    shortcut: '/vector.png',
+    apple: '/vector.png',
+  },
   openGraph: {
-    title: 'Asgard — Where Gods Build Legends',
+    title: 'INOUT — Where Gods Build Legends',
     description: 'Enter the realm of the Norse gods.',
     type: 'website',
   },
