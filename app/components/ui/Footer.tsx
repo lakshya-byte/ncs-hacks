@@ -176,13 +176,7 @@ export default function GodLevelFooter() {
             </span>
           </Link>
 
-          {/* Sub-labels */}
-          <p style={{
-            fontFamily: 'var(--font-body)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase',
-            color: GOLD_LIGHT, margin: '0.8rem 0 0',
-          }}>
-            Official Technical Society of JSSATEN
-          </p>
+          {/* Sub-labels (Official Technical Society line removed) */}
           <p style={{
             fontFamily: 'var(--font-body)', fontSize: '0.95rem', lineHeight: 1.6, color: TEXT_SECONDARY,
             margin: '0.6rem auto 0', maxWidth: '360px',

@@ -10,11 +10,11 @@ import Image from 'next/image';
 // aspect: 'square' | 'portrait' | 'landscape'
 // ─────────────────────────────────────────────────────────────────────────────
 const ALL_PHOTOS = [
-  { src: '/event_photos/image.png', alt: 'Memories of Asgard', aspect: 'landscape' as const },
+  { src: '/event_photos/image.png', alt: 'Memories of JSS', aspect: 'landscape' as const },
   { src: '/event_photos/image copy.png', alt: 'NCS Hackathon Event', aspect: 'portrait' as const },
   { src: '/event_photos/image copy 2.png', alt: 'Hackathon Memories', aspect: 'landscape' as const },
   { src: '/event_photos/image copy 3.png', alt: 'NCS Event', aspect: 'portrait' as const },
-  { src: '/event_photos/image copy 4.png', alt: 'Asgard Moments', aspect: 'landscape' as const },
+  { src: '/event_photos/image copy 4.png', alt: 'JSS Moments', aspect: 'landscape' as const },
   { src: '/event_photos/image copy 5.png', alt: 'NCS Highlights', aspect: 'portrait' as const },
   { src: '/event_photos/image copy 6.png', alt: 'Hackathon Journey', aspect: 'landscape' as const },
   { src: '/event_photos/image copy 7.png', alt: 'Stage NCS', aspect: 'landscape' as const },
@@ -339,7 +339,7 @@ export default function PhotoStream() {
               opacity: 0.8,
             }}
           >
-            ✦&nbsp;&nbsp;NCS Hackathon&nbsp;&nbsp;✦
+            ✦&nbsp;&nbsp;INOUT HACKS&nbsp;&nbsp;✦
           </p>
 
           {/* Main heading */}
@@ -364,7 +364,7 @@ export default function PhotoStream() {
                 backgroundClip: 'text',
               }}
             >
-              Asgard
+              JSS
             </span>
           </h2>
 

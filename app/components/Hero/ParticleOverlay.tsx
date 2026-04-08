@@ -60,24 +60,25 @@ function ParticleText({ scrollProgress, isMobile }: { scrollProgress: number, is
   // Calculate dynamic scale to ensure it fits mobile screens (approx 20 units wide originally)
   const responsiveScale = Math.min(1.0, (viewport.width * 0.85) / 20);
   
-  // Create circular particle texture
-  const circleTexture = React.useMemo(() => {
+  // Create glowing radial particle texture
+  const glowTexture = React.useMemo(() => {
     const canvas = document.createElement('canvas');
     canvas.width = 64;
     canvas.height = 64;
     const ctx = canvas.getContext('2d');
     if (ctx) {
-      ctx.beginPath();
-      // Draw a solid circle
-      ctx.arc(32, 32, 28, 0, Math.PI * 2);
-      ctx.fillStyle = 'white';
-      ctx.fill();
+      const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+      gradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.8)');
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 64, 64);
     }
     return new THREE.CanvasTexture(canvas);
   }, []);
   
   useEffect(() => {
-    const pts = generateTextParticles("NIOH", 1024, 512, isMobile);
+    const pts = generateTextParticles("INOUT", 1024, 512, isMobile);
     const base = new Float32Array(pts.length * 3);
     const rand = new Float32Array(pts.length * 3);
     const curr = new Float32Array(pts.length * 3);
@@ -122,8 +123,8 @@ function ParticleText({ scrollProgress, isMobile }: { scrollProgress: number, is
     mousePos.x /= responsiveScale;
     mousePos.y /= responsiveScale;
 
-    const hoverRadius = 1.8; 
-    const hoverForce = 0.5;  
+    const hoverRadius = 2.2; 
+    const hoverForce = 0.65;  
 
     for (let i = 0; i < positions.length / 3; i++) {
         const bx = basePositions.current[i*3];
@@ -142,7 +143,7 @@ function ParticleText({ scrollProgress, isMobile }: { scrollProgress: number, is
               const force = Math.pow(1 - d / hoverRadius, 1.5) * hoverForce;
               targetX += (dx / d) * force;
               targetY += (dy / d) * force;
-              targetZ += force * 4.0; 
+              targetZ += force * 5.0; 
            }
         }
 
@@ -171,12 +172,12 @@ function ParticleText({ scrollProgress, isMobile }: { scrollProgress: number, is
     <points ref={pointsRef} scale={[responsiveScale, responsiveScale, responsiveScale]}>
       <bufferGeometry ref={geometryRef} />
       <pointsMaterial 
-        size={isMobile ? 0.14 : 0.08} 
-        map={circleTexture}
-        alphaTest={0.01}
+        size={isMobile ? 0.35 : 0.22} 
+        map={glowTexture}
+        alphaTest={0.001}
         color="#F5E0A3" 
         transparent 
-        opacity={0.85}
+        opacity={0.9}
         blending={THREE.AdditiveBlending}
         depthWrite={false}
       />
@@ -234,7 +235,7 @@ export default function ParticleOverlay() {
         }}
       >
         <div className="font-heading text-[1.2rem] md:text-[1.5rem] tracking-[0.4em] text-[#C9A84C] uppercase drop-shadow-[0_0_15px_rgba(201, 168, 76, 0.6)]">
-          NCS In Out Hacks
+          INOUT HACKS
         </div>
       </div>
       

@@ -18,43 +18,43 @@ interface Track {
 const tracks: Track[] = [
   {
     id: "01",
-    title: "AI / Machine Learning",
-    description:
-      "The All-Seeing Mind. Harness the omniscient power of artificial intelligence, akin to the watchful gaze of the divine. Forge algorithms that perceive the unseen and predict the future.",
-    bgGradient: "from-[#0A0A0A] to-[#121212]",
-    image: "/tracks/AIML.png",
-  },
-  {
-    id: "02",
-    title: "Web / Platforms",
-    description:
-      "Construct the digital realms of tomorrow. Build robust, scalable, and divine architectures that seamlessly connect the world through glowing networks.",
-    bgGradient: "from-[#090909] to-[#141414]",
-    image: "/tracks/WebDev.png",
-  },
-  {
-    id: "03",
-    title: "Blockchain",
-    description:
-      "Weave trust into the digital fabric. Create immutable decentralized systems and smart contracts that stand the test of time like ancient, unbreakable runes.",
-    bgGradient: "from-[#080808] to-[#111111]",
-    image: "/tracks/Blockchain.png",
-  },
-  {
-    id: "04",
-    title: "Open Innovation",
-    description:
-      "The Infinite Gate. For those whose visions transcend the specified realms. Craft the unforeseen and forge original paths through the uncharted territories of innovation.",
-    bgGradient: "from-[#0A0A0A] to-[#131313]",
-    image: "/tracks/OpenInnovation.png",
-  },
-  {
-    id: "05",
     title: "Cybersecurity",
     description:
       "The Bastion of Bifrost. Defend the interconnected realms from the shadows of the void. Construct ironclad fortifications and vigilant wards to protect the sacred data paths of the gods.",
     bgGradient: "from-[#080808] to-[#111111]",
     image: "/tracks/CyberSecuirty.png",
+  },
+  {
+    id: "02",
+    title: "AI & Automation",
+    description:
+      "The Divine Intellect. Harness the omniscient power of self-evolving algorithms and autonomous spirits. Forge systems that solve the unsolvable and automate the heavy lifting of the realms.",
+    bgGradient: "from-[#0A0A0A] to-[#121212]",
+    image: "/tracks/AIML.png",
+  },
+  {
+    id: "03",
+    title: "Blockchain",
+    description:
+      "The Immutable Runes. Weave trust into the digital fabric. Create decentralized systems and unbreakable contracts that stand the test of time like the ancient scribes of Asgard.",
+    bgGradient: "from-[#080808] to-[#111111]",
+    image: "/tracks/Blockchain.png",
+  },
+  {
+    id: "04",
+    title: "Internet of Things (IoT)",
+    description:
+      "The World-Soul Connection. Extend the divine consciousness into the physical world. Link the artifacts of Midgard into a singular, sentient network that responds to the will of its builders.",
+    bgGradient: "from-[#090909] to-[#141414]",
+    image: "/tracks/IOT.png",
+  },
+  {
+    id: "05",
+    title: "Open Innovation",
+    description:
+      "The Infinite Gate. For those whose visions transcend the specified realms. Craft the unforeseen and forge original paths through the uncharted territories of innovation.",
+    bgGradient: "from-[#0A0A0A] to-[#131313]",
+    image: "/tracks/OpenInnovation.png",
   },
 ];
 

@@ -16,12 +16,12 @@ const PARTICLE_SIZES = [3, 4, 3.5, 4.5, 3, 4];
 const WINNERS = [
   {
     id: 1,
-    title: 'KING OF AI',
-    track: 'Artificial Intelligence',
-    subtitle: 'Grand Champion • AI Track',
-    rune: 'ᚠ',
-    image: '/winners/AI.png',
-    prize: '',
+    title: 'FIRST PRIZE',
+    track: '₹15,000',
+    subtitle: 'Trophy + Certificate + Goodies',
+    rune: '🥇',
+    image: '/winners/first.png',
+    prize: '₹15,000',
     accent: '#C9A84C',
     accentLight: '#F5E0A3',
     borderColor: 'rgba(201, 168, 76, 0.45)',
@@ -30,45 +30,31 @@ const WINNERS = [
   },
   {
     id: 2,
-    title: 'ODIN OF WEB',
-    track: 'Web Development',
-    subtitle: 'Grand Champion • Web Track',
-    rune: 'ᚹ',
-    image: '/winners/web.png',
-    prize: '',
-    accent: '#1C5FAE',
-    accentLight: '#DDEEFF',
-    borderColor: 'rgba(28,95,174,0.4)',
-    hoverBorder: 'rgba(56,140,210,0.75)',
-    glowColor: 'rgba(56,140,220,0.28)',
+    title: 'SECOND PRIZE',
+    track: '₹10,000',
+    subtitle: 'Trophy + Certificate + Goodies',
+    rune: '🥈',
+    image: '/winners/second.png',
+    prize: '₹10,000',
+    accent: '#A8B8C8',
+    accentLight: '#E8F0F8',
+    borderColor: 'rgba(168,184,200,0.4)',
+    hoverBorder: 'rgba(200,214,228,0.75)',
+    glowColor: 'rgba(168,184,200,0.28)',
   },
   {
     id: 3,
-    title: 'ARCHITECT OF WEB3',
-    track: 'Blockchain',
-    subtitle: 'Grand Champion • Blockchain Track',
-    rune: 'ᛟ',
-    image: '/winners/blockchain.png',
-    prize: '',
-    accent: '#6B21A8',
-    accentLight: '#F3E8FF',
-    borderColor: 'rgba(107,33,168,0.35)',
-    hoverBorder: 'rgba(147,80,200,0.75)',
-    glowColor: 'rgba(130,60,190,0.28)',
-  },
-  {
-    id: 4,
-    title: 'CREATOR OF REALMS',
-    track: 'Open Innovation',
-    subtitle: 'Grand Champion • Open Innovation',
-    rune: 'ᚷ',
-    image: '/winners/open_innovation.png',
-    prize: '',
-    accent: '#9A3412',
-    accentLight: '#FEE2CC',
-    borderColor: 'rgba(154,52,18,0.4)',
-    hoverBorder: 'rgba(220,90,40,0.75)',
-    glowColor: 'rgba(200,80,30,0.28)',
+    title: 'THIRD PRIZE',
+    track: '₹5,000',
+    subtitle: 'Trophy + Certificate + Goodies',
+    rune: '🥉',
+    image: '/winners/three.png',
+    prize: '₹5,000',
+    accent: '#CD7F32',
+    accentLight: '#F5DEB3',
+    borderColor: 'rgba(205,127,50,0.4)',
+    hoverBorder: 'rgba(230,160,80,0.75)',
+    glowColor: 'rgba(205,127,50,0.28)',
   },
 ] as const;
 
@@ -240,19 +226,18 @@ const TarotCard = React.forwardRef<
               />
             ))}
 
-            {/* Rune */}
+            {/* Medal emoji rune */}
             <div className="relative mb-3 flex flex-col items-center">
               <div
                 className="absolute rounded-full blur-2xl"
                 style={{ inset: '-40%', background: winner.accent, opacity: 0.15 }}
               />
               <span
-                className="relative font-heading block"
+                className="relative block"
                 style={{
                   fontSize: 'clamp(52px, 6vw, 72px)',
                   lineHeight: 1,
-                    color: winner.accentLight,
-                    filter: `drop-shadow(0 2px 20px ${winner.accent})`,
+                  filter: `drop-shadow(0 2px 20px ${winner.accent})`,
                 }}
               >
                 {winner.rune}
@@ -262,18 +247,18 @@ const TarotCard = React.forwardRef<
             <p
               className="font-heading uppercase"
               style={{
-                fontSize: 'clamp(0.5rem, 0.7vw, 0.62rem)',
-                letterSpacing: '0.42em',
-                color: winner.accent,
-                opacity: 0.7,
-                fontWeight: 700,
+                fontSize: 'clamp(0.7rem, 1vw, 0.9rem)',
+                letterSpacing: '0.18em',
+                color: winner.accentLight,
+                opacity: 0.85,
+                fontWeight: 800,
               }}
             >
-              {winner.track}
+              {winner.prize}
             </p>
           </div>
 
-          {/* ══ BACK FACE — Tarot image ══ */}
+          {/* ══ BACK FACE — Prize image ══ */}
           <div
             className="absolute inset-0 overflow-hidden"
             style={{
@@ -289,7 +274,7 @@ const TarotCard = React.forwardRef<
               src={winner.image}
               alt={winner.title}
               fill
-              sizes="(max-width: 480px) 90vw, (max-width: 768px) 44vw, (max-width: 1024px) 22vw, 20vw"
+              sizes="(max-width: 480px) 90vw, (max-width: 768px) 44vw, (max-width: 1024px) 30vw, 28vw"
               className="object-cover object-top"
               quality={88}
               priority={winner.id <= 2}
@@ -300,7 +285,7 @@ const TarotCard = React.forwardRef<
               className="absolute inset-0 pointer-events-none"
               style={{
                 background:
-                  'linear-gradient(to bottom, transparent 48%, rgba(10,6,2,0.75) 100%)',
+                  'linear-gradient(to bottom, transparent 48%, rgba(10,6,2,0.85) 100%)',
               }}
             />
 
@@ -324,11 +309,11 @@ const TarotCard = React.forwardRef<
               <p
                 className="font-heading"
                 style={{
-                  fontSize: 'clamp(1rem, 1.5vw, 1.3rem)',
-                  color: '#F5E0A3',
+                  fontSize: 'clamp(1.1rem, 1.6vw, 1.5rem)',
+                  color: winner.accentLight,
                   fontWeight: 800,
                   letterSpacing: '0.05em',
-                  textShadow: '0 2px 16px rgba(255,220,50,0.5)',
+                  textShadow: `0 2px 16px ${winner.glowColor}`,
                 }}
               >
                 {winner.prize}
@@ -435,7 +420,6 @@ export default function WinnersSection() {
       });
 
       // ── Flip cards when the grid crosses 50% of the viewport ──
-      // No pin, no sticky — just a simple trigger using class selector.
       const grid = sectionRef.current?.querySelector('.winners-grid');
       if (grid) {
         ScrollTrigger.create({
@@ -537,7 +521,7 @@ export default function WinnersSection() {
               marginBottom: '0.75rem',
             }}
           >
-            ✦&nbsp;&nbsp;Sacred Artifacts&nbsp;&nbsp;✦
+            ✦&nbsp;&nbsp;Sacred Prizes&nbsp;&nbsp;✦
           </p>
 
           {/* Main heading */}
@@ -609,7 +593,7 @@ export default function WinnersSection() {
               letterSpacing: '0.02em',
             }}
           >
-            Scroll to reveal the celestial champions of each realm.
+            Scroll to reveal the celestial champions of Asgard.
             <br />
             <span style={{ color: '#B8860B', fontWeight: 700 }}>
               {flipped ? 'The champions have been revealed.' : 'Keep scrolling — the cards are turning…'}
@@ -621,7 +605,7 @@ export default function WinnersSection() {
         <div
           className="relative z-10 w-full"
           style={{
-            maxWidth: '1380px',
+            maxWidth: '1100px',
             margin: '0 auto',
             padding: '0 clamp(1rem, 4vw, 2.5rem)',
           }}
@@ -713,23 +697,25 @@ export default function WinnersSection() {
 
       {/* ── Global styles for this section ── */}
       <style>{`
-        /* Responsive card grid */
+        /* Responsive card grid — 3 columns */
         .winners-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: clamp(0.75rem, 2vw, 2rem);
+          grid-template-columns: repeat(3, 1fr);
+          gap: clamp(1rem, 2.5vw, 2.5rem);
           align-items: start;
         }
-        @media (max-width: 960px) {
+        @media (max-width: 768px) {
           .winners-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: clamp(0.75rem, 3vw, 1.5rem);
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(0.5rem, 2vw, 1rem);
           }
         }
-        @media (max-width: 520px) {
+        @media (max-width: 480px) {
           .winners-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            max-width: 320px;
+            margin: 0 auto;
           }
         }
 
