@@ -9,7 +9,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface Track {
   id: string;
+  realm: string;
+  trackCode: string; // Internal metadata for cinematic depth
+  trackName: string;
   title: string;
+  tagline: string;
   description: string;
   bgGradient: string;
   image: string;
@@ -18,41 +22,61 @@ interface Track {
 const tracks: Track[] = [
   {
     id: "01",
+    realm: "Realm I — The Watch of Heimdall",
+    trackCode: "V-SYST-01",
+    trackName: "INFILTRATE",
     title: "Cybersecurity",
+    tagline: "They built the wall. You find the door.",
     description:
-      "The Bastion of Bifrost. Defend the interconnected realms from the shadows of the void. Construct ironclad fortifications and vigilant wards to protect the sacred data paths of the gods.",
+      "This track focuses on staying ahead of threats, finding weaknesses before they become breaches. Like Heimdall — stay alert before things go wrong.",
     bgGradient: "from-[#080808] to-[#111111]",
     image: "/tracks/CyberSecuirty.png",
   },
   {
     id: "02",
+    realm: "Realm II — The Sacrifice of Odin",
+    trackCode: "V-INTE-02",
+    trackName: "COGNIFY",
     title: "AI & Automation",
+    tagline: "Stop automating tasks. Start replacing limits.",
     description:
-      "The Divine Intellect. Harness the omniscient power of self-evolving algorithms and autonomous spirits. Forge systems that solve the unsolvable and automate the heavy lifting of the realms.",
+      "This track focuses on building intelligent systems that don't just automate, but evolve. Build systems that think, adapt, and operate with precision beyond limits.",
     bgGradient: "from-[#0A0A0A] to-[#121212]",
     image: "/tracks/AIML.png",
   },
   {
     id: "03",
-    title: "Blockchain",
+    realm: "Realm III — The Bonds of Forseti",
+    trackCode: "V-DATA-03",
+    trackName: "VERITAS",
+    title: "Crypto & Blockchain",
+    tagline: "Eliminate the noise. What remains is truth.",
     description:
-      "The Immutable Runes. Weave trust into the digital fabric. Create decentralized systems and unbreakable contracts that stand the test of time like the ancient scribes of INOUT.",
+      "This track focuses on trust through technology. If the system is strong, trust follows.",
     bgGradient: "from-[#080808] to-[#111111]",
     image: "/tracks/Blockchain.png",
   },
   {
     id: "04",
-    title: "Internet of Things (IoT)",
+    realm: "Realm IV — The Bifrost Network",
+    trackCode: "V-PHYS-04",
+    trackName: "ACTIVATE",
+    title: "IoT & Robotics",
+    tagline: "Wire it. Program it. Unleash it.",
     description:
-      "The World-Soul Connection. Extend the divine consciousness into the physical world. Link the artifacts of Midgard into a singular, sentient network that responds to the will of its builders.",
+      "This track focuses on building systems that connect the physical world with the digital world — like Bifrost does.",
     bgGradient: "from-[#090909] to-[#141414]",
     image: "/tracks/IOT.png",
   },
   {
     id: "05",
+    realm: "Realm V — The Unwritten Rune",
+    trackCode: "V-VOID-05",
+    trackName: "UNCHARTED",
     title: "Open Innovation",
+    tagline: "No brief. No ceiling. No permission needed.",
     description:
-      "The Infinite Gate. For those whose visions transcend the specified realms. Craft the unforeseen and forge original paths through the uncharted territories of innovation.",
+      "In Norse myths, runes represent hidden knowledge — not everything is known yet. Some ideas don't follow rules — they create new ones.",
     bgGradient: "from-[#0A0A0A] to-[#131313]",
     image: "/tracks/OpenInnovation.png",
   },
@@ -82,17 +106,59 @@ const MOBILE_PARTICLE_OPACITY_FACTOR = 0.85;
 const particles = [
   { left: "8%", top: "82%", size: 2, duration: 24, delay: -8, opacity: 0.3 },
   { left: "16%", top: "74%", size: 2, duration: 29, delay: -14, opacity: 0.36 },
-  { left: "22%", top: "86%", size: 1.5, duration: 27, delay: -5, opacity: 0.24 },
+  {
+    left: "22%",
+    top: "86%",
+    size: 1.5,
+    duration: 27,
+    delay: -5,
+    opacity: 0.24,
+  },
   { left: "29%", top: "72%", size: 2, duration: 33, delay: -22, opacity: 0.32 },
-  { left: "36%", top: "88%", size: 1.5, duration: 26, delay: -16, opacity: 0.22 },
+  {
+    left: "36%",
+    top: "88%",
+    size: 1.5,
+    duration: 26,
+    delay: -16,
+    opacity: 0.22,
+  },
   { left: "43%", top: "78%", size: 2, duration: 35, delay: -3, opacity: 0.35 },
-  { left: "49%", top: "84%", size: 1.5, duration: 30, delay: -25, opacity: 0.26 },
+  {
+    left: "49%",
+    top: "84%",
+    size: 1.5,
+    duration: 30,
+    delay: -25,
+    opacity: 0.26,
+  },
   { left: "55%", top: "76%", size: 2, duration: 32, delay: -12, opacity: 0.3 },
-  { left: "61%", top: "90%", size: 1.5, duration: 28, delay: -18, opacity: 0.24 },
+  {
+    left: "61%",
+    top: "90%",
+    size: 1.5,
+    duration: 28,
+    delay: -18,
+    opacity: 0.24,
+  },
   { left: "67%", top: "80%", size: 2, duration: 34, delay: -10, opacity: 0.33 },
-  { left: "72%", top: "86%", size: 1.5, duration: 31, delay: -27, opacity: 0.22 },
+  {
+    left: "72%",
+    top: "86%",
+    size: 1.5,
+    duration: 31,
+    delay: -27,
+    opacity: 0.22,
+  },
   { left: "78%", top: "74%", size: 2, duration: 36, delay: -21, opacity: 0.32 },
-  { left: "84%", top: "88%", size: 1.5, duration: 25, delay: -6, opacity: 0.25 },
+  {
+    left: "84%",
+    top: "88%",
+    size: 1.5,
+    duration: 25,
+    delay: -6,
+    opacity: 0.25,
+  },
   { left: "90%", top: "79%", size: 2, duration: 33, delay: -19, opacity: 0.34 },
 ];
 
@@ -117,16 +183,24 @@ export default function HackathonTracks() {
           const index = Math.min(4, Math.floor(self.progress * 5));
           const centeredProgress = self.progress - 0.5;
           if (cloudLayerRef.current) {
-            gsap.set(cloudLayerRef.current, { y: centeredProgress * PARALLAX.clouds });
+            gsap.set(cloudLayerRef.current, {
+              y: centeredProgress * PARALLAX.clouds,
+            });
           }
           if (raysLayerRef.current) {
-            gsap.set(raysLayerRef.current, { y: centeredProgress * PARALLAX.rays });
+            gsap.set(raysLayerRef.current, {
+              y: centeredProgress * PARALLAX.rays,
+            });
           }
           if (particlesLayerRef.current) {
-            gsap.set(particlesLayerRef.current, { y: centeredProgress * PARALLAX.particles });
+            gsap.set(particlesLayerRef.current, {
+              y: centeredProgress * PARALLAX.particles,
+            });
           }
           if (gradientMotionLayerRef.current) {
-            gsap.set(gradientMotionLayerRef.current, { y: centeredProgress * PARALLAX.gradient });
+            gsap.set(gradientMotionLayerRef.current, {
+              y: centeredProgress * PARALLAX.gradient,
+            });
           }
           setActiveIndex((prev) => (prev !== index ? index : prev));
         },
@@ -151,7 +225,6 @@ export default function HackathonTracks() {
             className={`absolute inset-0 w-full h-full bg-gradient-to-br from-black/20 to-black/40 transition-opacity duration-1000 ease-in-out ${
               idx === activeIndex ? "opacity-100" : "opacity-0"
             }`}
-
           />
         ))}
       </div>
@@ -263,76 +336,137 @@ export default function HackathonTracks() {
       <div className="relative z-10 w-full h-[100dvh] flex items-center justify-center pointer-events-none">
         {/* We use pointer-events-none on wrapper to pass swipe physics down cleanly, re-enable for interactivity inside */}
         <div className="container-main relative flex items-center justify-center w-full h-full max-h-[900px] py-12 md:py-0 pointer-events-auto">
-          
-          <div className="w-full grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-6 md:gap-8 lg:gap-12 items-center justify-center">
-            
-            {/* TEXT SIDE */}
-            <div className="col-span-4 md:col-span-4 lg:col-span-5 flex flex-col items-center md:items-start text-center md:text-left order-first md:order-0">
-              <span
-                className="font-heading leading-none text-transparent select-none"
-                style={{
-                  WebkitTextStroke: "3px rgba(212, 175, 55, 0.6)",
-                  fontSize: "clamp(3.5rem, 12vw, 7rem)",
-                }}
-              >
-                {active.id}
-              </span>
+          <div className="w-full flex flex-col md:flex-row items-center gap-8 md:gap-10 lg:gap-14">
+            {/* TEXT SIDE — PIXEL-PERFECT TYPOGRAPHY */}
+            <div className="w-full md:w-[58%] lg:w-[55%] shrink-0 min-w-0 overflow-hidden flex flex-col items-start justify-center text-left relative md:h-[320px] lg:h-[480px] px-4 md:px-0 gap-3">
 
-              <h2
-                className="mt-1 md:mt-2 font-heading font-bold leading-[1.1] tracking-tight text-[#B8860B] drop-shadow-[0_0_20px_rgba(212,175,55,0.2)] transition-all duration-700"
-                style={{ fontSize: "clamp(1.75rem, 8vw, 4rem)" }}
-              >
-                {active.title}
-              </h2>
+              {/* Top Micro-text: Archive Tag (top-right of block) */}
+              <div className="absolute -top-7 right-0 pointer-events-none">
+                <span className="font-sans text-[10px] uppercase tracking-[0.32em] text-[#7a6230]/70 select-none">
+                  JSS // ARCHIVE
+                </span>
+              </div>
 
-              <p className="mt-4 md:mt-7 mx-auto md:mx-0 font-body leading-[1.4] text-[#FFF8D8] max-w-lg font-medium transition-all duration-700 px-4 md:px-0"
-                 style={{ 
-                   fontSize: "20px",
-                   letterSpacing: "0.04em"
-                 }}>
-                {active.description}
-              </p>
+              {/* Primary Title Block */}
+              <div className="flex flex-col leading-none w-full">
+                {/* HOLLOW — Track Name (Serif, Giant, Outlined) */}
+                <span
+                  className="font-serif text-transparent uppercase select-none block leading-[0.88] w-full"
+                  style={{
+                    WebkitTextStroke: "1px #B89947",
+                    fontSize: "clamp(2.1rem, 5.8vw, 4rem)",
+                    letterSpacing: "-0.015em",
+                    filter: "drop-shadow(0 0 16px rgba(184,153,71,0.15))",
+                    wordBreak: "keep-all",
+                  }}
+                >
+                  {active.trackName}
+                </span>
+
+                {/* SOLID — Category Title (Serif, Metallic Gold Gradient) */}
+                <h2
+                  className="font-serif font-bold block leading-[0.92] tracking-tight bg-gradient-to-b from-yellow-300 via-yellow-600 to-yellow-700 bg-clip-text text-transparent w-full"
+                  style={{
+                    fontSize: "clamp(2.1rem, 5.8vw, 4rem)",
+                    letterSpacing: "0.01em",
+                    wordBreak: "keep-all",
+                  }}
+                >
+                  {active.title}
+                </h2>
+              </div>
+
+              {/* Quote Section — flanked by thin gold lines */}
+              <div className="flex items-center gap-3 w-full">
+                <div className="h-px w-7 shrink-0 bg-gradient-to-r from-transparent to-[#8a6e30]/80" />
+                <p
+                  className="font-sans italic uppercase text-[#c9a84c]/80 tracking-[0.1em] leading-tight"
+                  style={{ fontSize: "clamp(0.65rem, 1.3vw, 0.78rem)" }}
+                >
+                  &ldquo;{active.tagline}&rdquo;
+                </p>
+                <div className="h-px w-7 shrink-0 bg-gradient-to-l from-transparent to-[#8a6e30]/80" />
+              </div>
+
+              {/* Body Text — off-white, modern sans-serif */}
+              <div className="font-sans text-neutral-200 leading-relaxed tracking-wide space-y-2"
+                   style={{ fontSize: "clamp(0.9rem, 1.5vw, 1.1rem)" }}>
+                {active.description
+                  .split('.')
+                  .filter(s => s.trim())
+                  .map((sentence, idx) => (
+                    <p key={idx} className="opacity-90">{sentence.trim()}.</p>
+                  ))}
+              </div>
+
+              {/* Footer Tag — glowing dot + Realm text */}
+              <div className="flex items-center gap-3 w-full">
+                {/* Faint SEC label far left */}
+                <span className="font-sans text-[11px] uppercase tracking-[0.35em] text-[#7a6230]/30 select-none mr-auto hidden md:inline">
+                  SEC: {active.id}
+                </span>
+                {/* Pulsing Dot */}
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.9)] animate-pulse shrink-0" />
+                {/* Realm Label */}
+                <span className="font-sans text-[13px] font-medium uppercase tracking-[0.2em] text-yellow-500/90 select-none">
+                  {active.realm}
+                </span>
+              </div>
+
             </div>
 
-            {/* VISUAL SIDE */}
-            <div className="col-span-4 md:col-span-4 lg:col-span-7 flex items-center justify-center w-full mt-2 md:mt-0">
-              <div className="relative w-[75%] max-w-[300px] md:w-full md:max-w-[420px] aspect-square">
+            {/* VISUAL SIDE - TRIPLE-LAYER TRINITY FRAME */}
+            <div className="w-full md:flex-1 flex items-center justify-center mt-4 md:mt-0 min-w-0">
+              <div className="relative w-[85%] max-w-[320px] md:w-full md:max-w-[480px] aspect-square">
                 {tracks.map((track, idx) => {
                   const isActive = idx === activeIndex;
                   return (
                     <div
                       key={`visual-${idx}`}
-                      className={`absolute inset-0 transition-all duration-[900ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
+                      className={`absolute inset-0 transition-all duration-[1100ms] cubic-bezier(0.23, 1, 0.32, 1) ${
                         isActive
-                          ? "opacity-100 scale-100 blur-none rotate-0"
+                          ? "opacity-100 scale-100 blur-none rotate-0 translate-y-0"
                           : idx < activeIndex
-                            ? "opacity-0 scale-105 blur-xl rotate-2"
-                            : "opacity-0 scale-95 blur-xl -rotate-2"
+                            ? "opacity-0 scale-110 blur-2xl rotate-3 -translate-y-8"
+                            : "opacity-0 scale-90 blur-2xl -rotate-3 translate-y-8"
                       }`}
                     >
-                      <div className="w-full h-full rounded-[2.5rem] border border-[#C9A84C]/20 bg-black backdrop-blur-xl shadow-[0_0_20px_0_rgba(201,168,76,0.2)] flex items-center justify-center relative overflow-hidden">
-                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(201,168,76,0.2),transparent_60%)] pointer-events-none" />
-                        <div className="absolute inset-5 md:inset-6 rounded-4xl shadow-[0_0_50px_rgba(201,168,76,0.25)] ring-1 ring-[#C9A84C]/20">
-                          <div className="absolute inset-0 rounded-4xl p-[4px] md:p-[6px] overflow-hidden flex items-center justify-center">
-                            
-                            {/* Flowing golden energy background */}
-                            <div className="absolute -inset-8 bg-gradient-to-tr from-[#C9A84C] via-[#F5E0A3] to-[#C9A84C] bg-[size:300%_300%] animate-[borderEnergy_6s_ease-in-out_infinite] blur-[8px] opacity-100" />
-                            
-                            {/* Inner Image Container */}
-                            <div className="relative z-10 h-full w-full overflow-hidden rounded-[calc(2rem-4px)] bg-[#0A0F1C] md:rounded-[calc(2rem-6px)]">
-                              <Image 
-                                src={track.image}
-                                alt={track.title}
-                                fill
-                                sizes="(max-width: 768px) 300px, 420px"
-                                className="object-cover brightness-105"
-                                unoptimized={true}
-                              />
-                              <div className="pointer-events-none absolute inset-0 z-20 mix-blend-screen shadow-[inset_0_0_30px_rgba(255,215,0,0.3)]" />
-                            </div>
-                            
+                      {/* TRIPLE LAYER FRAME SYSTEM */}
+                      <div className="w-full h-full relative p-6 md:p-8">
+                        {/* Layer 1: Outer Atmospheric Glow */}
+                        <div className={`absolute inset-0 rounded-[3rem] bg-[#D4AF37]/5 blur-3xl transition-opacity duration-1000 ${isActive ? 'opacity-40' : 'opacity-0'}`} />
+
+                        {/* Layer 2: Structural Obsidian Glass Frame */}
+                        <div className="absolute inset-0 rounded-[3.5rem] border border-[#D4AF37]/15 bg-black/40 backdrop-blur-2xl shadow-[0_0_40px_rgba(0,0,0,0.5)] flex items-center justify-center overflow-hidden">
+                           <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/10 via-transparent to-black pointer-events-none" />
+                        </div>
+
+                        {/* Layer 3: Inner Energy Core Frame */}
+                        <div className="absolute inset-4 md:inset-6 rounded-[2.8rem] flex items-center justify-center p-[2px] md:p-[3px] overflow-hidden">
+                          {/* Pulsing Energy Border */}
+                          <div className={`absolute -inset-10 bg-gradient-to-tr from-[#C9A84C] via-[#FFF8D8] to-[#C9A84C] bg-[size:300%_300%] opacity-100 blur-[4px] ${isActive ? 'animate-[borderEnergy_8s_ease-in-out_infinite]' : ''}`} />
+
+                          {/* Image Container */}
+                          <div className="relative z-10 h-full w-full overflow-hidden rounded-[2.6rem] bg-[#080808] border border-black/50">
+                            <Image
+                              src={track.image}
+                              alt={track.title}
+                              fill
+                              sizes="(max-width: 768px) 320px, 480px"
+                              className={`object-cover transition-transform duration-[3000ms] ease-out ${isActive ? 'scale-105 brightness-110' : 'scale-125 brightness-50'}`}
+                              unoptimized={true}
+                            />
+                            {/* Cinematic Overlays */}
+                            <div className="pointer-events-none absolute inset-0 z-20 mix-blend-overlay opacity-40 bg-[radial-gradient(circle_at_center,transparent_0%,black_100%)]" />
+                            <div className="pointer-events-none absolute inset-0 z-20 mix-blend-screen shadow-[inset_0_0_40px_rgba(212,175,55,0.2)]" />
                           </div>
                         </div>
+
+                        {/* Runic Corners */}
+                        <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-[#D4AF37]/40 rounded-tl-lg" />
+                        <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-[#D4AF37]/40 rounded-tr-lg" />
+                        <div className="absolute bottom-4 left-4 w-4 h-4 border-b-2 border-l-2 border-[#D4AF37]/40 rounded-bl-lg" />
+                        <div className="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-[#D4AF37]/40 rounded-br-lg" />
                       </div>
                     </div>
                   );
