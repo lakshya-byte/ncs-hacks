@@ -16,7 +16,7 @@ const timelineData = [
   {
     id: 1,
     title: "Registration Opens",
-    date: "1 April, 10 AM",
+    date: "6 April",
     description:
       "Online via Devfolio. Provide team details. The Bifröst bridge summons the worthy. Submit your entry to the Allfather's council and begin your journey to Valhalla's halls of innovation.",
     rune: "ᚱ",
@@ -25,7 +25,7 @@ const timelineData = [
   {
     id: 2,
     title: "Problem Statement Release",
-    date: "14 April, 10 AM",
+    date: "6 April",
     description:
       "IDs shared on Devfolio. The ancient scrolls unfold. Decode the divine challenges passed down by Odin himself. Prepare your strategy for the impending battles of intellect.",
     rune: "ᚹ",
@@ -34,7 +34,7 @@ const timelineData = [
   {
     id: 3,
     title: "Online Submission & Evaluation",
-    date: "14–20 April",
+    date: "06–18 April",
     description:
       "Submit PPT + video explanation for online round judging. The forge of Nidavellir burns hot. Gather your party and craft your magnum opus. Let your code thunder across the nine realms.",
     rune: "ᚺ",
@@ -43,7 +43,7 @@ const timelineData = [
   {
     id: 4,
     title: "Online Round Results",
-    date: "21 April, 8 PM",
+    date: "21 April",
     description:
       "Top 25–30 teams selected for the final siege. The runes have spoken. The Allfather reveals the chosen warriors who shall advance to the halls of Asgard.",
     rune: "ᛗ",
@@ -61,7 +61,7 @@ const timelineData = [
   {
     id: 6,
     title: "Final Presentations",
-    date: "25 April, 11 AM",
+    date: "25 April",
     description:
       "Presentation-based evaluation. Stand before the high council of Asgard. Demonstrate your creation's power, let your voice echo through the great golden halls.",
     rune: "ᚷ",
@@ -70,7 +70,7 @@ const timelineData = [
   {
     id: 7,
     title: "Grand Finale & Results",
-    date: "25 April, 12 PM",
+    date: "25 April",
     description:
       "Top 3 winners announced. Prize distribution ceremony. The feast of victory awaits. Reclaim your rightful place among the elite and be immortalized in the stars.",
     rune: "ᛟ",

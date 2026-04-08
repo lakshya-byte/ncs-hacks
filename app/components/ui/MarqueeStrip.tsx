@@ -254,7 +254,7 @@ export default function MarqueeStrip() {
             >
               <span style={{
                 fontFamily: 'var(--font-heading)',
-                fontSize: 'clamp(2.4rem, 5vw, 4.2rem)',
+                fontSize: 'clamp(2.4rem, 5vw, 3.8rem)',
                 fontWeight: 900,
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
@@ -265,7 +265,7 @@ export default function MarqueeStrip() {
                 backgroundClip: 'text',
                 filter: 'drop-shadow(0 0 14px rgba(201, 168, 76,0.35))',
               }}>
-                NIBBLE COMPUTER SOCIETY
+                {i % 2 === 0 ? 'NIBBLE COMPUTER SOCIETY' : 'CSE TECHNICAL COUNCIL'}
               </span>
               {/* Gem separator — alternates between rune and star */}
               <span style={{
@@ -316,7 +316,7 @@ export default function MarqueeStrip() {
                 padding: '0 2.5rem',
                 color: 'rgba(245,217,128,0.45)',
               }}>
-                ᚠ &nbsp; OFFICIAL TECHNICAL SOCIETY · JSSATEN · EST. 2018 · NOIDA &nbsp; ᚠ
+                ᚠ &nbsp; NIBBLE COMPUTER SOCIETY · CSE TECHNICAL COUNCIL · JSSATEN &nbsp; ᚠ
               </span>
               <span style={{
                 color: 'rgba(201, 168, 76,0.3)',

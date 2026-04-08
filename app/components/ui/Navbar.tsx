@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const NAV_LINKS = [
   { name: 'Home', href: '#' },
@@ -180,35 +181,23 @@ export default function Navbar() {
               }}
             />
 
-            {/* ═══════════════ LOGO ═══════════════ */}
-            <div 
-              className={`flex-1 flex justify-start relative z-[2] transition-opacity duration-300 ${menuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+            {/* ═══════════════ LOGOS ═══════════════ */}
+            <div
+              className="flex-1 flex justify-start relative z-[2] transition-opacity duration-300 opacity-100"
             >
-              <Link href="/" className="flex items-center gap-[10px] no-underline">
-              {/* Gold rune orb */}
-              <div
-                className="w-7 h-7 rounded-full flex items-center justify-center text-[0.85rem] font-heading shrink-0"
-                style={{
-                  background: 'radial-gradient(circle at 35% 35%, #F5E0A3, #C9A84C 50%, #8F722E)',
-                  boxShadow: '0 0 12px rgba(201, 168, 76,0.5), 0 2px 6px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.4)',
-                  color: 'rgba(80,40,0,0.8)',
-                }}
-              >
-                ᚦ
-              </div>
-              {/* Wordmark */}
-              <span
-                className="font-heading font-black text-[1rem] tracking-[0.35em] uppercase"
-                style={{
-                  background: 'linear-gradient(135deg, #6b4a0a 0%, #C9A84C 30%, #F5E0A3 55%, #dfb430 75%, #8a5d0e 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  filter: 'drop-shadow(0 1px 6px rgba(201, 168, 76,0.3))',
-                }}
-              >
-                ASGARD
-              </span>
+              <Link href="/" className="flex items-center gap-3 no-underline">
+                <div className="relative w-12 h-12 shrink-0">
+                  <Image src="/logos/one.png" alt="Logo 1" fill sizes="48px" className="object-contain drop-shadow-[0_0_6px_rgba(201,168,76,0.4)]" />
+                </div>
+                <div className="relative w-12 h-12 shrink-0">
+                  <Image src="/logos/two.png" alt="Logo 2" fill sizes="48px" className="object-contain drop-shadow-[0_0_6px_rgba(201,168,76,0.4)]" />
+                </div>
+                <div className="relative w-12 h-12 shrink-0">
+                  <Image src="/logos/three.png" alt="Logo 3" fill sizes="48px" className="object-contain drop-shadow-[0_0_6px_rgba(201,168,76,0.4)]" />
+                </div>
+                <div className="relative w-12 h-12 shrink-0">
+                  <Image src="/logos/four.png" alt="Logo 4" fill sizes="48px" className="object-contain drop-shadow-[0_0_6px_rgba(201,168,76,0.4)]" />
+                </div>
               </Link>
             </div>
 
@@ -495,7 +484,7 @@ export default function Navbar() {
         />
 
 
-        {/* ── Content container ── */}
+          {/* ── Content container ── */}
         <div
           style={{
             position: 'relative',
@@ -509,71 +498,7 @@ export default function Navbar() {
             gap: '0',
           }}
         >
-          {/* Logo */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              marginBottom: '3.5rem',
-              opacity: menuOpen ? 1 : 0,
-              transform: menuOpen ? 'translateY(0)' : 'translateY(-20px)',
-              transition: 'opacity 450ms ease 100ms, transform 450ms cubic-bezier(0.34,1.56,0.64,1) 100ms',
-            }}
-          >
-            <div
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '1.1rem',
-                fontFamily: 'var(--font-heading)',
-                background: 'radial-gradient(circle at 35% 35%, #F5E0A3, #C9A84C 50%, #8F722E)',
-                boxShadow: '0 0 16px rgba(201, 168, 76,0.5), 0 2px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4)',
-                color: 'rgba(80,40,0,0.8)',
-                flexShrink: 0,
-              }}
-            >
-              ᚦ
-            </div>
-            <span
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 900,
-                fontSize: '1.4rem',
-                letterSpacing: '0.4em',
-                textTransform: 'uppercase',
-                background: 'linear-gradient(135deg, #6b4a0a 0%, #C9A84C 30%, #F5E0A3 55%, #dfb430 75%, #8a5d0e 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                filter: 'drop-shadow(0 1px 8px rgba(201, 168, 76,0.4))',
-              }}
-            >
-              ASGARD
-            </span>
-          </div>
-
-          {/* Rune divider */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              marginBottom: '3rem',
-              opacity: menuOpen ? 1 : 0,
-              transition: 'opacity 500ms ease 150ms',
-            }}
-          >
-            <div style={{ height: '1px', width: '60px', background: 'linear-gradient(90deg, transparent, rgba(201, 168, 76,0.5))' }} />
-            <span style={{ color: 'rgba(201, 168, 76,0.6)', fontSize: '0.65rem', letterSpacing: '0.3em', fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
-              ᚠ ᚢ ᚦ ᚨ ᚱ
-            </span>
-            <div style={{ height: '1px', width: '60px', background: 'linear-gradient(90deg, rgba(201, 168, 76,0.5), transparent)' }} />
-          </div>
+          {/* Logo and Rune divider removed as they are redundant with the fixed navbar at the top */}
 
           {/* Nav links */}
           <nav aria-label="Mobile navigation">

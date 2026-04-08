@@ -327,7 +327,7 @@ export default function KingdomOfNibble() {
               background: '#F5E0A3', boxShadow: '0 0 10px rgba(245,217,128,0.8)',
               animation: 'goldFlicker 3s infinite',
             }} />
-            Official Technical Society of JSSATEN
+            {/* Eyebrow text removed */}
           </span>
 
           {/* Main title */}
@@ -349,7 +349,7 @@ export default function KingdomOfNibble() {
                 filter: 'drop-shadow(0 2px 20px rgba(201,162,39,0.5))',
               }}
             >
-              Of Nibble
+              Of JSS
             </span>
           </h2>
 

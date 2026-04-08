@@ -10,33 +10,33 @@ gsap.registerPlugin(ScrollTrigger);
 const FAQ_DATA = [
   {
     id: 1,
-    question: 'How does the Divine Architecture manifest in the Arena?',
+    question: 'What is the JSS Annual Hackathon 2026?',
     answer:
-      'The architecture manifests as dynamic floating sanctums that respond to the kinetic energy of the competitors. Utilizing a unique blend of glassmorphic surfaces and golden light arrays, the environment shifts to prioritize the most glorious feats of strategy and skill.',
+      'A premier inter-college hackathon hosted by JSS Institute that challenges students to build real, technology-driven solutions across five key domains: AI, IoT, Health, Cybersecurity, and Sustainability. The event runs from April 1 to April 25, 2026.',
   },
   {
     id: 2,
-    question: 'What are the Sacred Terms of the Hackathon?',
+    question: 'Where is the offline event held?',
     answer:
-      'The Sacred Terms bind all warriors of code to a covenant of honour and integrity. Participants must submit original creations forged within the arena\'s timespan, swear by the All-Father\'s principles of open collaboration, and agree that disputes shall be settled by the Council of Judges whose verdict is final and absolute.',
+      'Multi Purpose Hall, JSS Institute.',
   },
   {
     id: 3,
-    question: 'How can one Ascend to the Royal Tier?',
+    question: 'How long does the offline event last?',
     answer:
-      'To ascend to the Royal Tier, a warrior must accumulate Valor Points through exceptional code quality, innovative problem-solving, and peer recognition from fellow competitors. The top three warriors in accumulated valor at dawn of the final day shall be elevated to the Royal Tier and granted audience with the grand prize committee.',
+      'The offline segment is a 36-hour hackathon across April 24–25, 2026. Check-in begins at 9 AM on April 24 and final results are declared by 12 PM on April 25.',
   },
   {
     id: 4,
-    question: 'Is the Divine Scroll compatible with mobile devices?',
+    question: 'Where do I register?',
     answer:
-      'Yea, the Divine Scroll has been forged to be fully responsive across all rune-stones and handheld oracle devices. Whether you wield a mighty desktop forge or a pocket-sized oracle, the sacred texts and submission portals shall render with utmost clarity and function.',
+      'Registration is done online via the Devfolio app starting April 1, 2026 at 10 AM.',
   },
   {
     id: 5,
-    question: 'Where can I find the Contact Oracle?',
+    question: 'Is there a registration fee?',
     answer:
-      'The Contact Oracle dwells within the Sanctum tab of the navigation above. You may also summon it by scrolling to the foot of any sacred page and invoking the "Consult the Oracle" rune. The Oracle responds within one cycle of the sun to all sincere inquiries from worthy challengers.',
+      'No, there is no registration fee.',
   },
 ];
 
