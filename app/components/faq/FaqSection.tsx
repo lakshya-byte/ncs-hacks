@@ -12,13 +12,13 @@ const FAQ_DATA = [
     id: 1,
     question: 'What is the JSS Annual Hackathon 2026?',
     answer:
-      'A premier inter-college hackathon hosted by JSS Institute that challenges students to build real, technology-driven solutions across five key domains: AI, IoT, Health, Cybersecurity, and Sustainability. The event runs from April 1 to April 25, 2026.',
+      'A premier inter-college hackathon hosted by JSS Institute that challenges students to build real, technology-driven solutions across five key domains: AI and Automation, IoT, Blockchain, Cybersecurity, and Open Innovation. The event runs from April 1 to April 25, 2026.',
   },
   {
     id: 2,
     question: 'Where is the offline event held?',
     answer:
-      'Multi Purpose Hall, JSS Institute.',
+      'Multi Purpose Hall, JSS Institutions.',
   },
   {
     id: 3,
