@@ -52,7 +52,7 @@ export function useMascotSimple() {
     corner: 'bottom-right',
     entryDone: false,
     bubbleVisible: false,
-    message: 'Welcome to Asgard.',
+    message: 'Welcome to INOUT.',
     section: 'hero',
   });
 

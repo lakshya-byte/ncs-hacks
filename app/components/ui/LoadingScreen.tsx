@@ -26,7 +26,7 @@ export default function LoadingScreen() {
         {/* Textual feedback */}
         <div className="flex flex-col items-center gap-2">
           <h2 className="font-heading text-[#C9A84C] text-xl tracking-[0.4em] uppercase drop-shadow-[0_0_10px_rgba(201, 168, 76, 0.5)] animate-pulse">
-            Entering Asgard
+            Entering INOUT
           </h2>
           <span className="font-['Inter',sans-serif] text-white/40 text-[10px] uppercase tracking-[0.2em]">
             Forging Divine Realms...

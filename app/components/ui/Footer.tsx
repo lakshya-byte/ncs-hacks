@@ -168,7 +168,7 @@ export default function GodLevelFooter() {
               background: 'linear-gradient(150deg, #080706 0%, #121110 50%, #080706 100%)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
             }}>
-              ASGARD
+              INOUT
             </span>
           </Link>
 
@@ -427,7 +427,7 @@ export default function GodLevelFooter() {
               background: `linear-gradient(90deg, ${GOLD_DARK}, ${GOLD}, ${GOLD_DARK})`,
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', margin: 0,
             }}>
-              ᚠ &nbsp; Built in the Realm of Asgard &nbsp; ᚠ
+              ᚠ &nbsp; Built in the Realm of INOUT &nbsp; ᚠ
             </p>
           </div>
         </div>

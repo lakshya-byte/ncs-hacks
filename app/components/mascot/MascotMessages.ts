@@ -12,7 +12,7 @@ export type MascotMessage = {
 
 const SECTION_MESSAGES: Record<MascotSection, MascotMessage[]> = {
   hero: [
-    { id: 'hero-1', text: 'Welcome, warrior… Asgard awaits.', tone: 'epic', priority: 9, trigger: 'onEnter', section: 'hero', cooldownMs: 12000 },
+    { id: 'hero-1', text: 'Welcome, warrior… INOUT awaits.', tone: 'epic', priority: 9, trigger: 'onEnter', section: 'hero', cooldownMs: 12000 },
     { id: 'hero-2', text: 'The gates have opened just for you.', tone: 'epic', priority: 8, trigger: 'onEnter', section: 'hero', cooldownMs: 12000 },
     { id: 'hero-3', text: 'Scroll… your journey begins below.', tone: 'hint', priority: 8, trigger: 'onEnter', section: 'hero', cooldownMs: 12000 },
     { id: 'hero-4', text: 'I am your Norse guide. Stay close.', tone: 'playful', priority: 7, trigger: 'onHover', section: 'hero', cooldownMs: 11000 },
@@ -156,7 +156,7 @@ const SECTION_MESSAGES: Record<MascotSection, MascotMessage[]> = {
     { id: 'cta-10', text: 'I will celebrate from Valhalla.', tone: 'celebration', priority: 6, trigger: 'onIdle', section: 'cta', cooldownMs: 15000 },
   ],
   winners: [
-    { id: 'winners-1', text: 'Behold the divine champions of Asgard.', tone: 'epic', priority: 9, trigger: 'onEnter', section: 'winners', cooldownMs: 12000 },
+    { id: 'winners-1', text: 'Behold the divine champions of INOUT.', tone: 'epic', priority: 9, trigger: 'onEnter', section: 'winners', cooldownMs: 12000 },
     { id: 'winners-2', text: 'These are not trophies… they are legends.', tone: 'epic', priority: 8, trigger: 'onEnter', section: 'winners', cooldownMs: 12000 },
     { id: 'winners-3', text: 'Scroll to watch the sacred cards turn.', tone: 'hint', priority: 8, trigger: 'onEnter', section: 'winners', cooldownMs: 11000 },
     { id: 'winners-4', text: 'Only the worthy are revealed here.', tone: 'celebration', priority: 7, trigger: 'onHover', section: 'winners', cooldownMs: 12000 },
@@ -165,7 +165,7 @@ const SECTION_MESSAGES: Record<MascotSection, MascotMessage[]> = {
   ] as const,
   memories: [
     { id: 'memories-1', text: 'Every frame here holds a story.', tone: 'hint', priority: 9, trigger: 'onEnter', section: 'memories', cooldownMs: 12000 },
-    { id: 'memories-2', text: 'Memories flow like the rivers of Asgard.', tone: 'epic', priority: 8, trigger: 'onEnter', section: 'memories', cooldownMs: 12000 },
+    { id: 'memories-2', text: 'Memories flow like the rivers of INOUT.', tone: 'epic', priority: 8, trigger: 'onEnter', section: 'memories', cooldownMs: 12000 },
     { id: 'memories-3', text: 'Hover your cursor — the stream pauses for you.', tone: 'hint', priority: 8, trigger: 'onEnter', section: 'memories', cooldownMs: 11000 },
     { id: 'memories-4', text: 'These warriors were here before you.', tone: 'epic', priority: 7, trigger: 'onHover', section: 'memories', cooldownMs: 12000 },
     { id: 'memories-5', text: 'A legacy forged in code and camaraderie.', tone: 'celebration', priority: 6, trigger: 'onIdle', section: 'memories', cooldownMs: 14000 },

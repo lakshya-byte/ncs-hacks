@@ -189,11 +189,20 @@ export default function CinematicOverlay() {
         <h2
           className="font-heading text-[clamp(2.5rem,6vw,4.5rem)] font-bold text-white tracking-[0.2em] uppercase m-0 [text-shadow:0_0_60px_rgba(255,215,0,0.9),0_0_120px_rgba(212,175,55,0.5),0_4px_30px_rgba(0,0,0,0.9)]"
         >
-          Welcome to Asgard
+          Welcome to INOUT
         </h2>
         <div
           ref={subtitleRef}
-          className="font-body text-[clamp(0.9rem,2vw,1.3rem)] font-medium text-[rgba(255,215,0,0.35)] tracking-[0.2em] uppercase opacity-0 [text-shadow:0_0_20px_rgba(212,175,55,0.6)]"
+          style={{
+            opacity: 0,
+            fontFamily: 'inherit',
+            fontSize: 'clamp(1.1rem, 2.2vw, 1.6rem)',
+            fontWeight: 700,
+            letterSpacing: '0.28em',
+            textTransform: 'uppercase',
+            color: '#B8860B',
+            textShadow: '0 2px 10px rgba(0,0,0,0.98), 0 0 40px rgba(0,0,0,0.95), 0 4px 20px rgba(0,0,0,0.9)',
+          }}
         >
           Where Gods Build Legends
         </div>

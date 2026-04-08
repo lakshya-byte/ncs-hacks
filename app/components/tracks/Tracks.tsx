@@ -36,7 +36,7 @@ const tracks: Track[] = [
     id: "03",
     title: "Blockchain",
     description:
-      "The Immutable Runes. Weave trust into the digital fabric. Create decentralized systems and unbreakable contracts that stand the test of time like the ancient scribes of Asgard.",
+      "The Immutable Runes. Weave trust into the digital fabric. Create decentralized systems and unbreakable contracts that stand the test of time like the ancient scribes of INOUT.",
     bgGradient: "from-[#080808] to-[#111111]",
     image: "/tracks/Blockchain.png",
   },

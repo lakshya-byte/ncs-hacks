@@ -45,7 +45,7 @@ const timelineData = [
     title: "Online Round Results",
     date: "21 April",
     description:
-      "Top 25–30 teams selected for the final siege. The runes have spoken. The Allfather reveals the chosen warriors who shall advance to the halls of Asgard.",
+      "Top 25–30 teams selected for the final siege. The runes have spoken. The Allfather reveals the chosen warriors who shall advance to the halls of INOUT.",
     rune: "ᛗ",
     side: "left" as const,
   },
@@ -63,7 +63,7 @@ const timelineData = [
     title: "Final Presentations",
     date: "25 April",
     description:
-      "Presentation-based evaluation. Stand before the high council of Asgard. Demonstrate your creation's power, let your voice echo through the great golden halls.",
+      "Presentation-based evaluation. Stand before the high council of INOUT. Demonstrate your creation's power, let your voice echo through the great golden halls.",
     rune: "ᚷ",
     side: "left" as const,
   },
