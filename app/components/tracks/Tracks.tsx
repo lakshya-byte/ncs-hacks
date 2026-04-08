@@ -28,7 +28,7 @@ const tracks: Track[] = [
     title: "Cybersecurity",
     tagline: "They built the wall. You find the door.",
     description:
-      "This track focuses on staying ahead of threats, finding weaknesses before they become breaches. Like Heimdall — stay alert before things go wrong.",
+      "This track focuses on staying ahead of threats, finding weaknesses before they become breaches. Like Heimdall stay alert before things go wrong.",
     bgGradient: "from-[#080808] to-[#111111]",
     image: "/tracks/CyberSecuirty.png",
   },
@@ -64,7 +64,7 @@ const tracks: Track[] = [
     title: "IoT & Robotics",
     tagline: "Wire it. Program it. Unleash it.",
     description:
-      "This track focuses on building systems that connect the physical world with the digital world — like Bifrost does.",
+      "This track focuses on building systems that connect the physical world with the digital world  like Bifrost does.",
     bgGradient: "from-[#090909] to-[#141414]",
     image: "/tracks/IOT.png",
   },
@@ -76,7 +76,7 @@ const tracks: Track[] = [
     title: "Open Innovation",
     tagline: "No brief. No ceiling. No permission needed.",
     description:
-      "In Norse myths, runes represent hidden knowledge — not everything is known yet. Some ideas don't follow rules — they create new ones.",
+      "In Norse myths, runes represent hidden knowledge not everything is known yet. Some ideas don't follow rules they create new ones.",
     bgGradient: "from-[#0A0A0A] to-[#131313]",
     image: "/tracks/OpenInnovation.png",
   },
@@ -403,7 +403,7 @@ export default function HackathonTracks() {
               <div className="flex items-center gap-3 w-full">
                 {/* Faint SEC label far left */}
                 <span className="font-sans text-[11px] uppercase tracking-[0.35em] text-[#7a6230]/30 select-none mr-auto hidden md:inline">
-                  SEC: {active.id}
+                  {/* SEC: {active.id} */}
                 </span>
                 {/* Pulsing Dot */}
                 <div className="w-2.5 h-2.5 rounded-full bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.9)] animate-pulse shrink-0" />
