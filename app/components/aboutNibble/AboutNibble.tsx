@@ -32,7 +32,7 @@ const CARDS = [
   {
     rune: 'ᚨ',
     title: 'Legacy',
-    description: 'Welcome to the Kingdom of Nibble — where innovation becomes legacy that echoes through time.',
+    description: 'Welcome to the Kingdom of JSS — where innovation becomes legacy that echoes through time.',
     icon: '',
   },
 ];

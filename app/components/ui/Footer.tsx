@@ -208,7 +208,7 @@ export default function GodLevelFooter() {
             <p style={{ ...sectionLabel, marginBottom: '0.4rem' }}>Get in Touch</p>
 
             <ContactLine href="mailto:contact@jssaten.ac.in" icon={<Mail size={13} />} label="contact@jssaten.ac.in" />
-            <ContactLine href="tel:+917061557021" icon={<Phone size={13} />} label="+91 70615 57021" />
+            {/* <ContactLine href="tel:+917061557021" icon={<Phone size={13} />} label="+91 70615 57021" /> */}
 
             {/* Address inline */}
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '0.25rem' }}>
