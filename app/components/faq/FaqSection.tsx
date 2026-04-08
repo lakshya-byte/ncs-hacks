@@ -7,6 +7,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 // ── FAQ DATA ──────────────────────────────────────────────────────────────────
+
+
 const FAQ_DATA = [
   {
     id: 1,
