@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -133,8 +134,30 @@ export default function GodLevelSponsors() {
           <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-6 md:gap-8 w-full items-stretch">
             {[1, 2, 3].map((_, i) => (
               <div key={i} className="sp-reveal col-span-4 md:col-span-4 lg:col-span-4 relative flex flex-col justify-center items-center min-h-[220px] rounded-xl bg-white/10 backdrop-blur-xl border border-[#D4AF37]/30 shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:border-[#D4AF37]/60 hover:-translate-y-1 transition-all duration-300 group overflow-hidden">
-                <GoldenLock />
-                <GoldCardCorners />
+                {i === 0 ? (
+                  <>
+                    <GoldCardCorners />
+                    <a
+                      href="https://codecrafters.io/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative z-10 flex items-center justify-center w-full h-full p-8"
+                    >
+                      <Image
+                        src="/sponsors/codecrafters.svg"
+                        alt="CodeCrafters"
+                        width={180}
+                        height={60}
+                        className="object-contain max-w-full max-h-[80px] brightness-90 group-hover:brightness-110 transition-all duration-300 drop-shadow-[0_0_12px_rgba(212,175,55,0.3)] group-hover:drop-shadow-[0_0_18px_rgba(212,175,55,0.5)]"
+                      />
+                    </a>
+                  </>
+                ) : (
+                  <>
+                    <GoldenLock />
+                    <GoldCardCorners />
+                  </>
+                )}
               </div>
             ))}
           </div>
