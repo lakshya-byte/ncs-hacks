@@ -263,7 +263,7 @@ export default function SponsorsSection() {
                 <div className="flex items-center justify-center gap-2 mb-1">
                   <div className="h-px flex-1" style={{ background: `linear-gradient(to right, transparent, ${group.color}50)` }} />
                   <span
-                    className="text-[10px] tracking-[0.2em] uppercase font-heading px-3 py-1 rounded-full border"
+                    className="text-base tracking-[0.2em] uppercase font-heading px-4 py-1.5 rounded-full border"
                     style={{ color: group.color, borderColor: `${group.color}40`, background: `${group.color}0d` }}
                   >
                     {group.tier}
