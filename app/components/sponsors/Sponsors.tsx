@@ -52,7 +52,7 @@ const SPECIAL_PARTNERS = [
     tier: 'Beverages Partner',
     color: '#60a5fa',
     size: 'md' as const,
-    sponsors: [{ name: 'Pepsi × Varun Beverages', logo: '/sponsors/pepsixvarun.png', href: '' }],
+    sponsors: [{ name: 'Pepsi × Varun Beverages', logo: '/sponsors/pepsixvarun.png', href: '', logoSize: 220 }],
   },
   {
     tier: 'Community Partner',
@@ -64,7 +64,7 @@ const SPECIAL_PARTNERS = [
     tier: 'Platform Partner',
     color: '#34d399',
     size: 'md' as const,
-    sponsors: [{ name: 'Devfolio', logo: '/sponsors/devfolio.png', href: 'https://devfolio.co/' }],
+    sponsors: [{ name: 'Devfolio', logo: '/sponsors/devfolio.png', href: 'https://devfolio.co/', logoSize: 220 }],
   },
 ];
 
@@ -77,11 +77,14 @@ interface SponsorCardProps {
   href: string;
   accent?: string;
   size?: 'lg' | 'md' | 'sm';
+  logoSize?: number;
 }
 
-const SponsorCard = ({ name, logo, href, accent = '#D4AF37', size = 'md' }: SponsorCardProps) => {
+const SponsorCard = ({ name, logo, href, accent = '#D4AF37', size = 'md', logoSize }: SponsorCardProps) => {
   const heightClass = size === 'lg' ? 'min-h-[200px]' : size === 'md' ? 'min-h-[160px]' : 'min-h-[120px]';
-  const imgSize = size === 'lg' ? 200 : size === 'md' ? 160 : 130;
+  const defaultImgSize = size === 'lg' ? 200 : size === 'md' ? 160 : 130;
+  const imgSize = logoSize ?? defaultImgSize;
+  const padding = logoSize ? 'p-3 md:p-4' : 'p-6 md:p-8';
   const isLinked = Boolean(href);
 
   const sharedStyle = {
@@ -114,7 +117,7 @@ const SponsorCard = ({ name, logo, href, accent = '#D4AF37', size = 'md' }: Spon
         style={{ background: `radial-gradient(circle at 50% 50%, ${accent}0a 0%, transparent 70%)` }}
       />
       <CardCorners color={accent} />
-      <div className="relative z-10 flex items-center justify-center w-full h-full p-6 md:p-8">
+      <div className={`relative z-10 flex items-center justify-center w-full h-full ${padding}`}>
         <Image
           src={logo}
           alt={name}
@@ -263,11 +266,11 @@ export default function SponsorsSection() {
             {SPECIAL_PARTNERS.map((group) => (
               <div key={group.tier} className="sp-reveal flex flex-col gap-3">
                 {/* Tier badge */}
-                <div className="flex items-center justify-center gap-2 mb-1">
+                <div className="flex items-center justify-center gap-2 mb-1 px-6">
                   <div className="h-px flex-1" style={{ background: `linear-gradient(to right, transparent, ${group.color}50)` }} />
                   <span
-                    className="text-base tracking-[0.2em] uppercase font-heading px-4 py-1.5 rounded-full border"
-                    style={{ color: group.color, borderColor: `${group.color}40`, background: `${group.color}0d` }}
+                    className="flex-shrink-0 text-base tracking-[0.2em] uppercase font-heading py-1.5 rounded-full border"
+                    style={{ color: group.color, borderColor: `${group.color}40`, background: `${group.color}0d`, paddingLeft: '1rem', paddingRight: '1rem' }}
                   >
                     {group.tier}
                   </span>
