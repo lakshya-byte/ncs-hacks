@@ -51,16 +51,19 @@ const SPECIAL_PARTNERS = [
   {
     tier: 'Beverages Partner',
     color: '#60a5fa',
+    size: 'md' as const,
     sponsors: [{ name: 'Pepsi × Varun Beverages', logo: '/sponsors/pepsixvarun.png', href: '' }],
   },
   {
     tier: 'Community Partner',
     color: '#a78bfa',
+    size: 'md' as const,
     sponsors: [{ name: 'AI4 Tomorrow', logo: '/sponsors/ai4tomorrow.png', href: '' }],
   },
   {
     tier: 'Platform Partner',
     color: '#34d399',
+    size: 'md' as const,
     sponsors: [{ name: 'Devfolio', logo: '/sponsors/devfolio.png', href: 'https://devfolio.co/' }],
   },
 ];
@@ -273,7 +276,7 @@ export default function SponsorsSection() {
 
                 {/* Cards */}
                 {group.sponsors.map((s) => (
-                  <SponsorCard key={s.name} {...s} accent={group.color} size="sm" />
+                  <SponsorCard key={s.name} {...s} accent={group.color} size={group.size ?? 'sm'} />
                 ))}
               </div>
             ))}
